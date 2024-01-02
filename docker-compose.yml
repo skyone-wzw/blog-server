@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  blog-server:
+    image: blog-server:latest
+    container_name: blog-server
+    restart: unless-stopped
+    volumes:
+      - "./images:/app/images"
+    networks:
+      - blog-server
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: "postgresql://user:example@192.168.172.149:5432/user?schema=public"
+      SECRET_KEY: "88888888888888888888888888888888"
+      SECRET_IV: "8888888888888888"
+      AUTH_EMAIL: abc@qq.com
+      AUTH_PASSWORD: 233
+
+  database:
+    container_name: blog-server-db
+    image: postgres:15.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: example
+    networks:
+      - blog-server
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+networks:
+  blog-server:
+    name: blog-server-network
+  proxy:
+    external: true

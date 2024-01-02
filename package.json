@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next experimental-compile",
     "start": "next start",
     "lint": "next lint",
-    "update-cover-index": "tsx src/app/api/cover/[slug]/_images/generate.cts"
+    "update-cover-index": "tsx src/app/api/cover/[slug]/_images/generate.cts",
+    "patch-font": "node fuck-next.js"
   },
   "dependencies": {
     "@prisma/client": "^5.7.0",
