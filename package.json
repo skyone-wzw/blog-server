@@ -1,0 +1,41 @@
+{
+  "name": "blog-server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "update-cover-index": "tsx src/app/api/cover/[slug]/_images/generate.cts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.7.0",
+    "clsx": "^2.0.0",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "rehype-highlight": "^7.0.0",
+    "rehype-katex": "^7.0.0",
+    "rehype-react": "^8.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.0.0",
+    "sharp": "^0.33.1",
+    "unified": "^11.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8",
+    "prisma": "^5.7.0",
+    "tailwindcss": "^3.3.0",
+    "tsx": "^4.6.2",
+    "typescript": "^5"
+  }
+}

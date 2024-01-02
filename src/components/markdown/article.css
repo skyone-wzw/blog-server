@@ -1,0 +1,230 @@
+p:has(> img.optimize-image) {
+    position: relative;
+}
+
+p:has(> img.optimize-image:only-child) {
+    aspect-ratio: 16 / 9;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.katex-display {
+    overflow-x: auto;
+    overflow-y: clip;
+}
+
+.katex {
+    margin-bottom: 8px;
+}
+
+pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 1em
+}
+
+code.hljs {
+    padding: 3px 5px
+}
+
+:root {
+    --code-text: #24292e;
+    --code-bg: #f2f5f8;
+    --code-keyword: #d73a49;
+    --code-entity: #6f42c1;
+    --code-constant: #005cc5;
+    --code-string: #032f62;
+    --code-variable: #e36209;
+    --code-comment: #6a737d;
+    --code-entity-tag: #22863a;
+    --code-storage-modifier-import: #24292e;
+    --code-markup-heading: #005cc5;
+    --code-markup-list: #735c0f;
+    --code-markup-italic: #24292e;
+    --code-markup-bold: #24292e;
+    --code-markup-inserted: #22863a;
+    --code-markup-inserted-bg: #f0fff4;
+    --code-markup-deleted: #b31d28;
+    --code-markup-deleted-bg: #ffeef0;
+}
+
+.light:root {
+    --code-text: #24292e;
+    --code-bg: #f2f5f8;
+    --code-keyword: #d73a49;
+    --code-entity: #6f42c1;
+    --code-constant: #005cc5;
+    --code-string: #032f62;
+    --code-variable: #e36209;
+    --code-comment: #6a737d;
+    --code-entity-tag: #22863a;
+    --code-storage-modifier-import: #24292e;
+    --code-markup-heading: #005cc5;
+    --code-markup-list: #735c0f;
+    --code-markup-italic: #24292e;
+    --code-markup-bold: #24292e;
+    --code-markup-inserted: #22863a;
+    --code-markup-inserted-bg: #f0fff4;
+    --code-markup-deleted: #b31d28;
+    --code-markup-deleted-bg: #ffeef0;
+}
+
+.dark:root {
+    --code-text: #adbac7;
+    --code-bg: #22272e;
+    --code-keyword: #f47067;
+    --code-entity: #dcbdfb;
+    --code-constant: #6cb6ff;
+    --code-string: #96d0ff;
+    --code-variable: #f69d50;
+    --code-comment: #768390;
+    --code-entity-tag: #8ddb8c;
+    --code-storage-modifier-import: #adbac7;
+    --code-markup-heading: #316dca;
+    --code-markup-list: #eac55f;
+    --code-markup-italic: #adbac7;
+    --code-markup-bold: #adbac7;
+    --code-markup-inserted: #b4f1b4;
+    --code-markup-inserted-bg: #1b4721;
+    --code-markup-deleted: #ffd8d3;
+    --code-markup-deleted-bg: #78191b;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --code-text: #adbac7;
+        --code-bg: #22272e;
+        --code-keyword: #f47067;
+        --code-entity: #dcbdfb;
+        --code-constant: #6cb6ff;
+        --code-string: #96d0ff;
+        --code-variable: #f69d50;
+        --code-comment: #768390;
+        --code-entity-tag: #8ddb8c;
+        --code-storage-modifier-import: #adbac7;
+        --code-markup-heading: #316dca;
+        --code-markup-list: #eac55f;
+        --code-markup-italic: #adbac7;
+        --code-markup-bold: #adbac7;
+        --code-markup-inserted: #b4f1b4;
+        --code-markup-inserted-bg: #1b4721;
+        --code-markup-deleted: #ffd8d3;
+        --code-markup-deleted-bg: #78191b;
+    }
+}
+
+.hljs {
+    color: var(--code-text);
+    background: var(--code-bg);
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable.language_ {
+    /* syntax-keyword */
+    color: var(--code-keyword);
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+    /* syntax-entity */
+    color: var(--code-entity);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+    /* syntax-constant */
+    color: var(--code-constant);
+}
+
+.hljs-regexp,
+.hljs-string,
+.hljs-meta .hljs-string {
+    /* syntax-string */
+    color: var(--code-string);
+}
+
+.hljs-built_in,
+.hljs-symbol {
+    /* syntax-variable */
+    color: var(--code-variable);
+}
+
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+    /* syntax-comment */
+    color: var(--code-comment);
+}
+
+.hljs-name,
+.hljs-quote,
+.hljs-selector-tag,
+.hljs-selector-pseudo {
+    /* syntax-entity-tag */
+    color: var(--code-entity-tag);
+}
+
+.hljs-subst {
+    /* syntax-storage-modifier-import */
+    color: var(--code-storage-modifier-import);
+}
+
+.hljs-section {
+    /* syntax-markup-heading */
+    color: var(--code-markup-heading);
+    font-weight: bold
+}
+
+.hljs-bullet {
+    /* syntax-markup-list */
+    color: var(--code-markup-list);
+}
+
+.hljs-emphasis {
+    /* syntax-markup-italic */
+    color: var(--code-markup-italic);
+    font-style: italic
+}
+
+.hljs-strong {
+    /* syntax-markup-bold */
+    color: var(--code-markup-bold);
+    font-weight: bold
+}
+
+.hljs-link {
+    /* syntax-markup-inserted */
+    color: var(--code-markup-inserted);
+    background: var(--code-markup-inserted-bg);
+}
+
+.hljs-deletion {
+    /* syntax-markup-deleted */
+    color: var(--code-markup-deleted);
+    background: var(--code-markup-deleted-bg);
+}
+
+.hljs-char.escape_,
+.hljs-link,
+.hljs-params,
+.hljs-property,
+.hljs-punctuation,
+.hljs-tag {
+    /* purposely ignored */
+
+}
