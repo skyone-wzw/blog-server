@@ -3,7 +3,11 @@ import {cookies} from "next/headers";
 import {cache} from "react";
 
 function verifyToken(token: string) {
-    return AES.decrypt(token).startsWith("token:");
+    try {
+        return AES.decrypt(token).startsWith("token:");
+    } catch (e) {
+        return false;
+    }
 }
 
 export function generateToken() {
