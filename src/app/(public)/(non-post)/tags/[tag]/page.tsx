@@ -10,10 +10,11 @@ interface TagDetailPageProps {
     };
 }
 
-export const generateMetadata = ({params: {tag}}: TagDetailPageProps) => {
+export const generateMetadata = ({params}: TagDetailPageProps) => {
+    const tag = decodeURIComponent(params.tag);
     return {
         title: `标签: ${tag} - ${config.title}`,
-        description: config.description,
+        description: `${config.description}。包含 ${tag} 标签的所有文章。`,
     }
 }
 

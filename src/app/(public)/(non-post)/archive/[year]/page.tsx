@@ -1,5 +1,6 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import Paper from "@/components/base/Paper";
+import config from "@/config";
 import {getArticlesByYear} from "@/lib/article";
 import {notFound} from "next/navigation";
 
@@ -7,6 +8,14 @@ interface YearArchivePageProps {
     params: {
         year: string;
     };
+}
+
+export const generateMetadata = ({params}: YearArchivePageProps) => {
+    const year = parseInt(params.year);
+    return {
+        title: `归档: ${year} 年 - ${config.title}`,
+        description: `${config.description}。${year} 年所有文章的归档。`,
+    }
 }
 
 async function YearArchivePage({params}: YearArchivePageProps) {

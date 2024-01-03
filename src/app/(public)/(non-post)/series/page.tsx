@@ -1,7 +1,12 @@
 import Paper from "@/components/base/Paper";
+import config from "@/config";
 import {getAllSeries} from "@/lib/article";
 import Link from "next/link";
 
+export const metadata = {
+    title: `全部分类 - ${config.title}`,
+    description: `${config.description}。所有文章分类。`,
+}
 async function SeriesPage() {
     const series = await getAllSeries();
 

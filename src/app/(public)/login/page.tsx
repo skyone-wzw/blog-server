@@ -4,6 +4,11 @@ import Image from "next/image";
 import {redirect, RedirectType} from "next/navigation";
 import LoginForm from "./LoginForm";
 
+export const metadata = {
+    title: `登录 - ${config.title}`,
+    description: `${config.description}。编辑文章前请登录。`,
+}
+
 async function LoginPage() {
     if (await isUserLoggedIn()) redirect("/editor", RedirectType.replace);
     return (

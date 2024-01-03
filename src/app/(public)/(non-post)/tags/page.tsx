@@ -4,8 +4,8 @@ import {ArticleMetadata, getAllArticlesMetadata} from "@/lib/article";
 import Link from "next/link";
 
 export const metadata = {
-    title: `标签 - ${config.title}`,
-    description: config.description,
+    title: `全部标签 - ${config.title}`,
+    description: `${config.description}。所有标签汇总。`,
 }
 
 function formatDate(date: Date) {

@@ -1,11 +1,20 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import Paper from "@/components/base/Paper";
+import config from "@/config";
 import {getArticlesBySeries} from "@/lib/article";
 import {notFound} from "next/navigation";
 
 interface SeriesPageProps {
     params: {
         series: string;
+    }
+}
+
+export const generateMetadata = ({params}: SeriesPageProps) => {
+    const series = decodeURIComponent(params.series);
+    return {
+        title: `分类: ${series} - ${config.title}`,
+        description: `${config.description}。${series}系列文章。`,
     }
 }
 
