@@ -120,12 +120,13 @@ function Hr({className, ...other}: HrProps) {
 type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
 
 function Img({className, alt, src, ...other}: ImgProps) {
-    if (!src || !alt || !src.startsWith("/")) {
+    if (!src || !src.startsWith("/")) {
         return (
             // eslint-disable-next-line @next/next/no-img-element
             <img className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
         );
     } else {
+        alt = alt || "";
         return (
             // @ts-ignore
             <Image className={clsx("mx-auto optimize-image", className)}

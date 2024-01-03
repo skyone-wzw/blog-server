@@ -13,6 +13,7 @@ export function headingFilter() {
 }
 
 export function autoHeadingId() {
+    const used = new Set<string>();
     return (tree: Root, file: VFile) => {
         visit(tree, "heading", (node: Heading) => {
             const lastChild = node.children[node.children.length - 1];
@@ -27,6 +28,8 @@ export function autoHeadingId() {
                         node.data.hProperties = node.data.hProperties || {};
                         node.data.hProperties.id = id;
 
+                        used.add(id);
+
                         string = string.substring(0, matched.index);
                         lastChild.value = string;
                         return;
@@ -38,9 +41,18 @@ export function autoHeadingId() {
                     .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, "-")
                     .replace(/-+/g, "-")
                     .replace(/^-|-$/g, "");
+                let id = formatId(String(file.value).slice(node.position.start.offset, node.position.end.offset));
+                let tail = 2;
+                if (used.has(id)) {
+                    while (used.has(`${id}-${tail}`)) {
+                        tail++;
+                    }
+                    id = `${id}-${tail}`;
+                }
+                used.add(id);
                 node.data = node.data || {};
                 node.data.hProperties = node.data.hProperties || {};
-                node.data.hProperties.id = formatId(String(file.value).slice(node.position.start.offset, node.position.end.offset));
+                node.data.hProperties.id = id;
             }
         });
     }
