@@ -10,7 +10,7 @@ interface SeriesPageProps {
 }
 
 async function SeriesPage({params}: SeriesPageProps) {
-    const series = decodeURI(params.series);
+    const series = decodeURIComponent(params.series);
     const articles = await getArticlesBySeries(series);
 
     if (articles.length === 0) return notFound();

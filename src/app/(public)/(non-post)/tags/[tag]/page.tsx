@@ -18,7 +18,7 @@ export const generateMetadata = ({params: {tag}}: TagDetailPageProps) => {
 }
 
 async function TagDetailPage({params}: TagDetailPageProps) {
-    const tag = decodeURI(params.tag);
+    const tag = decodeURIComponent(params.tag);
     const articles = await getArticlesByTag(tag);
 
     if (articles.length === 0) return notFound();

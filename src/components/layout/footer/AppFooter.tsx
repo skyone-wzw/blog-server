@@ -10,17 +10,19 @@ function AppFooter() {
                 <FooterBlock>
                     Copyright © 2020{" - "}<YearNumber/>
                     <span className="mx-1 after:content-['·']"></span>
-                    <Link className="text-text-main underline" href="https://github.com/skyone-wzw" target="_blank">skyone-wzw</Link>
+                    <Link className="text-text-main underline hover:text-link-hover" target="_blank"
+                          href="https://github.com/skyone-wzw">skyone-wzw</Link>
                 </FooterBlock>
                 <FooterBlock>
                     {"Powered by "}
-                    <Link className="text-text-main underline" href="https://nextjs.org" target="_blank">Next.js</Link>
+                    <Link className="text-text-main underline hover:text-link-hover" target="_blank"
+                          href="https://nextjs.org">Next.js</Link>
                     <span className="mx-1 after:content-['·']"></span>
                     {"Designed by "}
-                    <Link className="text-text-main underline" target="_blank"
+                    <Link className="text-text-main underline hover:text-link-hover" target="_blank"
                           href="https://blog.skyone.dev/">skyone-wzw</Link>
                     {" & "}
-                    <Link className="text-text-main underline" target="_blank"
+                    <Link className="text-text-main underline hover:text-link-hover" target="_blank"
                           href="https://skk.moe/">Sukka</Link>
                 </FooterBlock>
             </Container>

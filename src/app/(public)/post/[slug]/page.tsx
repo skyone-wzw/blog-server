@@ -16,7 +16,7 @@ interface PostPageProps {
 }
 
 export async function generateMetadata({params}: PostPageProps) {
-    const slug = decodeURI(params.slug);
+    const slug = decodeURIComponent(params.slug);
     const article = await getArticleBySlug(slug);
 
     if (!article) return {};
@@ -57,7 +57,7 @@ export async function generateMetadata({params}: PostPageProps) {
 }
 
 async function PostPage({params}: PostPageProps) {
-    const slug = decodeURI(params.slug);
+    const slug = decodeURIComponent(params.slug);
     const article = await getArticleBySlug(slug);
 
     if (!article) return notFound();
