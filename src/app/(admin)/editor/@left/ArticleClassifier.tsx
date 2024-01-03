@@ -113,13 +113,13 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
     }).sort((a, b) => -(a.createdAt.getTime() - b.createdAt.getTime()));
 
     return (
-        <aside className={clsx("w-full lg:w-80 m-2 overflow-auto xc-scroll flex-col space-y-2", className)}>
+        <aside className={clsx("w-full lg:w-80 m-2 flex-col space-y-2", className)}>
             <DropdownSelector all={{tags, series, years}} selected={selected} setSelection={setSelected}/>
-            <Paper className="p-4 flex-grow h-0">
-                <p className="px-1.5 text-text-subnote text-sm">{selectedLabel}</p>
-                <div className="divide-y divide-dashed divide-bg-tag">
+            <Paper className="py-4 flex-grow h-0">
+                <p className="px-4 text-text-subnote text-sm">{selectedLabel}</p>
+                <div className="px-2.5 divide-y divide-dashed divide-bg-tag max-h-full overflow-auto xc-scroll">
                     {selected.type === "all" && (
-                        <Link href="/editor/new" className="block p-1.5 text-text-content justify-between hover:bg-bg-hover">
+                        <Link href="/editor/new" className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover">
                             新建文章
                         </Link>
                     )}

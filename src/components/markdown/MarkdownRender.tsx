@@ -2,6 +2,7 @@ import {autoHeadingId, jsxConfig} from "@/components/markdown/tools";
 import {cache} from "react";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
+import rehypeRaw from "rehype-raw";
 import rehypeReact from "rehype-react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -17,9 +18,10 @@ export async function MarkdownRenderBase(content: string) {
         .use(remarkGfm)
         .use(remarkMath)
         .use(autoHeadingId)
-        .use(remarkRehype)
+        .use(remarkRehype, {allowDangerousHtml: true})
         .use(rehypeKatex)
         .use(rehypeHighlight)
+        .use(rehypeRaw)
         .use(rehypeReact, {
             ...jsxConfig, components: {
                 a: Components.A,

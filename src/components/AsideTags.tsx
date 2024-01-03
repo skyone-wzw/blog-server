@@ -8,7 +8,8 @@ interface AsideTagsProps {
 }
 
 async function AsideTags({className}: AsideTagsProps) {
-    const allTags = await getAllTags().then(tags => tags.slice(0, 20));
+    const allTags = await getAllTags().then(tags =>
+        tags.sort((a, b) => b.count - a.count).slice(0, 10));
 
     return (
         <Paper className={clsx("p-4 text-sm", className)}>

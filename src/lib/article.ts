@@ -46,7 +46,7 @@ type TypeReplaceIf<E, K extends keyof E, P, R> = E[K] extends P ?
 
 export function Database2Article<T extends { tags?: string }>(article: T): TypeReplaceIf<T, "tags", string, string[]> {
     return typeof article.tags === "string" ?
-        {...article, tags: article.tags.split(/,\s+/)} :
+        {...article, tags: article.tags.split(/,\s+/).filter(t => t.length > 0)} :
         (article as T & { tags: string[] });
 }
 
@@ -125,7 +125,7 @@ export const getAllTags = cache(async (published: boolean = true): Promise<Artic
         },
     });
 
-    const allTag = result.flatMap(article => article.tags.split(/,\s+/));
+    const allTag = result.map(Database2Article).flatMap(a => a.tags);
     const tagMap = new Map<string, number>();
     allTag.forEach(tag => {
         if (tagMap.has(tag)) {
@@ -205,7 +205,7 @@ export const getRecentArticles = cache(async (options: GetRecentArticlesOptions 
             updatedAt: true,
         },
     });
-    return articles.map(article => ({...article, tags: article.tags.split(/,\s+/)}));
+    return articles.map(Database2Article);
 });
 
 export const getArticleBySlug = cache(async (slug: string, published: boolean = true): Promise<Article | null> => {
