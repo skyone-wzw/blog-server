@@ -59,7 +59,7 @@ function paginationToLinks(current: number, list: (number | "...")[]): ReactNode
 }
 
 function MainPagePagination({current, total}: MainPagePaginationProps) {
-    if (total === 1) return null;
+    if (total <= 1) return null;
     return (
         <div className="flex flex-row flex-nowrap justify-between items-center">
             {current === 1 ? (

@@ -1,5 +1,6 @@
 /node_modules
 /images
+/data
 /.idea
 /.next
 npm-debug.log*

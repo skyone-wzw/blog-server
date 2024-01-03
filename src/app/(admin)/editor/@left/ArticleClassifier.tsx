@@ -124,7 +124,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
                         </Link>
                     )}
                     {filteredArticles.map(article => (
-                        <Link className="block p-1.5 text-text-content justify-between hover:bg-bg-hover"
+                        <Link className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover"
                               key={article.slug}
                               href={`/editor/${article.slug}`}>
                             {article.title}

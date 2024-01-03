@@ -11,7 +11,6 @@ export interface ArticleMetadata {
     published: boolean;
     createdAt: Date;
     updatedAt: Date;
-    metadata: any;
 }
 
 export interface Article extends ArticleMetadata {
@@ -27,7 +26,6 @@ export interface ArticlePatch {
     tags?: string[];
     published?: boolean;
     content?: string;
-    metadata?: any;
 }
 
 export interface ArticleCreate {
@@ -38,13 +36,31 @@ export interface ArticleCreate {
     tags: string[];
     published: boolean;
     content: string;
-    metadata?: any;
+}
+
+// 如果 E[K] 是非可选 P 类型, 则将 E[K] 替换为 R 类型, 否则将 E[K] 替换为可选的 R 类型
+// 希望下次看到它的时候我能看懂 (2024-01-03)
+type TypeReplaceIf<E, K extends keyof E, P, R> = E[K] extends P ?
+    (Omit<E, K> & { [key in K]: R }) :
+    (Omit<E, K> & { [key in K]?: R });
+
+export function Database2Article<T extends { tags?: string }>(article: T): TypeReplaceIf<T, "tags", string, string[]> {
+    return typeof article.tags === "string" ?
+        {...article, tags: article.tags.split(/,\s+/)} :
+        (article as T & { tags: string[] });
+}
+
+export function Article2Database<T extends { tags?: string[] }>(article: T): TypeReplaceIf<T, "tags", string[], string> {
+    return Array.isArray(article.tags) ? {...article, tags: article.tags.join(", ")} : (article as T & { tags: string });
 }
 
 export const getAllArticlesMetadata = cache(async (published: boolean = true): Promise<ArticleMetadata[]> => {
-    return prisma.post.findMany({
+    const articles = await prisma.post.findMany({
         where: {
             published: published,
+        },
+        orderBy: {
+            createdAt: "desc",
         },
         select: {
             id: true,
@@ -56,10 +72,10 @@ export const getAllArticlesMetadata = cache(async (published: boolean = true): P
             published: true,
             createdAt: true,
             updatedAt: true,
-            metadata: true,
         },
     });
-})
+    return articles.map(Database2Article);
+});
 
 interface ArticleSeries {
     series: string;
@@ -109,16 +125,14 @@ export const getAllTags = cache(async (published: boolean = true): Promise<Artic
         },
     });
 
+    const allTag = result.flatMap(article => article.tags.split(/,\s+/));
     const tagMap = new Map<string, number>();
-    result.forEach((post) => {
-        const tags = Array.from(new Set(post.tags));
-        tags.forEach((tag) => {
-            if (tagMap.has(tag)) {
-                tagMap.set(tag, tagMap.get(tag)! + 1);
-            } else {
-                tagMap.set(tag, 1);
-            }
-        });
+    allTag.forEach(tag => {
+        if (tagMap.has(tag)) {
+            tagMap.set(tag, tagMap.get(tag)! + 1);
+        } else {
+            tagMap.set(tag, 1);
+        }
     });
 
     const tags = Array.from(tagMap.keys());
@@ -172,7 +186,7 @@ export const getRecentArticles = cache(async (options: GetRecentArticlesOptions 
     const where = options.published ? {published: options.published} : {};
     const take = options.limit ? options.limit : DEFAULT_ARTICLE_PER_PAGE;
     const skip = options.page ? (options.page - 1) * take : 0;
-    return prisma.post.findMany({
+    const articles = await prisma.post.findMany({
         where: where,
         orderBy: {
             createdAt: "desc",
@@ -189,16 +203,16 @@ export const getRecentArticles = cache(async (options: GetRecentArticlesOptions 
             published: true,
             createdAt: true,
             updatedAt: true,
-            metadata: true,
         },
     });
+    return articles.map(article => ({...article, tags: article.tags.split(/,\s+/)}));
 });
 
 export const getArticleBySlug = cache(async (slug: string, published: boolean = true): Promise<Article | null> => {
-    return prisma.post.findUnique({
+    const article = await prisma.post.findUnique({
         where: {
             slug: slug,
-            published: published,
+            published: published ? published : undefined,
         },
         select: {
             id: true,
@@ -211,16 +225,16 @@ export const getArticleBySlug = cache(async (slug: string, published: boolean = 
             createdAt: true,
             updatedAt: true,
             content: true,
-            metadata: true,
         },
     });
+    return article && Database2Article(article);
 });
 
 export const getArticleMetadataBySlug = cache(async (slug: string, published: boolean = true): Promise<ArticleMetadata | null> => {
-    return prisma.post.findUnique({
+    const article = await prisma.post.findUnique({
         where: {
             slug: slug,
-            published: published,
+            published: published ? published : undefined,
         },
         select: {
             id: true,
@@ -232,16 +246,19 @@ export const getArticleMetadataBySlug = cache(async (slug: string, published: bo
             published: true,
             createdAt: true,
             updatedAt: true,
-            metadata: true,
         },
     });
+    return article && Database2Article(article);
 });
 
 export const getArticlesBySeries = cache(async (series: string, published: boolean = true): Promise<ArticleMetadata[]> => {
-    return prisma.post.findMany({
+    const articles = await prisma.post.findMany({
         where: {
             series: series,
-            published: published,
+            published: published ? published : undefined,
+        },
+        orderBy: {
+            createdAt: "desc",
         },
         select: {
             id: true,
@@ -253,18 +270,21 @@ export const getArticlesBySeries = cache(async (series: string, published: boole
             published: true,
             createdAt: true,
             updatedAt: true,
-            metadata: true,
         },
     });
+    return articles.map(Database2Article);
 });
 
 export const getArticlesByTag = cache(async (tag: string, published: boolean = true): Promise<ArticleMetadata[]> => {
-    return prisma.post.findMany({
+    const articles = await prisma.post.findMany({
         where: {
             tags: {
-                has: tag,
+                contains: tag,
             },
-            published: published,
+            published: published ? published : undefined,
+        },
+        orderBy: {
+            createdAt: "desc",
         },
         select: {
             id: true,
@@ -276,21 +296,24 @@ export const getArticlesByTag = cache(async (tag: string, published: boolean = t
             published: true,
             createdAt: true,
             updatedAt: true,
-            metadata: true,
         },
     });
+    return articles.map(Database2Article);
 });
 
 export const getArticlesByYear = cache(async (year: number, published: boolean = true): Promise<ArticleMetadata[]> => {
     const start = new Date(year, 0, 1);
     const end = new Date(year + 1, 0, 1);
-    return prisma.post.findMany({
+    const articles = await prisma.post.findMany({
         where: {
             createdAt: {
                 gte: start,
                 lt: end,
             },
-            published: published,
+            published: published ? published : undefined,
+        },
+        orderBy: {
+            createdAt: "desc",
         },
         select: {
             id: true,
@@ -302,15 +325,15 @@ export const getArticlesByYear = cache(async (year: number, published: boolean =
             published: true,
             createdAt: true,
             updatedAt: true,
-            metadata: true,
         },
     });
+    return articles.map(Database2Article);
 });
 
 export const getAllArticleCount = cache(async (published: boolean = true): Promise<number> => {
     return prisma.post.count({
         where: {
-            published: published,
+            published: published ? published : undefined,
         },
     });
 });

@@ -1,7 +1,7 @@
 "use server";
 
 import config from "@/config";
-import {ArticleCreate, ArticlePatch} from "@/lib/article";
+import {Article2Database, ArticleCreate, ArticlePatch} from "@/lib/article";
 import {generateToken} from "@/lib/auth";
 import {HASH} from "@/lib/encrypt";
 import prisma from "@/lib/prisma";
@@ -20,7 +20,7 @@ export async function LoginAction(email: string, password: string) {
             sameSite: "strict",
             maxAge: 60 * 60 * 24 * 7,
         });
-        redirect("/");
+        redirect("/editor");
     } else {
         return false;
     }
@@ -44,7 +44,7 @@ export async function SaveArticleAction(article: ArticlePatch) {
             where: {
                 id: article.id,
             },
-            data: ObjectOmit(article, ["id"])
+            data: Article2Database(ObjectOmit(article, ["id"])),
         });
         return true;
     } catch (e) {
@@ -55,7 +55,20 @@ export async function SaveArticleAction(article: ArticlePatch) {
 export async function CreateArticleAction(article: ArticleCreate) {
     try {
         await prisma.post.create({
-            data: article
+            data: Article2Database(article),
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+export async function DeleteArticleAction(id: string) {
+    try {
+        await prisma.post.delete({
+            where: {
+                id: id,
+            },
         });
         return true;
     } catch (e) {

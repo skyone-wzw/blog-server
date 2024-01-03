@@ -1,11 +1,9 @@
 "use client";
 
 import {LoginAction} from "@/lib/actions";
-import {useRouter} from "next/navigation";
 import {FormEventHandler, useState} from "react";
 
 function LoginForm() {
-    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -16,9 +14,7 @@ function LoginForm() {
         setLoading(true);
         const result = await LoginAction(email, password);
         setLoading(false);
-        if (result) {
-            router.replace("/editor");
-        } else {
+        if (!result) {
             setMessage("邮箱或密码错误");
         }
     };

@@ -8,6 +8,8 @@ interface ArticleImageProps {
     };
 }
 
+const imageDir = `${process.cwd()}/${config.imageDir.replace(/^\//, "")}`;
+
 export async function GET(request: Request, {params}: ArticleImageProps) {
     const {file} = params;
     if (!file || !file.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/)) {
@@ -45,12 +47,12 @@ export async function GET(request: Request, {params}: ArticleImageProps) {
         notFound();
     }
 
-    if (await fs.stat(`${config.imageDir}/${file}`).then(stat => !stat.isFile()).catch(() => null)) {
+    if (await fs.stat(`${imageDir}/${file}`).then(stat => !stat.isFile()).catch(() => null)) {
         notFound();
     }
 
     return new Response(
-        await fs.readFile(`${config.imageDir}/${file}`),
+        await fs.readFile(`${imageDir}/${file}`),
         {
             headers: {
                 "Content-Type": contentType,

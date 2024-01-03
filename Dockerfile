@@ -19,7 +19,7 @@ ENV NODE_ENV production
 COPY docker-bootstrap.sh ./
 
 EXPOSE 3000
-VOLUME ["/app/image", "/app/config"]
+VOLUME ["/app/images", "/app/data"]
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 

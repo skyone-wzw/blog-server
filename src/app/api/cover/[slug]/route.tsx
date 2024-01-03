@@ -1,3 +1,4 @@
+import config from "@/config";
 import {getArticleMetadataBySlug} from "@/lib/article";
 import {ImageResponse} from "next/og";
 import images from "./_images";
@@ -100,7 +101,7 @@ export async function GET(_: Request, {params}: ArticleCoverProps) {
                             marginLeft: 10,
                             marginRight: 0,
                             color: "#37475b",
-                        }}>Skyone Blog</p>
+                        }}>{config.title}</p>
                         <p style={{
                             marginBlock: 0,
                             fontSize: 20,

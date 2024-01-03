@@ -69,14 +69,17 @@ async function PostPage({params}: PostPageProps) {
             <Image className="w-full aspect-[130/63] rounded-t-lg" src={`/api/cover/${slug}`} alt="cover"
                    width={1300} height={630} priority/>
             <h1 className="px-4 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
-            <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap">
-                <time>{article.createdAt.toLocaleDateString("zh-CN", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                })}</time>
-                <span className="mx-1 after:content-['·']"></span>
-                <Link className="hover:text-link-hover" href={`/series/${article.series}`}>{article.series}</Link>
+            <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap justify-between">
+                <div>
+                    <time>{article.createdAt.toLocaleDateString("zh-CN", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    })}</time>
+                    <span className="mx-1 after:content-['·']"></span>
+                    <Link className="hover:text-link-hover" href={`/series/${article.series}`}>{article.series}</Link>
+                </div>
+                <Link className="hover:text-link-hover" href={`/editor/${article.slug}`}>编辑</Link>
             </div>
             <div className="px-4 md:px-6 text-sm 2xl:text-base">{await MarkdownRender(article.content)}</div>
             <ArticleFooterInfo article={article}/>

@@ -1,12 +1,14 @@
 "use client";
 
+import DangerousButton from "@/components/article-editor/DangerousButton";
 import ImageUploader from "@/components/article-editor/ImageUploader";
 import MarkdownPreview from "@/components/article-editor/MarkdownPreview";
 import Dialog from "@/components/base/Dialog";
 import Paper from "@/components/base/Paper";
-import {CreateArticleAction, LogoutAction, SaveArticleAction} from "@/lib/actions";
+import {CreateArticleAction, DeleteArticleAction, LogoutAction, SaveArticleAction} from "@/lib/actions";
 import {Article, ArticleCreate, ArticlePatch} from "@/lib/article";
 import clsx from "clsx";
+import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {useCallback, useEffect, useState} from "react";
 
@@ -88,6 +90,17 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         }
         setIsLoading(false);
     }, [article, slug, title, description, content, series, tags, router])
+
+    const handleDeleteArticle = async () => {
+        if (article.id) {
+            const result = await DeleteArticleAction(article.id);
+            if (result) {
+                router.replace("/editor")
+            } else {
+                alert("删除失败")
+            }
+        }
+    }
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -206,11 +219,25 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                         <ImageUploader/>
                     </Dialog>
                 </div>
+                {article.id && (
+                    <Link
+                        href={`/post/${slug}`}
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                        转到文章
+                    </Link>
+                )}
                 <button
                     onClick={handleSaveArticle} disabled={isLoading}
                     className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover">
                     保存
                 </button>
+                {article.id && (
+                    <DangerousButton
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover"
+                        onClick={handleDeleteArticle}>
+                        删除文章
+                    </DangerousButton>
+                )}
                 <button
                     onClick={handleLogout}
                     className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
