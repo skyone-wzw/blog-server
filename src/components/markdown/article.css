@@ -118,6 +118,10 @@ code.hljs {
     background: var(--code-bg);
 }
 
+.hljs-keyword {
+    font-style: italic;
+}
+
 .hljs-doctag,
 .hljs-keyword,
 .hljs-meta .hljs-keyword,

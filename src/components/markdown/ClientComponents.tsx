@@ -17,7 +17,7 @@ const autoScroll = (targetId: string): MouseEventHandler<HTMLAnchorElement> => (
 }
 
 function HeadingLink2({id, children}: HeadingLinkProps) {
-    const targetId = id || encodeURI(getHeadingId(children));
+    const targetId = id || getHeadingId(children);
     return (
         <Link className="block text-text-content" href={`#${targetId}`} onClick={autoScroll(targetId)}>
             <p className="p-1.5 hover:bg-bg-hover">{children}</p>
@@ -26,7 +26,7 @@ function HeadingLink2({id, children}: HeadingLinkProps) {
 }
 
 function HeadingLink3({id, children}: HeadingLinkProps) {
-    const targetId = id || encodeURI(getHeadingId(children));
+    const targetId = id || getHeadingId(children);
     return (
         <Link className="block text-text-content" href={`#${targetId}`} onClick={autoScroll(targetId)}>
             <p className="pl-4 ml-2 p-1.5 border-solid border-l-4 border-l-border hover:bg-bg-hover">{children}</p>

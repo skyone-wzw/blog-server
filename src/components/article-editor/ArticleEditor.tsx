@@ -86,6 +86,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         } else {
             alert("保存失败")
         }
+        setIsLoading(false);
     }, [article, slug, title, description, content, series, tags, router])
 
     useEffect(() => {

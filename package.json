@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "update-cover-index": "tsx src/app/api/cover/[slug]/_images/generate.cts",
-    "patch-font": "node fuck-next.js"
+    "patch-font": "node patch-font.js"
   },
   "dependencies": {
     "@prisma/client": "^5.7.0",
