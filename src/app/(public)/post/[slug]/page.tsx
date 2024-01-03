@@ -46,7 +46,7 @@ export async function generateMetadata({params}: PostPageProps) {
             url: `/post/${slug}`,
             images: [
                 {
-                    url: `/_next/image?url=${encodeURIComponent(`/api/cover?slug=${slug}`)}&w=1920&q=75`,
+                    url: `/_next/image?url=${encodeURIComponent(`/api/cover/${slug}`)}&w=1920&q=75`,
                     width: 1300,
                     height: 630,
                     alt: "cover",
