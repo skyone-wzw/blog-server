@@ -3,6 +3,7 @@ import config from "@/config";
 import clsx from "clsx";
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import {ReactNode} from "react";
 import "./globals.css";
 
@@ -54,6 +55,7 @@ function RootLayout({children}: RootLayoutProps) {
                 <script dangerouslySetInnerHTML={{__html: bootloader}}/>
             </head>
             <body className={clsx(inter.className, "pk-scroll")}>
+                <NextTopLoader color="#ec4899"/>
                 <AppHeader/>
                 {children}
             </body>
