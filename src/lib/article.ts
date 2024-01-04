@@ -330,6 +330,78 @@ export const getArticlesByYear = cache(async (year: number, published: boolean =
     return articles.map(Database2Article);
 });
 
+interface AdjacentArticle {
+    prev: ArticleMetadata | null;
+    next: ArticleMetadata | null;
+}
+
+export const getAdjacentArticleMetadata = cache(async (slug: string, published: boolean = true): Promise<AdjacentArticle> => {
+    return prisma.$transaction(async (prisma) => {
+        const current = await prisma.post.findUnique({
+            where: {
+                slug: slug,
+            },
+            select: {
+                createdAt: true,
+            },
+        });
+        if (!current) {
+            return {
+                prev: null,
+                next: null,
+            };
+        }
+        const prev = await prisma.post.findFirst({
+            where: {
+                published: published ? published : undefined,
+                createdAt: {
+                    lt: current.createdAt,
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                description: true,
+                series: true,
+                tags: true,
+                published: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+        const next = await prisma.post.findFirst({
+            where: {
+                published: published ? published : undefined,
+                createdAt: {
+                    gt: current.createdAt,
+                },
+            },
+            orderBy: {
+                createdAt: "asc",
+            },
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                description: true,
+                series: true,
+                tags: true,
+                published: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+        return {
+            prev: prev && Database2Article(prev),
+            next: next && Database2Article(next),
+        };
+    })
+});
+
 export const getAllArticleCount = cache(async (published: boolean = true): Promise<number> => {
     return prisma.post.count({
         where: {
