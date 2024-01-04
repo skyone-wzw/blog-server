@@ -19,8 +19,7 @@ function NewEditorPage() {
         published: false,
         createdAt: new Date(),
         updatedAt: new Date(),
-        content: "",
-        metadata: {}
+        content: ""
     }
 
     return <ArticleEditor article={article} className="hidden lg:flex w-0"/>
