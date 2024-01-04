@@ -13,13 +13,18 @@ function formatDate(date: Date) {
 }
 
 function groupByYear(articles: ArticleMetadata[]) {
-    const years = new Set(articles.map(article => article.createdAt.getFullYear().toString()));
     const grouped = new Map<string, ArticleMetadata[]>();
-    years.forEach(year => {
-        grouped.set(year, articles
-            .filter(article => article.createdAt.getFullYear().toString() === year)
-            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()));
-    });
+
+    for (const article of articles) {
+        const year = article.createdAt.getFullYear().toString();
+
+        if (!grouped.has(year)) {
+            grouped.set(year, []);
+        }
+
+        grouped.get(year)!.push(article);
+    }
+
     return grouped;
 }
 
