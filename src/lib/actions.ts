@@ -2,13 +2,13 @@
 
 import config from "@/config";
 import {Article2Database, ArticleCreate, ArticlePatch} from "@/lib/article";
-import {generateToken} from "@/lib/auth";
+import {generateToken, isUserLoggedIn} from "@/lib/auth";
 import {HASH} from "@/lib/encrypt";
 import prisma from "@/lib/prisma";
 import {ObjectOmit} from "@/lib/type-utils";
 import fs from "fs/promises";
 import {cookies} from "next/headers";
-import {redirect} from "next/navigation";
+import {redirect, RedirectType} from "next/navigation";
 
 export async function LoginAction(email: string, password: string) {
     if (email === config.auth.email && password === config.auth.password) {
@@ -39,6 +39,7 @@ export async function LogoutAction() {
 }
 
 export async function SaveArticleAction(article: ArticlePatch) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     try {
         await prisma.post.update({
             where: {
@@ -53,6 +54,7 @@ export async function SaveArticleAction(article: ArticlePatch) {
 }
 
 export async function CreateArticleAction(article: ArticleCreate) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     try {
         await prisma.post.create({
             data: Article2Database(article),
@@ -64,6 +66,7 @@ export async function CreateArticleAction(article: ArticleCreate) {
 }
 
 export async function DeleteArticleAction(id: string) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     try {
         await prisma.post.delete({
             where: {
@@ -79,6 +82,7 @@ export async function DeleteArticleAction(id: string) {
 //type ContentType = "image/webp" | "image/png" | "image/jpeg";
 
 export async function UploadImageAction(formData: FormData) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     const fileField = formData.get("file");
     if (!fileField || !(fileField instanceof File)) {
         return "";
