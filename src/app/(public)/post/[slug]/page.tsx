@@ -79,7 +79,7 @@ async function PostPage({params}: PostPageProps) {
                             day: "numeric",
                         })}</time>
                         <span className="mx-1 after:content-['·']"></span>
-                        <Link className="hover:text-link-hover" href={`/series/${article.series}`}>{article.series}</Link>
+                        <Link className="hover:text-link-hover" href={`/series/${encodeURIComponent(article.series)}`}>{article.series}</Link>
                     </div>
                     <Link className="hover:text-link-hover" href={`/editor/${article.slug}`}>编辑</Link>
                 </div>

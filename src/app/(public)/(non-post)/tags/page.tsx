@@ -18,7 +18,7 @@ async function TagsPage() {
             <div className="space-y-2 p-2">
                 {tagsInfo.map(({tag, count}) => (
                     <Link className="flex justify-between text-text-content hover:text-link-hover hover:underline"
-                          key={tag} id={`tag-${tag}`} href={`/tags/${tag}`}>
+                          key={tag} id={`tag-${tag}`} href={`/tags/${encodeURIComponent(tag)}`}>
                         <span>{tag}</span>
                         <span className="text-text-subnote">共 {count} 篇</span>
                     </Link>

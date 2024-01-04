@@ -129,8 +129,8 @@ function Img({className, alt, src, ...other}: ImgProps) {
         alt = alt || "";
         return (
             // @ts-ignore
-            <Image className={clsx("mx-auto optimize-image", className)}
-                   fill objectFit="contain" alt={alt} src={src} {...other}/>
+            <Image className={clsx("mx-auto object-contain optimize-image", className)}
+                   fill alt={alt} src={src} {...other}/>
         );
     }
 }

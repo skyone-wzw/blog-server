@@ -79,7 +79,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 description: description.trim(),
                 content: content.trim(),
                 series: series.trim() || "未分类",
-                tags: tags.split(/,\s*/).map(tag => tag.trim()),
+                tags: tags.replace(/\s+/, " ").split(/,\s*/).map(tag => tag.trim()),
             };
             result = await SaveArticleAction(patchArticle);
         }

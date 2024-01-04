@@ -35,7 +35,7 @@ async function SeriesPage() {
 
     return series.map(series => (
         <div key={series} id={`series-${series}`}>
-            <Link className="mb-2 block hover:underline" href={`/series/${series}`}>
+            <Link className="mb-2 block hover:underline" href={`/series/${encodeURIComponent(series)}`}>
                 <span className="text-text-content text-xl mr-3">分类：{series}</span>
                 <span className="text-text-subnote">共 {grouped.get(series)!.length} 篇</span>
             </Link>

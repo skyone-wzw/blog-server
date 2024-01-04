@@ -17,7 +17,7 @@ async function AsideTags({className}: AsideTagsProps) {
             <div className="p-1.5 flex flex-wrap">
                 {allTags.map(tag => (
                     <Link key={tag.tag} className="p-2 text-text-content hover:text-link-hover hover:underline tag-prefix"
-                          href={`/tags/${tag.tag}`}>
+                          href={`/tags/${encodeURIComponent(tag.tag)}`}>
                         {tag.tag}
                     </Link>
                 ))}
