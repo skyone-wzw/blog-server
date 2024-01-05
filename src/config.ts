@@ -1,8 +1,4 @@
-import Avatar from "@/profile/avatar.webp";
-import OGCover from "@/profile/og-cover.webp";
-import ProfileCover from "@/profile/prfile-cover.webp";
 import fs from "fs";
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import path from "path";
 import packageJson from "../package.json";
 
@@ -14,8 +10,6 @@ interface Config {
 
     master: {
         name: string;
-        avatar: StaticImport;
-        cover: StaticImport;
         description: string;
         email?: string;
         github?: string;
@@ -27,6 +21,7 @@ interface Config {
         image: string;
         cover: string;
         random: string;
+        profile: string;
     };
 
     auth: {
@@ -96,13 +91,11 @@ const config = (() => {
     const defaultConfig: Config = {
         title: "Example Blog",
         description: "Example Blog - 关注有趣的技术",
-        cover: `${OGCover.src}`,
+        cover: `/cover/profile?type=og-cover`,
         url: "https://blog.example.com",
 
         master: {
             name: "Example",
-            avatar: Avatar,
-            cover: ProfileCover,
             description: "科技爱好者",
             email: "i@example.com",
             github: "example",
@@ -113,6 +106,7 @@ const config = (() => {
             image: DataDirResolve("images"),
             cover: DataDirResolve("cover"),
             random: DataDirResolve("cover/random"),
+            profile: DataDirResolve("profile"),
         },
 
         auth: {
@@ -161,11 +155,12 @@ if (config.secret.key === undefined || config.secret.iv === undefined) {
 }
 
 void function () {
-    const {data, image, cover, random} = config.dir;
+    const {data, image, cover, random, profile} = config.dir;
     if (!fs.existsSync(data)) fs.mkdirSync(data);
     if (!fs.existsSync(image)) fs.mkdirSync(image);
     if (!fs.existsSync(cover)) fs.mkdirSync(cover);
     if (!fs.existsSync(random)) fs.mkdirSync(random);
+    if (!fs.existsSync(profile)) fs.mkdirSync(profile);
 }();
 
 export default config;

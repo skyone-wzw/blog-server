@@ -7,7 +7,7 @@ const randomDir = config.dir.random;
 
 async function selectRandomImage() {
     const files = (await fs.readdir(randomDir))
-        .filter(file => file.match(/\.(jpe?g|png|webp)$/));
+        .filter(file => file.match(/\.(jpe?g|png|webp)$/i));
     if (files.length === 0) return null;
     const index = Math.floor(Math.random() * files.length);
     return files[index];
@@ -16,7 +16,7 @@ async function selectRandomImage() {
 async function matchImage(slug?: string | null) {
     if (!slug) return await selectRandomImage();
     const files = (await fs.readdir(coverDir))
-        .filter(file => file.match(/\.(jpe?g|png|webp)$/) && file.startsWith(slug));
+        .filter(file => file.match(/\.(jpe?g|png|webp)$/i) && file.startsWith(slug));
     if (files.length === 0) return await selectRandomImage();
     const index = Math.floor(Math.random() * files.length);
     return files[index];

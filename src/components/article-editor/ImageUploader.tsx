@@ -4,7 +4,11 @@ import Paper from "@/components/base/Paper";
 import {UploadImageAction} from "@/lib/actions";
 import {useState} from "react";
 
-function ImageUploader() {
+interface ImageUploaderProps {
+    className?: string;
+}
+
+function ImageUploader({className}: ImageUploaderProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState<string>("");
 
@@ -27,7 +31,7 @@ function ImageUploader() {
     }
 
     return (
-        <Paper>
+        <Paper className={className}>
             <form className="p-4 max-w-full w-[480px] flex flex-col gap-y-4" action={handleUpload}>
                 <div className="pb-4 text-text-main">上传图片</div>
                 <input

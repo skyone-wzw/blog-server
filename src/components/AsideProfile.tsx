@@ -53,11 +53,13 @@ const profile = config.master;
 async function AsideProfile({className}: AsideProfileProps) {
     return (
         <Paper className={className}>
-            <Image alt="profil" src={profile.cover} placeholder="blur"
-                   className="w-full mb-4 object-cover rounded-t-lg h-28"/>
+            <Image alt="profil" src="/api/image/profile?type=profile-cover" width="1500" height="750"
+                   blurDataURL={`/_next/image?url=${encodeURIComponent("/api/image/profile?type=profile-cover")}&w=8&q=75`}
+                   placeholder="blur" className="w-full mb-4 object-cover rounded-t-lg h-28"/>
             <div className="flex flex-col items-center justify-center p-4 -mt-16">
-                <Image alt="profil" src={profile.avatar} height={64} width={64} placeholder="blur"
-                       className="mx-auto object-cover rounded-full"/>
+                <Image alt="profil" src="/api/image/profile?type=avatar" height={64} width={64}
+                       blurDataURL={`/_next/image?url=${encodeURIComponent("/api/image/profile?type=avatar")}&w=8&q=75`}
+                       placeholder="blur" className="mx-auto object-cover rounded-full"/>
                 <Link href="/login" className="mt-2 text-xl font-medium text-text-main">
                     {profile.name}
                 </Link>
