@@ -8,7 +8,7 @@ interface ArticleImageProps {
     };
 }
 
-const imageDir = `${process.cwd()}/${config.imageDir.replace(/^\//, "")}`;
+const imageDir = config.dir.image;
 
 export async function GET(request: Request, {params}: ArticleImageProps) {
     const {file} = params;

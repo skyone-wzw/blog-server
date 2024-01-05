@@ -3,16 +3,14 @@ import OGCover from "@/profile/og-cover.webp";
 import ProfileCover from "@/profile/prfile-cover.webp";
 import fs from "fs";
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
-import packageJson from "../package.json";
 import path from "path";
+import packageJson from "../package.json";
 
 interface Config {
     title: string;
     description: string;
     cover: string;
     url: string;
-
-    imageDir: string;
 
     master: {
         name: string;
@@ -22,6 +20,13 @@ interface Config {
         email?: string;
         github?: string;
         zhihu?: string;
+    };
+
+    dir: {
+        data: string;
+        image: string;
+        cover: string;
+        random: string;
     };
 
     auth: {
@@ -51,7 +56,7 @@ type DeepPartial<T> = {
 };
 
 function isObject(item: any) {
-    return (item && typeof item === 'object' && !Array.isArray(item));
+    return (item && typeof item === "object" && !Array.isArray(item));
 }
 
 function DeepMerge<T extends object>(target: T, ...sources: DeepPartial<T>[]): T {
@@ -61,11 +66,11 @@ function DeepMerge<T extends object>(target: T, ...sources: DeepPartial<T>[]): T
     if (isObject(target) && isObject(source)) {
         for (const key in source) {
             if (isObject(source[key])) {
-                if (!target[key]) Object.assign(target, { [key]: {} });
+                if (!target[key]) Object.assign(target, {[key]: {}});
                 // @ts-ignore
                 DeepMerge(target[key], source[key]);
             } else {
-                Object.assign(target, { [key]: source[key] });
+                Object.assign(target, {[key]: source[key]});
             }
         }
     }
@@ -73,8 +78,14 @@ function DeepMerge<T extends object>(target: T, ...sources: DeepPartial<T>[]): T
     return DeepMerge(target, ...sources);
 }
 
+const dataDir = process.env.DATA_DIR || path.resolve(process.cwd(), "data");
+
+export function DataDirResolve(...paths: string[]) {
+    return path.resolve(dataDir, ...paths);
+}
+
 const config = (() => {
-    const configFile = path.resolve(process.cwd(), "data/config.json");
+    const configFile = DataDirResolve("config.json");
     let userConfig: DeepPartial<Config>;
     try {
         userConfig = JSON.parse(fs.readFileSync(configFile, "utf-8"));
@@ -88,8 +99,6 @@ const config = (() => {
         cover: `${OGCover.src}`,
         url: "https://blog.example.com",
 
-        imageDir: "images",
-
         master: {
             name: "Example",
             avatar: Avatar,
@@ -97,6 +106,13 @@ const config = (() => {
             description: "科技爱好者",
             email: "i@example.com",
             github: "example",
+        },
+
+        dir: {
+            data: dataDir,
+            image: DataDirResolve("images"),
+            cover: DataDirResolve("cover"),
+            random: DataDirResolve("cover/random"),
         },
 
         auth: {
@@ -143,5 +159,13 @@ if (config.secret.key === undefined || config.secret.iv === undefined) {
     console.error("Secret key or iv is not set!");
     process.exit(1);
 }
+
+void function () {
+    const {data, image, cover, random} = config.dir;
+    if (!fs.existsSync(data)) fs.mkdirSync(data);
+    if (!fs.existsSync(image)) fs.mkdirSync(image);
+    if (!fs.existsSync(cover)) fs.mkdirSync(cover);
+    if (!fs.existsSync(random)) fs.mkdirSync(random);
+}();
 
 export default config;

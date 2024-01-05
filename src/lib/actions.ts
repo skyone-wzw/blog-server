@@ -81,6 +81,8 @@ export async function DeleteArticleAction(id: string) {
 
 //type ContentType = "image/webp" | "image/png" | "image/jpeg";
 
+const imageDir = config.dir.image;
+
 export async function UploadImageAction(formData: FormData) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     const fileField = formData.get("file");
@@ -101,7 +103,7 @@ export async function UploadImageAction(formData: FormData) {
     } else {
         return "";
     }
-    const filepath = `${config.imageDir}/${filename}`;
+    const filepath = `${imageDir}/${filename}`;
     try {
         // 文件或目录存在
         const stat = await fs.stat(filepath);

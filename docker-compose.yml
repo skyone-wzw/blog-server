@@ -7,11 +7,11 @@ services:
     restart: unless-stopped
     volumes:
       - "./data:/app/data"
-      - "./images:/app/images"
     networks:
       - proxy
     environment:
       DATABASE_URL: "file:/app/data/data.db"
+#      DATA_DIR: "/data" # The root directory of all data. default: /data
       SECRET_KEY: "88888888888888888888888888888888"
       SECRET_IV: "8888888888888888"
       AUTH_EMAIL: abc@qq.com

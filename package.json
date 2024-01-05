@@ -7,7 +7,6 @@
     "build": "next experimental-compile",
     "start": "next start",
     "lint": "next lint",
-    "update-cover-index": "tsx src/app/api/cover/[slug]/_images/generate.cts",
     "patch-font": "node patch-font.js"
   },
   "dependencies": {

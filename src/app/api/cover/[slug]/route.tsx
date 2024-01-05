@@ -1,7 +1,6 @@
 import config from "@/config";
 import {getArticleMetadataBySlug} from "@/lib/article";
 import {ImageResponse} from "next/og";
-import images from "./_images";
 
 function formatDate(date: Date) {
     const year = date.getFullYear().toString();
@@ -9,8 +8,6 @@ function formatDate(date: Date) {
     const day = date.getDate().toString().padStart(2, "0");
     return `${year}-${month}-${day}`;
 }
-
-const bg = images.map((image) => `http://127.0.0.1:3000${image.src}`);
 
 export const revalidate = false;
 
@@ -34,7 +31,7 @@ export async function GET(_: Request, {params}: ArticleCoverProps) {
             background: "#ffffff",
         }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={bg[Math.floor(Math.random() * bg.length)]}
+            <img src={`http://127.0.0.1:3000/api/image/random?slug=${slug}`}
                  alt="cover"
                  height={630}
                  width={1300}
@@ -124,7 +121,7 @@ export async function GET(_: Request, {params}: ArticleCoverProps) {
             height: 630,
             headers: {
                 "Cache-Control": "public, max-age=86400",
-            }
+            },
         },
     );
 }
