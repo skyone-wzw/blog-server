@@ -17,6 +17,6 @@ RUN npm run build
 
 EXPOSE 3000
 VOLUME ["/data"]
-ENV PORT=3000 NODE_ENV=production HOSTNAME="0.0.0.0" DATA_DIR="/data"
+ENV PORT=3000 NODE_ENV=production HOSTNAME="0.0.0.0" DATA_DIR="/data" DATABASE_URL="file:/data/data.db"
 
 CMD ["sh", "docker-bootstrap.sh"]

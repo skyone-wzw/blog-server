@@ -22,6 +22,8 @@ function ArticleSummaryCard({className, article}: ArticleSummaryCardProps) {
         <Paper className={clsx("text-text-content", className)}>
             <Link className="contents" href={`/post/${article.slug}`}>
                 <Image
+                    blurDataURL={`/_next/image?url=${encodeURIComponent(`/api/cover/${article.slug}`)}&w=8&q=75`}
+                    placeholder="blur"
                     className="rounded-t-lg w-full min-[360px]:aspect-[1300/630] min-h-[176px] object-cover block"
                     src={`/api/cover/${article.slug}`} width={1300} height={630} alt="cover"/>
             </Link>

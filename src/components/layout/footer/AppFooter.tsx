@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function AppFooter() {
     return (
-        <footer className="bg-bg-light pt-12 pb-24 text-center md:px-6">
+        <footer className="bg-bg-light pt-12 pb-24 text-center md:px-6 row-start-3">
             <Container className="md:flex md:justify-between text-text-subnote">
                 <FooterBlock>
                     Copyright © 2020{" - "}<YearNumber/>

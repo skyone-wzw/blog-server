@@ -8,6 +8,7 @@ const randomDir = config.dir.random;
 async function selectRandomImage() {
     const files = (await fs.readdir(randomDir))
         .filter(file => file.match(/\.(jpe?g|png|webp)$/));
+    if (files.length === 0) return null;
     const index = Math.floor(Math.random() * files.length);
     return files[index];
 }
@@ -25,6 +26,7 @@ export async function GET(request: Request) {
     const searchParams = new URL(request.url).searchParams;
     const slug = searchParams.get("slug");
     const image = await matchImage(slug);
+    if (!image) return new Response(null, {status: 404});
     const filePath = path.resolve(randomDir, image);
     let contentType;
     if (image.endsWith(".png")) contentType = "image/png";

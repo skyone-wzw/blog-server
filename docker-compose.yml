@@ -10,7 +10,7 @@ services:
     networks:
       - proxy
     environment:
-      DATABASE_URL: "file:/app/data/data.db"
+      DATABASE_URL: "file:/data/data.db"
 #      DATA_DIR: "/data" # The root directory of all data. default: /data
       SECRET_KEY: "88888888888888888888888888888888"
       SECRET_IV: "8888888888888888"
