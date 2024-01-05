@@ -46,7 +46,7 @@ function AppHeader() {
                         ))}
                     </Flex>
                     <Flex>
-                        <HeaderLink href="/editor" className="hidden lg:flex"><EditIcon/></HeaderLink>
+                        <HeaderLink href="/editor"><EditIcon/></HeaderLink>
                         <HeaderLink href="#" className="fill-current" ariaLabel="搜索"><SearchIcon/></HeaderLink>
                         <HeaderColorToggle/>
                     </Flex>

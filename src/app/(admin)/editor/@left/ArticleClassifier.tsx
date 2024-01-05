@@ -4,6 +4,7 @@ import Paper from "@/components/base/Paper";
 import {ArticleMetadata} from "@/lib/article";
 import clsx from "clsx";
 import Link from "next/link";
+import {usePathname} from "next/navigation";
 import {useEffect, useRef, useState} from "react";
 
 interface SelectedState {
@@ -94,11 +95,14 @@ interface ArticleClassifierProps {
 }
 
 function ArticleClassifier({articles, className}: ArticleClassifierProps) {
+    const pathname = usePathname();
     const [selected, setSelected] = useState<SelectedState>({type: "all", value: ""});
 
     const tags = Array.from(new Set(articles.flatMap(article => article.tags))).sort();
     const series = Array.from(new Set(articles.map(article => article.series))).sort();
     const years = Array.from(new Set(articles.map(article => article.createdAt.getFullYear().toString()))).sort();
+
+    const isSelectPage = !!pathname.match(/^\/editor$/);
 
     const selectedLabel = selected.type === "all" ? "全部文章" :
         selected.type === "tag" ? `标签: ${selected.value}` :
@@ -113,7 +117,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
     }).sort((a, b) => -(a.createdAt.getTime() - b.createdAt.getTime()));
 
     return (
-        <aside className={clsx("w-full lg:w-80 m-2 flex-col space-y-2", className)}>
+        <aside className={clsx("w-full lg:w-80 m-2 flex-col space-y-2", isSelectPage ? "flex" : "hidden lg:flex", className)}>
             <DropdownSelector all={{tags, series, years}} selected={selected} setSelection={setSelected}/>
             <Paper className="py-4 flex-grow h-0">
                 <p className="px-4 text-text-subnote text-sm">{selectedLabel}</p>
