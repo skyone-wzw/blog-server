@@ -10,6 +10,8 @@ interface Config {
 
     master: {
         name: string;
+        avatar: string;
+        cover: string;
         description: string;
         email?: string;
         github?: string;
@@ -91,11 +93,13 @@ const config = (() => {
     const defaultConfig: Config = {
         title: "Example Blog",
         description: "Example Blog - 关注有趣的技术",
-        cover: `/cover/profile?type=og-cover`,
+        cover: `/api/image/profile?type=og-cover`,
         url: "https://blog.example.com",
 
         master: {
             name: "Example",
+            avatar: "/api/image/profile?type=avatar",
+            cover: "/api/image/profile?type=profile-cover",
             description: "科技爱好者",
             email: "i@example.com",
             github: "example",
