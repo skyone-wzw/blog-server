@@ -26,6 +26,7 @@ export interface ArticlePatch {
     tags?: string[];
     published?: boolean;
     content?: string;
+    updatedAt?: Date;
 }
 
 export interface ArticleCreate {

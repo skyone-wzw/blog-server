@@ -80,6 +80,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 content: content.trim(),
                 series: series.trim() || "未分类",
                 tags: tags.replace(/\s+/, " ").split(/,\s*/).map(tag => tag.trim()),
+                updatedAt: new Date(),
             };
             result = await SaveArticleAction(patchArticle);
         }

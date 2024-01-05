@@ -5,7 +5,6 @@ import {Article2Database, ArticleCreate, ArticlePatch} from "@/lib/article";
 import {generateToken, isUserLoggedIn} from "@/lib/auth";
 import {HASH} from "@/lib/encrypt";
 import prisma from "@/lib/prisma";
-import {ObjectOmit} from "@/lib/type-utils";
 import fs from "fs/promises";
 import {cookies} from "next/headers";
 import {redirect, RedirectType} from "next/navigation";
@@ -40,12 +39,22 @@ export async function LogoutAction() {
 
 export async function SaveArticleAction(article: ArticlePatch) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const newArticle = Article2Database(article);
     try {
         await prisma.post.update({
             where: {
                 id: article.id,
             },
-            data: Article2Database(ObjectOmit(article, ["id"])),
+            data: {
+                title: newArticle.title,
+                slug: newArticle.slug,
+                description: newArticle.description,
+                series: newArticle.series,
+                tags: newArticle.tags,
+                published: newArticle.published,
+                content: newArticle.content,
+                updatedAt: new Date(),
+            },
         });
         return true;
     } catch (e) {
@@ -55,9 +64,18 @@ export async function SaveArticleAction(article: ArticlePatch) {
 
 export async function CreateArticleAction(article: ArticleCreate) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const newArticle = Article2Database(article);
     try {
         await prisma.post.create({
-            data: Article2Database(article),
+            data: {
+                title: newArticle.title,
+                slug: newArticle.slug,
+                description: newArticle.description,
+                series: newArticle.series,
+                tags: newArticle.tags,
+                published: newArticle.published,
+                content: newArticle.content,
+            },
         });
         return true;
     } catch (e) {
