@@ -27,7 +27,7 @@ async function ArticleFooterAdjacentNavigation({slug}: ArticleFooterAdjacentNavi
     const adjacent = await getAdjacentArticleMetadata(slug);
 
     return (
-        <div className="grid grid-cols-2 gap-x-6 font-sm 2xl:text-base">
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-6 font-sm 2xl:text-base">
             {adjacent.next && (
                 <Link href={`/post/${adjacent.next.slug}`}
                       className="col-start-1 bg-bg-light text-text-content hover:text-link-hover rounded-lg shadow p-4 gap-x-2 flex flex-row justify-start items-center">
@@ -37,7 +37,7 @@ async function ArticleFooterAdjacentNavigation({slug}: ArticleFooterAdjacentNavi
             )}
             {adjacent.prev && (
                 <Link href={`/post/${adjacent.prev.slug}`}
-                      className="col-start-2 bg-bg-light text-text-content hover:text-link-hover rounded-lg shadow p-4 flex flex-row justify-end items-center">
+                      className="col-start-2 bg-bg-light text-text-content hover:text-link-hover rounded-lg shadow p-4 gap-x-2 flex flex-row justify-end items-center">
                     {adjacent.prev.title}
                     <NextIcon/>
                 </Link>
