@@ -1,11 +1,11 @@
 import AsideArchiveList from "@/components/AsideArchiveList";
+import AsideArticleToc from "@/components/AsideArticleToc";
 import AsideProfile from "@/components/AsideProfile";
 import AsideRecentArticles from "@/components/AsideRecentArticles";
 import AsideSeries from "@/components/AsideSeries";
 import AsideTags from "@/components/AsideTags";
-import Paper from "@/components/base/Paper";
-import {getArticleBySlug} from "@/lib/article";
 import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
+import {getArticleBySlug} from "@/lib/article";
 
 interface PostLeftPageProps {
     params: {
@@ -25,12 +25,7 @@ async function PostLeftPage({params}: PostLeftPageProps) {
         <>
             <AsideProfile className="mb-6"/>
             <div className="top-[124px] lg:top-[76px] md:sticky space-y-6">
-                <Paper className="hidden md:block p-4 text-sm max-h-[40vh] min-h-[200px] overflow-auto xc-scroll">
-                    <p className="mb-3 text-text-subnote">文章目录</p>
-                    <div className="p-1.5">
-                        {toc}
-                    </div>
-                </Paper>
+                <AsideArticleToc toc={toc} className="hidden md:block max-h-[40vh] min-h-[200px]"/>
                 <AsideRecentArticles className="xl:hidden"/>
                 <AsideArchiveList className="xl:hidden"/>
                 <AsideSeries/>
