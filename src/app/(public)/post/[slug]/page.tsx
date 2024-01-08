@@ -68,8 +68,8 @@ async function PostPage({params}: PostPageProps) {
     return (
         <>
             <Paper className="space-y-3 md:space-y-4">
-                <Image className="w-full aspect-[130/63] rounded-t-lg" src={`/api/cover/${slug}`} alt="cover"
-                       width={1300} height={630} priority/>
+                <Image className="w-full aspect-[130/63] rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                       src={`/api/cover/${slug}`} alt="cover" width={1300} height={630} priority/>
                 <h1 className="px-4 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
                 <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap justify-between">
                     <div>
