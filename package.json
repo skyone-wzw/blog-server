@@ -9,6 +9,9 @@
     "lint": "next lint",
     "patch-font": "node patch-font.js"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "clsx": "^2.0.0",
