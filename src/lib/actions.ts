@@ -39,6 +39,13 @@ export async function LogoutAction() {
 
 export async function SaveArticleAction(article: ArticlePatch) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+
+    if (!article.id) return false;
+    if (article.slug && !article.slug.match(/^[a-z0-9-]+$/)) return false;
+    if (article.slug === "new" || article.slug === "index") return false;
+    if (article.tags?.some(tag => tag.match(/[\/\\]/))) return false;
+    if (article.series?.match(/[\/\\]/)) return false;
+
     const newArticle = Article2Database(article);
     try {
         await prisma.post.update({
@@ -65,6 +72,14 @@ export async function SaveArticleAction(article: ArticlePatch) {
 export async function CreateArticleAction(article: ArticleCreate) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     const newArticle = Article2Database(article);
+
+    if (!article.slug) return false;
+    if (!article.slug.match(/^[a-z0-9-]+$/)) return false;
+    if (article.slug === "new" || article.slug === "index") return false;
+    if (!article.title) return false;
+    if (article.tags.some(tag => tag.match(/[\/\\]/))) return false;
+    if (article.series.match(/[\/\\]/)) return false;
+
     try {
         await prisma.post.create({
             data: {

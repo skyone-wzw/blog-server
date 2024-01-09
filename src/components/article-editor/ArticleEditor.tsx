@@ -53,8 +53,19 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
             alert("链接只能包含小写字母、数字和连字符");
             return;
         }
-        if (slug === "new") {
-            alert("链接不能为 new");
+        if (slug === "new" || slug === "index") {
+            // 不是不能正确显示, 只是不能正确静态导出
+            alert("链接不能为 new 或 index");
+            return;
+        }
+        if (tags.match(/[\/\\]/)) {
+            // 不是不能正确显示, 只是 Windows 下不能正确静态导出, Linux 下没问题
+            alert("标签不能包含 / 或 \\");
+            return;
+        }
+        if (series.match(/[\/\\]/)) {
+            // 同上
+            alert("系列不能包含 / 或 \\");
             return;
         }
 
