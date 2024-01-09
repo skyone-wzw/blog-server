@@ -20,7 +20,6 @@ async function ArticleEditorPage() {
         createdAt: new Date(),
         updatedAt: new Date(),
         content: "",
-        metadata: {}
     }
 
     return <ArticleEditor article={article} className="flex w-0"/>
