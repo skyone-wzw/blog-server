@@ -37,7 +37,7 @@ type BlockquoteProps = DetailedHTMLProps<BlockquoteHTMLAttributes<HTMLQuoteEleme
 
 function Blockquote({children, className, ...other}: BlockquoteProps) {
     return (
-        <blockquote className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4", className)}
+        <blockquote className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4 rounded", className)}
                     {...other}>{children}</blockquote>
     );
 
@@ -174,7 +174,7 @@ type TableProps = DetailedHTMLProps<HTMLAttributes<HTMLTableElement>, HTMLTableE
 function Table({children, className, ...other}: TableProps) {
     return (
         <table
-            className={clsx("mb-4 block border border-bg-tag w-[max-content] overflow-auto xc-scroll max-w-full text-left text-text-content", className)} {...other}>{children}</table>
+            className={clsx("mb-4 border w-[max-content] border-bg-tag overflow-auto xc-scroll max-w-full text-text-content", className)} {...other}>{children}</table>
     );
 }
 

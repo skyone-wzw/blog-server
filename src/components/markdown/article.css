@@ -1,11 +1,156 @@
-p:has(> img.optimize-image) {
+.quote-alert {
+    --bg-tag: #00000016;
+    --code-bg: #ffffffaa;
+}
+
+.light .quote-alert {
+    --bg-tag: #00000016;
+    --code-bg: #ffffffaa;
+}
+
+.dark .quote-alert {
+    --bg-tag: #ffffff16;
+    --code-bg: #00000033;
+}
+
+@media (prefers-color-scheme: dark) {
+    .quote-alert {
+        --bg-tag: #ffffff16;
+        --code-bg: #00000033;
+    }
+}
+
+.quote-alert-title > svg {
+    display: inline;
+    fill: currentColor;
+    margin-right: 8px;
+}
+
+.quote-note {
+    --bg-quote: #eef9fd;
+    --border: #4cb3d4;
+}
+
+.light .quote-note {
+    --bg-quote: #eef9fd;
+    --border: #4cb3d4;
+}
+
+.dark .quote-note {
+    --bg-quote: #193c47;
+    --border: #4cb3d4;
+}
+
+@media (prefers-color-scheme: dark) {
+    .quote-note {
+        --bg-quote: #193c47;
+        --border: #4cb3d4;
+    }
+}
+
+.quote-tip {
+    --bg-quote: #e6f6e6;
+    --border: #009400;
+}
+
+.light .quote-tip {
+    --bg-quote: #e6f6e6;
+    --border: #009400;
+}
+
+.dark .quote-tip {
+    --bg-quote: #003100;
+    --border: #009400;
+}
+
+@media (prefers-color-scheme: dark) {
+    .quote-tip {
+        --bg-quote: #003100;
+        --border: #009400;
+    }
+}
+
+.quote-important {
+    --bg-quote: #eee6fa;
+    --border: #814ddb;
+}
+
+.light .quote-important {
+    --bg-quote: #eee6fa;
+    --border: #814ddb;
+}
+
+.dark .quote-important {
+    --bg-quote: #42286f;
+    --border: #814ddb;
+}
+
+@media (prefers-color-scheme: dark) {
+    .quote-important {
+        --bg-quote: #42286f;
+        --border: #814ddb;
+    }
+}
+
+.quote-warning {
+    --bg-quote: #fff8e6;
+    --border: #e6a700;
+}
+
+.light .quote-warning {
+    --bg-quote: #fff8e6;
+    --border: #e6a700;
+}
+
+.dark .quote-warning {
+    --bg-quote: #4d3800;
+    --border: #e6a700;
+}
+
+@media (prefers-color-scheme: dark) {
+    .quote-warning {
+        --bg-quote: #4d3800;
+        --border: #e6a700;
+    }
+}
+
+.quote-danger {
+    --bg-quote: #ffebec;
+    --border: #e13238;
+}
+
+.light .quote-danger {
+    --bg-quote: #ffebec;
+    --border: #e13238;
+}
+
+.dark .quote-danger {
+    --bg-quote: #4b1113;
+    --border: #e13238;
+}
+
+@media (prefers-color-scheme: dark) {
+    .quote-danger {
+        --bg-quote: #4b1113;
+        --border: #e13238;
+    }
+}
+
+:has(> img.optimize-image) {
     position: relative;
 }
 
-p:has(> img.optimize-image:only-child) {
+:has(> img.optimize-image:only-child) {
     aspect-ratio: 16 / 9;
     margin-right: auto;
     margin-left: auto;
+}
+
+:is(th, td) > img.optimize-image:only-child {
+    max-width: 100%;
+    height: unset!important;
+    width: unset!important;
+    position: static!important;
 }
 
 .katex-display {

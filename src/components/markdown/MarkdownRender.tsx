@@ -1,3 +1,4 @@
+import {BlockQuotePlugin} from "@/components/markdown/plugins";
 import {autoHeadingId, jsxConfig} from "@/components/markdown/tools";
 import {cache} from "react";
 import rehypeHighlight from "rehype-highlight";
@@ -18,6 +19,7 @@ export async function MarkdownRenderBase(content: string) {
         .use(remarkGfm)
         .use(remarkMath)
         .use(autoHeadingId)
+        .use(BlockQuotePlugin)
         .use(remarkRehype, {allowDangerousHtml: true})
         .use(rehypeKatex)
         .use(rehypeHighlight)

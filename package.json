@@ -15,6 +15,7 @@
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "clsx": "^2.0.0",
+    "mdast": "^3.0.0",
     "next": "14.0.4",
     "nextjs-toploader": "^1.6.4",
     "react": "^18",
@@ -28,7 +29,9 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.0.0",
     "sharp": "^0.33.1",
-    "unified": "^11.0.4"
+    "unified": "^11.0.4",
+    "unist-util-visit": "^5.0.0",
+    "vfile": "^6.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
