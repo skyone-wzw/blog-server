@@ -5,7 +5,7 @@ interface PublicPageLayoutProps {
     children: ReactNode;
 }
 
-function PublicPageLayout ({children}: PublicPageLayoutProps) {
+function PublicPageLayout({children}: PublicPageLayoutProps) {
     return (
         <>
             {children}

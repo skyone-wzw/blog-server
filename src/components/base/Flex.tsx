@@ -19,11 +19,11 @@ function Flex({grow, shrink, wrap, center, className, component, children}: Flex
     classes.push(center ? "justify-center" : "justify-start");
     classes.push(wrap ? "flex-wrap" : "flex-nowrap");
 
-    return  (
+    return (
         <Component className={clsx("flex items-stretch", classes, className)}>
             {children}
         </Component>
-    )
+    );
 }
 
 export default Flex;

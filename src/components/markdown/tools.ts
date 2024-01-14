@@ -55,7 +55,7 @@ export function autoHeadingId() {
                 node.data.hProperties.id = id;
             }
         });
-    }
+    };
 }
 
 export function getHeadingId(children: any): string {
@@ -71,7 +71,7 @@ export function getHeadingId(children: any): string {
         }
         return res.join("");
     } else if (typeof children === "string") {
-        return children
+        return children;
     } else if (children?.props?.children) {
         return getHeadingId(children?.props?.children);
     } else {

@@ -51,8 +51,12 @@ export function Database2Article<T extends { tags?: string }>(article: T): TypeR
         (article as T & { tags: string[] });
 }
 
-export function Article2Database<T extends { tags?: string[] }>(article: T): TypeReplaceIf<T, "tags", string[], string> {
-    return Array.isArray(article.tags) ? {...article, tags: article.tags.join(", ")} : (article as T & { tags: string });
+export function Article2Database<T extends {
+    tags?: string[]
+}>(article: T): TypeReplaceIf<T, "tags", string[], string> {
+    return Array.isArray(article.tags) ? {...article, tags: article.tags.join(", ")} : (article as T & {
+        tags: string
+    });
 }
 
 export const getAllArticlesMetadata = cache(async (published: boolean = true): Promise<ArticleMetadata[]> => {
@@ -400,7 +404,7 @@ export const getAdjacentArticleMetadata = cache(async (slug: string, published: 
             prev: prev && Database2Article(prev),
             next: next && Database2Article(next),
         };
-    })
+    });
 });
 
 export const getAllArticleCount = cache(async (published: boolean = true): Promise<number> => {

@@ -5,7 +5,7 @@ import {Article} from "@/lib/article";
 export const metadata = {
     title: `新建文章 - ${config.title}`,
     description: config.description,
-}
+};
 
 async function ArticleEditorPage() {
     const date = new Date();
@@ -20,9 +20,9 @@ async function ArticleEditorPage() {
         createdAt: new Date(),
         updatedAt: new Date(),
         content: "",
-    }
+    };
 
-    return <ArticleEditor article={article} className="flex w-0"/>
+    return <ArticleEditor article={article} className="flex w-0"/>;
 }
 
 export default ArticleEditorPage;

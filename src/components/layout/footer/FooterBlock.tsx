@@ -9,7 +9,7 @@ function FooterBlock({children}: FooterBlockProps) {
         <div className="mt-2">
             {children}
         </div>
-    )
+    );
 }
 
 export default FooterBlock;

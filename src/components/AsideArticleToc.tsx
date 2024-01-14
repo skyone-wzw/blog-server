@@ -20,7 +20,7 @@ function AsideArticleToc({className, toc}: AsideArticleTocProps) {
                 {toc}
             </div>
         </Paper>
-    )
+    );
 }
 
 export default AsideArticleToc;

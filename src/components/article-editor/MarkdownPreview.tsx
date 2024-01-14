@@ -34,9 +34,10 @@ function MarkdownPreview({content}: MarkdownPreviewProps) {
             waiter.current = now;
             setTimeout(() => {
                 if (now === waiter.current) {
-                    render(content).then(setElements).catch(() => {});
+                    render(content).then(setElements).catch(() => {
+                    });
                 }
-            }, 500)
+            }, 500);
         }
     }, [render, content]);
 

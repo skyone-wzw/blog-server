@@ -6,7 +6,7 @@ import {notFound} from "next/navigation";
 interface PaginationPageProps {
     params: {
         page: string;
-    }
+    };
 }
 
 async function PaginationPage({params}: PaginationPageProps) {

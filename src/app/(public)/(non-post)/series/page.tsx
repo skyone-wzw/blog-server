@@ -6,7 +6,7 @@ import Link from "next/link";
 export const metadata = {
     title: `全部分类 - ${config.title}`,
     description: `${config.description}。所有文章分类。`,
-}
+};
 
 function formatDate(date: Date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;

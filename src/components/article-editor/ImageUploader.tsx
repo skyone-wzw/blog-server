@@ -23,12 +23,12 @@ function ImageUploader({className}: ImageUploaderProps) {
 
     const handleChangeFile = () => {
         setResult("");
-    }
+    };
 
     const copyToClipboard = () => {
         if (!result) return;
         navigator.clipboard.writeText(`![](${result})`);
-    }
+    };
 
     return (
         <Paper className={className}>
@@ -39,7 +39,8 @@ function ImageUploader({className}: ImageUploaderProps) {
                     className="block w-full p-6 text-sm text-text-content border rounded-lg cursor-pointer bg-bg-light dark:text-gray-400 focus:outline-none"
                     id="article-editor-upload-image" name="file" type="file"
                     accept="image/webp,image/png,image/jpeg"/>
-                <pre className="text-sm overflow-auto text-text-content flex flex-row justify-between items-center gap-x-1">
+                <pre
+                    className="text-sm overflow-auto text-text-content flex flex-row justify-between items-center gap-x-1">
                     <p className="flex-grow w-0 overflow-x-auto xc-scroll">{result ? `上传成功: ${result}` : isLoading ? "上传中..." : "\xa0"}</p>
                     {result && (
                         <button

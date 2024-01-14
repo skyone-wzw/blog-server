@@ -96,23 +96,23 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
             result = await SaveArticleAction(patchArticle);
         }
         if (result) {
-            router.replace(`/editor/${slug}`)
+            router.replace(`/editor/${slug}`);
         } else {
-            alert("保存失败")
+            alert("保存失败");
         }
         setIsLoading(false);
-    }, [article, slug, title, description, content, series, tags, router])
+    }, [article, slug, title, description, content, series, tags, router]);
 
     const handleDeleteArticle = async () => {
         if (article.id) {
             const result = await DeleteArticleAction(article.id);
             if (result) {
-                router.replace("/editor")
+                router.replace("/editor");
             } else {
-                alert("删除失败")
+                alert("删除失败");
             }
         }
-    }
+    };
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -150,8 +150,10 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
                         编辑信息
                     </button>
-                    <Dialog className="flex flex-col justify-center items-center p-2" open={isEditInfo} onClose={() => setIsEditInfo(false)}>
-                        <Paper className="p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
+                    <Dialog className="flex flex-col justify-center items-center p-2" open={isEditInfo}
+                            onClose={() => setIsEditInfo(false)}>
+                        <Paper
+                            className="p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
                             <div className="pb-4 text-text-main">编辑信息</div>
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-slug"

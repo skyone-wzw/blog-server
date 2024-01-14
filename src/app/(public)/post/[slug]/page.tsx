@@ -2,10 +2,10 @@ import ArticleFloatingButton from "@/components/ArticleFloatingButton";
 import ArticleFooterAdjacentNavigation from "@/components/ArticleFooterAdjacentNavigation";
 import ArticleFooterInfo from "@/components/ArticleFooterInfo";
 import Paper from "@/components/base/Paper";
-import config from "@/config";
-import {getArticleBySlug} from "@/lib/article";
 import MarkdownRender from "@/components/markdown/MarkdownRender";
 import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
+import config from "@/config";
+import {getArticleBySlug} from "@/lib/article";
 import Image from "next/image";
 import Link from "next/link";
 import {notFound} from "next/navigation";
@@ -63,13 +63,14 @@ async function PostPage({params}: PostPageProps) {
 
     if (!article) return notFound();
 
-    const toc = await ParseArticleTitle(article.content)
+    const toc = await ParseArticleTitle(article.content);
 
     return (
         <>
             <Paper className="space-y-3 md:space-y-4">
-                <Image className="w-full aspect-[130/63] rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-                       src={`/api/cover/${slug}`} alt="cover" width={1300} height={630} priority/>
+                <Image
+                    className="w-full aspect-[130/63] rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                    src={`/api/cover/${slug}`} alt="cover" width={1300} height={630} priority/>
                 <h1 className="px-4 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
                 <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap justify-between">
                     <div>
@@ -79,7 +80,8 @@ async function PostPage({params}: PostPageProps) {
                             day: "numeric",
                         })}</time>
                         <span className="mx-1 after:content-['·']"></span>
-                        <Link className="hover:text-link-hover" href={`/series/${encodeURIComponent(article.series)}`}>{article.series}</Link>
+                        <Link className="hover:text-link-hover"
+                              href={`/series/${encodeURIComponent(article.series)}`}>{article.series}</Link>
                     </div>
                     <Link className="hover:text-link-hover" href={`/editor/${article.slug}`}>编辑</Link>
                 </div>

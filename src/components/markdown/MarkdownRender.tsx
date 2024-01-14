@@ -48,7 +48,7 @@ export async function MarkdownRenderBase(content: string) {
                 td: Components.Td,
                 tr: Components.Tr,
                 ul: Components.Ul,
-            }
+            },
         })
         .process(content);
     return elements.result;

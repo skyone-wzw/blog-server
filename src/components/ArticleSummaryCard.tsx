@@ -38,7 +38,10 @@ function ArticleSummaryCard({className, article}: ArticleSummaryCardProps) {
                     <div>
                         <time>{formatDate(article.createdAt)}</time>
                         <span className="mx-1 after:content-['·']"></span>
-                        <Link className="text-text-content hover:underline hover:text-link-hover" href={`/series/${encodeURIComponent(article.series)}`}>{article.series}</Link>
+                        <Link className="text-text-content hover:underline hover:text-link-hover"
+                              href={`/series/${encodeURIComponent(article.series)}`}>
+                            {article.series}
+                        </Link>
                     </div>
                     <Link className="text-link-content hover:text-link-hover" href={`/post/${article.slug}`}>
                         继续阅读

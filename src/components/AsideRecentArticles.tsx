@@ -8,7 +8,7 @@ interface AsideRecentArticlesProps {
 }
 
 async function AsideRecentArticles({className}: AsideRecentArticlesProps) {
-    const articles = await getRecentArticles({limit: 8})
+    const articles = await getRecentArticles({limit: 8});
     return (
         <Paper className={clsx("p-4 text-sm", className)}>
             <p className="text-text-subnote">最近文章</p>

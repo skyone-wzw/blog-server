@@ -9,7 +9,8 @@ export function BlockQuotePlugin() {
         important: "M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z",
         warning: "M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z",
         caution: "M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z",
-    }
+    };
+
     function makeSvg(type: keyof typeof paths) {
         return {
             type: "element",
@@ -30,8 +31,8 @@ export function BlockQuotePlugin() {
                         d: paths[type],
                     },
                 },
-                children: []
-            }]
+                children: [],
+            }],
         };
     }
 
@@ -44,111 +45,111 @@ export function BlockQuotePlugin() {
                 node.data.hProperties = node.data.hProperties || {};
                 node.data.hProperties.className = node.data.hProperties.className || [];
                 if (text.value.match(/^\[!NOTE]/i)) {
-                    (node.data.hProperties.className as Array<string>).push("quote-note", "quote-alert")
+                    (node.data.hProperties.className as Array<string>).push("quote-note", "quote-alert");
                     text.value = text.value.replace(/^\[!NOTE]\s*/i, "");
                     const noteNode = {
                         type: "element",
                         data: {
                             hName: "p",
                             hProperties: {
-                                className: ["quote-alert-title", "text-sm", "font-bold"]
+                                className: ["quote-alert-title", "text-sm", "font-bold"],
                             },
                         },
                         children: [
                             makeSvg("note"),
                             {
                                 type: "text",
-                                value: "NOTE"
-                            }
-                        ]
+                                value: "NOTE",
+                            },
+                        ],
                     } as any;
                     node.children.unshift(noteNode);
                 }
                 if (text.value.match(/^\[!TIP]/i)) {
-                    (node.data.hProperties.className as Array<string>).push("quote-tip", "quote-alert")
+                    (node.data.hProperties.className as Array<string>).push("quote-tip", "quote-alert");
                     text.value = text.value.replace(/^\[!TIP]\s*/i, "");
                     const tipNode = {
                         type: "element",
                         data: {
                             hName: "p",
                             hProperties: {
-                                className: ["quote-alert-title", "text-sm", "font-bold"]
+                                className: ["quote-alert-title", "text-sm", "font-bold"],
                             },
                         },
                         children: [
                             makeSvg("tip"),
                             {
                                 type: "text",
-                                value: "TIP"
-                            }
-                        ]
+                                value: "TIP",
+                            },
+                        ],
                     } as any;
                     node.children.unshift(tipNode);
                 }
                 if (text.value.match(/^\[!IMPORTANT]/i)) {
-                    (node.data.hProperties.className as Array<string>).push("quote-important", "quote-alert")
+                    (node.data.hProperties.className as Array<string>).push("quote-important", "quote-alert");
                     text.value = text.value.replace(/^\[!IMPORTANT]\s*/i, "");
                     const infoNode = {
                         type: "element",
                         data: {
                             hName: "p",
                             hProperties: {
-                                className: ["quote-alert-title", "text-sm", "font-bold"]
+                                className: ["quote-alert-title", "text-sm", "font-bold"],
                             },
                         },
                         children: [
                             makeSvg("important"),
                             {
                                 type: "text",
-                                value: "IMPORTANT"
-                            }
-                        ]
+                                value: "IMPORTANT",
+                            },
+                        ],
                     } as any;
                     node.children.unshift(infoNode);
                 }
                 if (text.value.match(/^\[!WARNING]/i)) {
-                    (node.data.hProperties.className as Array<string>).push("quote-warning", "quote-alert")
+                    (node.data.hProperties.className as Array<string>).push("quote-warning", "quote-alert");
                     text.value = text.value.replace(/^\[!WARNING]\s*/i, "");
                     const warningNode = {
                         type: "element",
                         data: {
                             hName: "p",
                             hProperties: {
-                                className: ["quote-alert-title", "text-sm", "font-bold"]
+                                className: ["quote-alert-title", "text-sm", "font-bold"],
                             },
                         },
                         children: [
                             makeSvg("warning"),
                             {
                                 type: "text",
-                                value: "WARNING"
-                            }
-                        ]
+                                value: "WARNING",
+                            },
+                        ],
                     } as any;
                     node.children.unshift(warningNode);
                 }
                 if (text.value.match(/^\[!CAUTION]/i)) {
-                    (node.data.hProperties.className as Array<string>).push("quote-danger", "quote-alert")
+                    (node.data.hProperties.className as Array<string>).push("quote-danger", "quote-alert");
                     text.value = text.value.replace(/^\[!CAUTION]\s*/i, "");
                     const dangerNode = {
                         type: "element",
                         data: {
                             hName: "p",
                             hProperties: {
-                                className: ["quote-alert-title", "text-sm", "font-bold"]
+                                className: ["quote-alert-title", "text-sm", "font-bold"],
                             },
                         },
                         children: [
                             makeSvg("caution"),
                             {
                                 type: "text",
-                                value: "CAUTION"
-                            }
-                        ]
+                                value: "CAUTION",
+                            },
+                        ],
                     } as any;
                     node.children.unshift(dangerNode);
                 }
             }
         });
-    }
+    };
 }

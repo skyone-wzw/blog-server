@@ -14,13 +14,13 @@ interface ArticleFloatingButtonProps {
 function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
     const [openToc, setOpenToc] = useState(false);
 
-    const handleToggleToc = () => setOpenToc(prev => !prev)
+    const handleToggleToc = () => setOpenToc(prev => !prev);
 
     const scrollToTop: MouseEventHandler<HTMLAnchorElement> = (e) => {
         e.preventDefault();
 
         window.scrollTo({top: 0, behavior: "smooth"});
-    }
+    };
 
     return (
         <div className={clsx("fixed z-10 flex flex-col right-4 bottom-4 lg:right-8 lg:bottom-8 space-y-2", className)}>

@@ -14,7 +14,7 @@ const autoScroll = (targetId: string): MouseEventHandler<HTMLAnchorElement> => (
         const scrollY = target.offsetTop - header.clientHeight - 4;
         window.scrollTo({top: scrollY, behavior: "smooth"});
     }
-}
+};
 
 function HeadingLink2({id, children}: HeadingLinkProps) {
     const targetId = id || getHeadingId(children);
@@ -34,4 +34,4 @@ function HeadingLink3({id, children}: HeadingLinkProps) {
     );
 }
 
-export {HeadingLink2, HeadingLink3}
+export {HeadingLink2, HeadingLink3};

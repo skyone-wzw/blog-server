@@ -10,7 +10,7 @@ import {getArticleBySlug} from "@/lib/article";
 interface PostLeftPageProps {
     params: {
         slug: string;
-    }
+    };
 }
 
 async function PostLeftPage({params}: PostLeftPageProps) {
@@ -19,7 +19,7 @@ async function PostLeftPage({params}: PostLeftPageProps) {
 
     if (!article) return null;
 
-    const toc = await ParseArticleTitle(article.content)
+    const toc = await ParseArticleTitle(article.content);
 
     return (
         <>

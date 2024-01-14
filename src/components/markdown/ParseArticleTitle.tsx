@@ -7,8 +7,8 @@ import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import {unified} from "unified";
-import * as Components from "./Components";
 import * as ClientComponents from "./ClientComponents";
+import * as Components from "./Components";
 
 const ParseArticleTitle = cache(async (content: string) => {
     const elements = await unified()

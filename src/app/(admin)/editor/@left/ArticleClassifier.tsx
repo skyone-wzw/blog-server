@@ -64,7 +64,8 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
                     </button>
                     <p className="px-2 py-1 text-text-subnote text-sm">按系列分类:</p>
                     {all.series.map(series => (
-                        <button key={series} className={clsx("block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover", selected.value === series && "bg-bg-hover")}
+                        <button key={series}
+                                className={clsx("block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover", selected.value === series && "bg-bg-hover")}
                                 onClick={() => setSelection({type: "series", value: series})}>
                             {series}
                         </button>
@@ -117,13 +118,15 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
     }).sort((a, b) => -(a.createdAt.getTime() - b.createdAt.getTime()));
 
     return (
-        <aside className={clsx("w-full lg:w-80 m-2 flex-col space-y-2", isSelectPage ? "flex" : "hidden lg:flex", className)}>
+        <aside
+            className={clsx("w-full lg:w-80 m-2 flex-col space-y-2", isSelectPage ? "flex" : "hidden lg:flex", className)}>
             <DropdownSelector all={{tags, series, years}} selected={selected} setSelection={setSelected}/>
             <Paper className="py-4 flex-grow h-0">
                 <p className="px-4 text-text-subnote text-sm">{selectedLabel}</p>
                 <div className="px-2.5 divide-y divide-dashed divide-bg-tag max-h-full overflow-auto xc-scroll">
                     {selected.type === "all" && (
-                        <Link href="/editor/new" className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover">
+                        <Link href="/editor/new"
+                              className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover">
                             新建文章
                         </Link>
                     )}

@@ -130,8 +130,8 @@ function Img({className, alt, src, ...other}: ImgProps) {
         return (
             // @ts-ignore
             <Image className={clsx("mx-auto object-contain optimize-image", className)}
-                   // 对于透明图片效果很差, 暂时不使用
-                   // blurDataURL={`/_next/image?url=${encodeURIComponent(src)}&w=8&q=75`} placeholder="blur"
+                // 对于透明图片效果很差, 暂时不使用
+                // blurDataURL={`/_next/image?url=${encodeURIComponent(src)}&w=8&q=75`} placeholder="blur"
                    fill alt={alt} src={src} {...other}/>
         );
     }
@@ -219,5 +219,27 @@ function Ul({children, className, ...other}: UlProps) {
 }
 
 export {
-    A, AInNavBar, Blockquote, Code, Em, H1, H2, H3, H4, H5, H6, Hr, Img, Ol, P, Pre, Strong, Table, THead, Th, Td, Tr, Ul,
+    A,
+    AInNavBar,
+    Blockquote,
+    Code,
+    Em,
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6,
+    Hr,
+    Img,
+    Ol,
+    P,
+    Pre,
+    Strong,
+    Table,
+    THead,
+    Th,
+    Td,
+    Tr,
+    Ul,
 };

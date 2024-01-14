@@ -6,7 +6,7 @@ import Link from "next/link";
 export const metadata = {
     title: `全部标签 - ${config.title}`,
     description: `${config.description}。所有标签汇总。`,
-}
+};
 
 async function TagsPage() {
     const tagsInfo = (await getAllTags())
@@ -25,7 +25,7 @@ async function TagsPage() {
                 ))}
             </div>
         </Paper>
-    )
+    );
 }
 
 export default TagsPage;

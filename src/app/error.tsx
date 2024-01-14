@@ -2,14 +2,14 @@
 
 import AppFooter from "@/components/layout/footer/AppFooter";
 
-function ErrorIcon({className}: { className?: string}) {
+function ErrorIcon({className}: { className?: string }) {
     return (
         <svg fill="currentColor" viewBox="0 0 24 24" className={className}
              height="24px" width="24px" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
         </svg>
-    )
+    );
 }
 
 interface ErrorPageProps {
@@ -22,7 +22,8 @@ function ErrorPage({error, reset}: ErrorPageProps) {
         <>
             <section className="row-start-2 col-span-full h-full pb-6 px-4 flex flex-col justify-center items-center">
                 <ErrorIcon className="w-16 h-16 text-text-content fill-current"/>
-                <div className="mt-6 text-center max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] justify-center items-center">
+                <div
+                    className="mt-6 text-center max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] justify-center items-center">
                     <p className="mb-4 text-2xl text-text-main">出现未知错误</p>
                     <p className="mb-2 font-mono text-md text-text-subnote">{error.message}</p>
                     {error.digest &&
@@ -44,7 +45,7 @@ function ErrorPage({error, reset}: ErrorPageProps) {
             </section>
             <AppFooter/>
         </>
-    )
+    );
 }
 
 export default ErrorPage;

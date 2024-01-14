@@ -7,7 +7,7 @@ import {notFound} from "next/navigation";
 interface SeriesPageProps {
     params: {
         series: string;
-    }
+    };
 }
 
 export const generateMetadata = ({params}: SeriesPageProps) => {
@@ -15,8 +15,8 @@ export const generateMetadata = ({params}: SeriesPageProps) => {
     return {
         title: `分类: ${series} - ${config.title}`,
         description: `${config.description}。${series}系列文章。`,
-    }
-}
+    };
+};
 
 async function SeriesPage({params}: SeriesPageProps) {
     const series = decodeURIComponent(params.series);

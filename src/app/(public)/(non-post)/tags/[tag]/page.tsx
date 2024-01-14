@@ -15,8 +15,8 @@ export const generateMetadata = ({params}: TagDetailPageProps) => {
     return {
         title: `标签: ${tag} - ${config.title}`,
         description: `${config.description}。包含 ${tag} 标签的所有文章。`,
-    }
-}
+    };
+};
 
 async function TagDetailPage({params}: TagDetailPageProps) {
     const tag = decodeURIComponent(params.tag);
@@ -34,7 +34,7 @@ async function TagDetailPage({params}: TagDetailPageProps) {
                 <ArticleSummaryCard article={article} key={article.slug}/>
             ))}
         </>
-    )
+    );
 }
 
 export default TagDetailPage;

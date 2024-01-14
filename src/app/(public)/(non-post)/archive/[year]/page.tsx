@@ -15,8 +15,8 @@ export const generateMetadata = ({params}: YearArchivePageProps) => {
     return {
         title: `归档: ${year} 年 - ${config.title}`,
         description: `${config.description}。${year} 年所有文章的归档。`,
-    }
-}
+    };
+};
 
 async function YearArchivePage({params}: YearArchivePageProps) {
     const {year} = params;
