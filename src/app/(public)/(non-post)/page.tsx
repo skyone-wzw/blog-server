@@ -1,5 +1,5 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
-import MainPagePagination from "@/components/MainPagePagination";
+import FooterPagination from "@/components/FooterPagination";
 import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticles} from "@/lib/article";
 
 async function HomePage() {
@@ -12,7 +12,10 @@ async function HomePage() {
             {articles.map((article) => (
                 <ArticleSummaryCard article={article} key={article.slug}/>
             ))}
-            <MainPagePagination current={1} total={total}/>
+            <FooterPagination current={1} total={total} getLink={(page) => {
+                if (total === 1) return "/";
+                return `/page/${page}`;
+            }}/>
         </>
     );
 }

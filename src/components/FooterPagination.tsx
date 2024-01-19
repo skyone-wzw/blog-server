@@ -1,12 +1,15 @@
 import Link from "next/link";
 import {ReactNode} from "react";
 
+type Page2Link = (page: number) => string;
+
 interface MainPagePaginationProps {
     current: number;
     total: number;
+    getLink: Page2Link;
 }
 
-function pagination(current: number, total: number): ReactNode {
+function paginationElements(current: number, total: number): (number | "...")[] {
     const result: (number | "...")[] = [];
 
     if (total <= 4) {
@@ -41,24 +44,25 @@ function pagination(current: number, total: number): ReactNode {
         }
     }
 
-    return paginationToLinks(current, result);
+    return result;
 }
 
-function paginationToLinks(current: number, list: (number | "...")[]): ReactNode {
+function pagination(current: number, total: number, getLink: Page2Link): ReactNode {
+    const list = paginationElements(current, total);
     return list.map((item, index) => (
         item === "..." ? (
             <span key={`page-${index}`}>...</span>
         ) : (
             <Link
                 className={`text-text-content bg-bg-light text-sm py-2 px-4 rounded-lg ${item === current ? "bg-bg-tag" : "hover:text-link-hover"}`}
-                key={`page-${index}`} href={item === 1 ? "/" : `/page/${item}`}>
+                key={`page-${index}`} href={getLink(item)}>
                 {item}
             </Link>
         )
     ));
 }
 
-function MainPagePagination({current, total}: MainPagePaginationProps) {
+function FooterPagination({current, total, getLink}: MainPagePaginationProps) {
     if (total <= 1) return null;
     return (
         <div className="flex flex-row flex-nowrap justify-between items-center">
@@ -66,7 +70,7 @@ function MainPagePagination({current, total}: MainPagePaginationProps) {
                 <div className="w-16"/>
             ) : (
                 <Link className="text-text-content bg-bg-light text-sm p-2 rounded-lg hover:text-link-hover"
-                      href={current === 2 ? `/` : `/page/${current - 1}`}>
+                      href={current === 2 ? getLink(1) : getLink(current - 1)}>
                     上一页
                 </Link>
             )}
@@ -74,13 +78,13 @@ function MainPagePagination({current, total}: MainPagePaginationProps) {
                 {current} / {total}
             </span>
             <div className="hidden lg:flex flex-row flex-nowrap items-center space-x-2">
-                {pagination(current, total)}
+                {pagination(current, total, getLink)}
             </div>
             {current === total ? (
                 <div className="w-16"/>
             ) : (
                 <Link className="text-text-content bg-bg-light text-sm p-2 rounded-lg hover:text-link-hover"
-                      href={`/page/${current + 1}`}>
+                      href={getLink(current + 1)}>
                     下一页
                 </Link>
             )}
@@ -88,4 +92,4 @@ function MainPagePagination({current, total}: MainPagePaginationProps) {
     );
 }
 
-export default MainPagePagination;
+export default FooterPagination;

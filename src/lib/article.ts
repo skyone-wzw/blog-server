@@ -203,7 +203,7 @@ interface GetRecentArticlesOptions {
     page?: number;
 }
 
-export const getRecentArticles = cache(async (options: GetRecentArticlesOptions = {}): Promise<ArticleMetadata[]> => {
+export const getRecentArticles = cache(async (options: GetRecentArticlesOptions = {published: true}): Promise<ArticleMetadata[]> => {
     const where = options.published ? {published: options.published} : {};
     const take = options.limit ? options.limit : DEFAULT_ARTICLE_PER_PAGE;
     const skip = options.page ? (options.page - 1) * take : 0;
@@ -288,6 +288,51 @@ export const getArticlesByYear = cache(async (year: number, published: boolean =
         select: ArticleMetadataSelector,
     });
     return articles.map(Database2Article);
+});
+
+interface GetArticlesByYearPaginateOptions {
+    published?: boolean;
+    limit?: number;
+    page?: number;
+}
+
+export const getArticlesByYearPaginate = cache(async (year: number, options: GetArticlesByYearPaginateOptions = {published: true}) => {
+    const {published, limit, page} = options;
+    const start = new Date(year, 0, 1);
+    const end = new Date(year + 1, 0, 1);
+    const where = {
+        createdAt: {
+            gte: start,
+            lt: end,
+        },
+        published: published ? published : undefined,
+    };
+    const take = limit ? limit : DEFAULT_ARTICLE_PER_PAGE;
+    const skip = page ? (page - 1) * take : 0;
+    const articles = await prisma.post.findMany({
+        where: where,
+        orderBy: {
+            createdAt: "desc",
+        },
+        skip: skip,
+        take: take,
+        select: ArticleMetadataSelector,
+    });
+    return articles.map(Database2Article);
+});
+
+export const getArticleCountByYear = cache(async (year: number, published: boolean = true): Promise<number> => {
+    const start = new Date(year, 0, 1);
+    const end = new Date(year + 1, 0, 1);
+    return prisma.post.count({
+        where: {
+            createdAt: {
+                gte: start,
+                lt: end,
+            },
+            published: published ? published : undefined,
+        },
+    });
 });
 
 interface AdjacentArticle {

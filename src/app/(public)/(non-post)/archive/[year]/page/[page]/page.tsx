@@ -5,25 +5,28 @@ import config from "@/config";
 import {DEFAULT_ARTICLE_PER_PAGE, getArticleCountByYear, getArticlesByYearPaginate} from "@/lib/article";
 import {notFound} from "next/navigation";
 
-interface YearArchivePageProps {
+interface ArchivePaginationPageProps {
     params: {
         year: string;
+        page: string;
     };
 }
 
-export const generateMetadata = ({params}: YearArchivePageProps) => {
+export const generateMetadata = ({params}: ArchivePaginationPageProps) => {
     const year = parseInt(params.year);
     return {
         title: `归档: ${year} 年 - ${config.title}`,
-        description: `${config.description}。${year} 年所有文章的归档。`,
+        description: `${config.description}。${year} 年所有文章的归档。第 ${params.page} 页。`,
     };
 };
 
-async function YearArchivePage({params}: YearArchivePageProps) {
-    const {year: _year} = params;
+async function ArchivePaginationPage({params}: ArchivePaginationPageProps) {
+    const {year: _year, page: _page} = params;
     if (isNaN(parseInt(_year))) return notFound();
+    if (isNaN(parseInt(_page))) return notFound();
     const year = parseInt(_year);
-    const articles = await getArticlesByYearPaginate(year);
+    const page = parseInt(_page);
+    const articles = await getArticlesByYearPaginate(year, {page});
 
     if (articles.length === 0) return notFound();
 
@@ -39,12 +42,12 @@ async function YearArchivePage({params}: YearArchivePageProps) {
             {articles.map((article) => (
                 <ArticleSummaryCard article={article} key={article.slug}/>
             ))}
-            <FooterPagination current={1} total={total} getLink={(page) => {
+            <FooterPagination current={page} total={total} getLink={(page) => {
                 if (total === 1) return `/archive/${year}`;
                 return `/archive/${year}/page/${page}`;
             }}/>
         </>
-    );
+    )
 }
 
-export default YearArchivePage;
+export default ArchivePaginationPage;
