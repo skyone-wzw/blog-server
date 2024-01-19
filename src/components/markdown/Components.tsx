@@ -37,7 +37,7 @@ type BlockquoteProps = DetailedHTMLProps<BlockquoteHTMLAttributes<HTMLQuoteEleme
 
 function Blockquote({children, className, ...other}: BlockquoteProps) {
     return (
-        <blockquote className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4 rounded", className)}
+        <blockquote className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4 rounded quote-alert", className)}
                     {...other}>{children}</blockquote>
     );
 

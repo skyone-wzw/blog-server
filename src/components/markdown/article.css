@@ -1,21 +1,21 @@
 .quote-alert {
-    --bg-tag: #00000016;
+    --bg-tag: #0000000f;
     --code-bg: #ffffffaa;
 }
 
 .light .quote-alert {
-    --bg-tag: #00000016;
+    --bg-tag: #0000000f;
     --code-bg: #ffffffaa;
 }
 
 .dark .quote-alert {
-    --bg-tag: #ffffff16;
+    --bg-tag: #ffffff0f;
     --code-bg: #00000033;
 }
 
 @media (prefers-color-scheme: dark) {
     .quote-alert {
-        --bg-tag: #ffffff16;
+        --bg-tag: #ffffff0f;
         --code-bg: #00000033;
     }
 }

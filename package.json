@@ -15,7 +15,6 @@
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "clsx": "^2.0.0",
-    "mdast": "^3.0.0",
     "next": "14.0.4",
     "nextjs-toploader": "^1.6.4",
     "react": "^18",

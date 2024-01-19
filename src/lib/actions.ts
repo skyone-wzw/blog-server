@@ -1,10 +1,9 @@
 "use server";
 
 import config from "@/config";
-import {Article2Database, ArticleCreate, ArticlePatch} from "@/lib/article";
+import {ArticleCreate, ArticlePatch, createArticle, deleteArticle, patchArticle} from "@/lib/article";
 import {generateToken, isUserLoggedIn} from "@/lib/auth";
 import {HASH} from "@/lib/encrypt";
-import prisma from "@/lib/prisma";
 import fs from "fs/promises";
 import {cookies} from "next/headers";
 import {redirect, RedirectType} from "next/navigation";
@@ -46,32 +45,11 @@ export async function SaveArticleAction(article: ArticlePatch) {
     if (article.tags?.some(tag => tag.match(/[\/\\]/))) return false;
     if (article.series?.match(/[\/\\]/)) return false;
 
-    const newArticle = Article2Database(article);
-    try {
-        await prisma.post.update({
-            where: {
-                id: article.id,
-            },
-            data: {
-                title: newArticle.title,
-                slug: newArticle.slug,
-                description: newArticle.description,
-                series: newArticle.series,
-                tags: newArticle.tags,
-                published: newArticle.published,
-                content: newArticle.content,
-                updatedAt: new Date(),
-            },
-        });
-        return true;
-    } catch (e) {
-        return false;
-    }
+    return await patchArticle(article);
 }
 
 export async function CreateArticleAction(article: ArticleCreate) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
-    const newArticle = Article2Database(article);
 
     if (!article.slug) return false;
     if (!article.slug.match(/^[a-z0-9-]+$/)) return false;
@@ -80,36 +58,13 @@ export async function CreateArticleAction(article: ArticleCreate) {
     if (article.tags.some(tag => tag.match(/[\/\\]/))) return false;
     if (article.series.match(/[\/\\]/)) return false;
 
-    try {
-        await prisma.post.create({
-            data: {
-                title: newArticle.title,
-                slug: newArticle.slug,
-                description: newArticle.description,
-                series: newArticle.series,
-                tags: newArticle.tags,
-                published: newArticle.published,
-                content: newArticle.content,
-            },
-        });
-        return true;
-    } catch (e) {
-        return false;
-    }
+    return await createArticle(article);
 }
 
 export async function DeleteArticleAction(id: string) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
-    try {
-        await prisma.post.delete({
-            where: {
-                id: id,
-            },
-        });
-        return true;
-    } catch (e) {
-        return false;
-    }
+
+    return await deleteArticle(id);
 }
 
 //type ContentType = "image/webp" | "image/png" | "image/jpeg";

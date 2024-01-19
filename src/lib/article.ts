@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import {ObjectPick} from "@/lib/type-utils";
 import {cache} from "react";
 
 export interface ArticleMetadata {
@@ -39,6 +40,31 @@ export interface ArticleCreate {
     content: string;
 }
 
+const ArticleSelector = {
+    id: true,
+    title: true,
+    slug: true,
+    description: true,
+    series: true,
+    tags: true,
+    published: true,
+    createdAt: true,
+    updatedAt: true,
+    content: true,
+};
+
+const ArticleMetadataSelector = {
+    id: true,
+    title: true,
+    slug: true,
+    description: true,
+    series: true,
+    tags: true,
+    published: true,
+    createdAt: true,
+    updatedAt: true,
+};
+
 // 如果 E[K] 是非可选 P 类型, 则将 E[K] 替换为 R 类型, 否则将 E[K] 替换为可选的 R 类型
 // 希望下次看到它的时候我能看懂 (2024-01-03)
 type TypeReplaceIf<E, K extends keyof E, P, R> = E[K] extends P ?
@@ -67,17 +93,7 @@ export const getAllArticlesMetadata = cache(async (published: boolean = true): P
         orderBy: {
             createdAt: "desc",
         },
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            series: true,
-            tags: true,
-            published: true,
-            createdAt: true,
-            updatedAt: true,
-        },
+        select: ArticleMetadataSelector,
     });
     return articles.map(Database2Article);
 });
@@ -198,17 +214,7 @@ export const getRecentArticles = cache(async (options: GetRecentArticlesOptions 
         },
         skip: skip,
         take: take,
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            series: true,
-            tags: true,
-            published: true,
-            createdAt: true,
-            updatedAt: true,
-        },
+        select: ArticleMetadataSelector,
     });
     return articles.map(Database2Article);
 });
@@ -219,18 +225,7 @@ export const getArticleBySlug = cache(async (slug: string, published: boolean = 
             slug: slug,
             published: published ? published : undefined,
         },
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            series: true,
-            tags: true,
-            published: true,
-            createdAt: true,
-            updatedAt: true,
-            content: true,
-        },
+        select: ArticleSelector,
     });
     return article && Database2Article(article);
 });
@@ -241,17 +236,7 @@ export const getArticleMetadataBySlug = cache(async (slug: string, published: bo
             slug: slug,
             published: published ? published : undefined,
         },
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            series: true,
-            tags: true,
-            published: true,
-            createdAt: true,
-            updatedAt: true,
-        },
+        select: ArticleMetadataSelector,
     });
     return article && Database2Article(article);
 });
@@ -265,17 +250,7 @@ export const getArticlesBySeries = cache(async (series: string, published: boole
         orderBy: {
             createdAt: "desc",
         },
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            series: true,
-            tags: true,
-            published: true,
-            createdAt: true,
-            updatedAt: true,
-        },
+        select: ArticleMetadataSelector,
     });
     return articles.map(Database2Article);
 });
@@ -291,17 +266,7 @@ export const getArticlesByTag = cache(async (tag: string, published: boolean = t
         orderBy: {
             createdAt: "desc",
         },
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            series: true,
-            tags: true,
-            published: true,
-            createdAt: true,
-            updatedAt: true,
-        },
+        select: ArticleMetadataSelector,
     });
     return articles.map(Database2Article);
 });
@@ -320,17 +285,7 @@ export const getArticlesByYear = cache(async (year: number, published: boolean =
         orderBy: {
             createdAt: "desc",
         },
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            description: true,
-            series: true,
-            tags: true,
-            published: true,
-            createdAt: true,
-            updatedAt: true,
-        },
+        select: ArticleMetadataSelector,
     });
     return articles.map(Database2Article);
 });
@@ -366,17 +321,7 @@ export const getAdjacentArticleMetadata = cache(async (slug: string, published: 
             orderBy: {
                 createdAt: "desc",
             },
-            select: {
-                id: true,
-                title: true,
-                slug: true,
-                description: true,
-                series: true,
-                tags: true,
-                published: true,
-                createdAt: true,
-                updatedAt: true,
-            },
+            select: ArticleMetadataSelector,
         });
         const next = await prisma.post.findFirst({
             where: {
@@ -388,17 +333,7 @@ export const getAdjacentArticleMetadata = cache(async (slug: string, published: 
             orderBy: {
                 createdAt: "asc",
             },
-            select: {
-                id: true,
-                title: true,
-                slug: true,
-                description: true,
-                series: true,
-                tags: true,
-                published: true,
-                createdAt: true,
-                updatedAt: true,
-            },
+            select: ArticleMetadataSelector,
         });
         return {
             prev: prev && Database2Article(prev),
@@ -413,4 +348,47 @@ export const getAllArticleCount = cache(async (published: boolean = true): Promi
             published: published ? published : undefined,
         },
     });
+});
+
+export const createArticle = cache(async (article: ArticleCreate) => {
+    try {
+        await prisma.post.create({
+            data: ObjectPick(Article2Database(article),
+                ["title", "slug", "description", "series", "tags", "published", "content"]),
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
+export const patchArticle = cache(async (article: ArticlePatch) => {
+    try {
+        await prisma.post.update({
+            where: {
+                id: article.id,
+            },
+            data: {
+                ...ObjectPick(Article2Database(article),
+                    ["title", "slug", "description", "series", "tags", "published", "content"]),
+                updatedAt: new Date(),
+            },
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
+export const deleteArticle = cache(async (id: string) => {
+    try {
+        await prisma.post.delete({
+            where: {
+                id: id,
+            },
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
 });
