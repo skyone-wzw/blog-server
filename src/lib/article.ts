@@ -203,7 +203,23 @@ interface GetRecentArticlesOptions {
     page?: number;
 }
 
-export const getRecentArticles = cache(async (options: GetRecentArticlesOptions = {published: true}): Promise<ArticleMetadata[]> => {
+export const getRecentArticles = cache(async (options: GetRecentArticlesOptions = {published: true}): Promise<Article[]> => {
+    const where = options.published ? {published: options.published} : {};
+    const take = options.limit ? options.limit : DEFAULT_ARTICLE_PER_PAGE;
+    const skip = options.page ? (options.page - 1) * take : 0;
+    const articles = await prisma.post.findMany({
+        where: where,
+        orderBy: {
+            createdAt: "desc",
+        },
+        skip: skip,
+        take: take,
+        select: ArticleSelector,
+    });
+    return articles.map(Database2Article);
+});
+
+export const getRecentArticlesMetadata = cache(async (options: GetRecentArticlesOptions = {published: true}): Promise<ArticleMetadata[]> => {
     const where = options.published ? {published: options.published} : {};
     const take = options.limit ? options.limit : DEFAULT_ARTICLE_PER_PAGE;
     const skip = options.page ? (options.page - 1) * take : 0;

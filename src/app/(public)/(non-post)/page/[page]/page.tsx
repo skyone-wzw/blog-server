@@ -1,6 +1,6 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import FooterPagination from "@/components/FooterPagination";
-import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticles} from "@/lib/article";
+import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticlesMetadata} from "@/lib/article";
 import {notFound} from "next/navigation";
 
 interface PaginationPageProps {
@@ -13,7 +13,7 @@ async function PaginationPage({params}: PaginationPageProps) {
     const {page: _page} = params;
     if (isNaN(parseInt(_page))) return notFound();
     const page = parseInt(_page);
-    const articles = await getRecentArticles({page, limit: DEFAULT_ARTICLE_PER_PAGE});
+    const articles = await getRecentArticlesMetadata({page, limit: DEFAULT_ARTICLE_PER_PAGE});
 
     if (articles.length === 0) return notFound();
 

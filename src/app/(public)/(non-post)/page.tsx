@@ -1,11 +1,11 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import FooterPagination from "@/components/FooterPagination";
-import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticles} from "@/lib/article";
+import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticlesMetadata} from "@/lib/article";
 
 async function HomePage() {
     const articlesCount = await getAllArticleCount();
     const total = Math.ceil(articlesCount / DEFAULT_ARTICLE_PER_PAGE);
-    const articles = await getRecentArticles({page: 1, limit: DEFAULT_ARTICLE_PER_PAGE});
+    const articles = await getRecentArticlesMetadata({page: 1, limit: DEFAULT_ARTICLE_PER_PAGE});
 
     return (
         <>
