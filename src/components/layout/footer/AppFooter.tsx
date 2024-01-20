@@ -1,11 +1,16 @@
 import Container from "@/components/base/Container";
 import FooterBlock from "@/components/layout/footer/FooterBlock";
 import YearNumber from "@/components/layout/footer/YearNumber";
+import clsx from "clsx";
 import Link from "next/link";
 
-function AppFooter() {
+interface AppFooterProps {
+    className?: string;
+}
+
+function AppFooter({className}: AppFooterProps) {
     return (
-        <footer className="bg-bg-light pt-12 pb-24 text-center md:px-6 row-start-3">
+        <footer className={clsx("bg-bg-light pt-12 pb-24 text-center md:px-6 row-start-3", className)}>
             <Container className="md:flex md:justify-between text-text-subnote">
                 <FooterBlock>
                     Copyright © 2020{" - "}<YearNumber/>

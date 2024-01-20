@@ -56,7 +56,7 @@ function RootLayout({children}: RootLayoutProps) {
             </head>
             <body className={clsx(inter.className, "pk-scroll")}>
                 <NextTopLoader color="#ec4899"/>
-                <AppHeader/>
+                <AppHeader className="row-start-1"/>
                 {children}
             </body>
         </html>

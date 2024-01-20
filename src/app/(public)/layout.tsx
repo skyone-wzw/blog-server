@@ -9,7 +9,7 @@ function PublicPageLayout({children}: PublicPageLayoutProps) {
     return (
         <>
             {children}
-            <AppFooter/>
+            <AppFooter className="row-start-3"/>
         </>
     );
 }

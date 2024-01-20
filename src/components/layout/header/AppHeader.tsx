@@ -4,6 +4,7 @@ import HeaderColorToggle from "@/components/layout/header/HeaderColorToggle";
 import HeaderLink from "@/components/layout/header/HeaderLink";
 import Logo from "@/components/layout/header/Logo";
 import config from "@/config";
+import clsx from "clsx";
 
 interface IconProps {
     className?: string;
@@ -29,10 +30,14 @@ function SearchIcon({className}: IconProps) {
     );
 }
 
-function AppHeader() {
+interface AppHeaderProps {
+    className?: string;
+}
+
+function AppHeader({className}: AppHeaderProps) {
     return (
         <header id="app-header"
-                className="sticky top-0 z-10 bg-bg-light text-text-content min-h-[48px] lg:px-4 shadow-md">
+                className={clsx("sticky top-0 z-10 bg-bg-light text-text-content min-h-[48px] lg:px-4 shadow-md", className)}>
             <Container className="lg:flex lg:items-stretch">
                 <Flex component="h1" center className="overflow-x-auto">
                     <HeaderLink href="/">
