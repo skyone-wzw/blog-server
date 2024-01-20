@@ -15,15 +15,15 @@ function MarkdownPreview({content}: MarkdownPreviewProps) {
 
     useEffect(() => {
         const start = Date.now();
-        import("@/components/markdown/MarkdownRender")
-            .then(({MarkdownRenderBase}) => {
+        import("@/components/markdown/ClientMarkdownRender")
+            .then(({default: MarkdownRender}) => {
                 const end = Date.now();
                 if (end - start < 500) {
                     setTimeout(() => {
-                        setRender(() => MarkdownRenderBase);
+                        setRender(() => MarkdownRender);
                     }, 500 - (end - start));
                 } else {
-                    setRender(() => MarkdownRenderBase);
+                    setRender(() => MarkdownRender);
                 }
             });
     }, []);

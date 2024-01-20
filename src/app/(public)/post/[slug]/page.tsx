@@ -2,7 +2,7 @@ import ArticleFloatingButton from "@/components/ArticleFloatingButton";
 import ArticleFooterAdjacentNavigation from "@/components/ArticleFooterAdjacentNavigation";
 import ArticleFooterInfo from "@/components/ArticleFooterInfo";
 import Paper from "@/components/base/Paper";
-import MarkdownRender from "@/components/markdown/MarkdownRender";
+import ServerMarkdownRender from "@/components/markdown/ServerMarkdownRender";
 import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
 import config from "@/config";
 import {getArticleBySlug} from "@/lib/article";
@@ -85,7 +85,7 @@ async function PostPage({params}: PostPageProps) {
                     </div>
                     <Link className="hover:text-link-hover" href={`/editor/${article.slug}`}>编辑</Link>
                 </div>
-                <div className="px-4 md:px-6 text-sm 2xl:text-base">{await MarkdownRender(article.content)}</div>
+                <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(article.content)}</div>
                 <ArticleFooterInfo article={article}/>
                 <ArticleFloatingButton toc={toc}/>
             </Paper>

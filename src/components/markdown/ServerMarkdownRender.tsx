@@ -1,6 +1,9 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
 import {autoHeadingId, jsxConfig} from "@/components/markdown/tools";
-import {cache} from "react";
+import {getImageMetadata} from "@/lib/images";
+import clsx from "clsx";
+import Image from "next/image";
+import {cache, DetailedHTMLProps, ImgHTMLAttributes} from "react";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -12,7 +15,38 @@ import remarkRehype from "remark-rehype";
 import {unified} from "unified";
 import * as Components from "./Components";
 
-export async function MarkdownRenderBase(content: string) {
+type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
+
+async function _Img({className, alt, src, ...other}: ImgProps) {
+    if (!src || !src.startsWith("/")) {
+        return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
+        );
+    } else {
+        alt = alt || "";
+        const metadata = await getImageMetadata(src);
+        if (metadata) {
+            return (
+                <span style={{aspectRatio: `${metadata.width} / ${metadata.height}`}} className="optimize-server-image">
+                    {/* @ts-ignore */}
+                    <Image className="max-w-full" src={src} alt={alt} height={metadata.height} width={metadata.width} {...other}/>
+                </span>
+            )
+        }
+        return (
+            // @ts-ignore
+            <Image className={clsx("mx-auto object-contain optimize-image", className)}
+                // 对于透明图片效果很差, 暂时不使用
+                // blurDataURL={`/_next/image?url=${encodeURIComponent(src)}&w=8&q=75`} placeholder="blur"
+                   fill alt={alt} src={src} {...other}/>
+        );
+    }
+}
+
+const SImg = _Img as unknown as (props: ImgProps) => JSX.Element;
+
+const ServerMarkdownRender = cache(async (content: string) => {
     const elements = await unified()
         .use(remarkParse)
         .use(remarkGfm)
@@ -37,7 +71,7 @@ export async function MarkdownRenderBase(content: string) {
                 h6: Components.H6,
                 hr: Components.Hr,
                 iframe: Components.IFrame,
-                img: Components.Img,
+                img: SImg,
                 ol: Components.Ol,
                 p: Components.P,
                 pre: Components.Pre,
@@ -52,8 +86,6 @@ export async function MarkdownRenderBase(content: string) {
         })
         .process(content);
     return elements.result;
-}
+});
 
-const MarkdownRender = cache(MarkdownRenderBase);
-
-export default MarkdownRender;
+export default ServerMarkdownRender;
