@@ -146,11 +146,11 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 </div>
                 <div>
                     <button
-                        onClick={() => setIsEditInfo(true)}
+                        onClick={() => setIsEditInfo(true)} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
                         编辑信息
                     </button>
-                    <Dialog className="flex flex-col justify-center items-center p-2" open={isEditInfo}
+                    <Dialog open={isEditInfo} blur
                             onClose={() => setIsEditInfo(false)}>
                         <Paper
                             className="p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
@@ -212,23 +212,23 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                             </div>
                             <button
                                 className="mt-2 w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
-                                onClick={() => setIsEditInfo(false)}>
+                                type="button" onClick={() => setIsEditInfo(false)}>
                                 确定
                             </button>
                         </Paper>
                     </Dialog>
                 </div>
-                <button onClick={() => setIsPreview(prev => !prev)}
+                <button onClick={() => setIsPreview(prev => !prev)} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover xl:hidden">
                     {isPreview ? "编辑" : "预览"}
                 </button>
                 <div>
                     <button
-                        onClick={() => setIsUploadImage(true)}
+                        onClick={() => setIsUploadImage(true)} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
                         上传图片
                     </button>
-                    <Dialog className="p-2 flex flex-col justify-center items-center" open={isUploadImage}
+                    <Dialog open={isUploadImage} blur
                             onClose={() => setIsUploadImage(false)}>
                         <ImageUploader className="max-w-full"/>
                     </Dialog>
@@ -241,7 +241,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                     </Link>
                 )}
                 <button
-                    onClick={handleSaveArticle} disabled={isLoading}
+                    onClick={handleSaveArticle} disabled={isLoading} type="button"
                     className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover">
                     保存
                 </button>
@@ -253,7 +253,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                     </DangerousButton>
                 )}
                 <button
-                    onClick={handleLogout}
+                    onClick={handleLogout} type="button"
                     className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
                     登出
                 </button>

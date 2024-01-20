@@ -47,7 +47,7 @@ function AppHeader() {
                         ))}
                     </Flex>
                     <Flex>
-                        <HeaderLink href="/editor"><EditIcon/></HeaderLink>
+                        <HeaderLink href="/editor" title="文章编辑器"><EditIcon/></HeaderLink>
                         <HeaderLink href="#" className="fill-current" ariaLabel="搜索"><SearchIcon/></HeaderLink>
                         <HeaderColorToggle/>
                     </Flex>

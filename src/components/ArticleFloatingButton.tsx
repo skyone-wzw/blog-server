@@ -23,7 +23,7 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
     };
 
     return (
-        <div className={clsx("fixed z-10 flex flex-col right-4 bottom-4 lg:right-8 lg:bottom-8 space-y-2", className)}>
+        <div className={clsx("fixed z-10 flex flex-col right-4 bottom-4 lg:right-8 lg:bottom-8 gap-y-2", className)}>
             {toc && (
                 <>
                     <div className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag hover:text-link-hover md:hidden"
@@ -34,8 +34,8 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
                             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                         </svg>
                     </div>
-                    <Dialog open={openToc} onClose={handleToggleToc} className="md:hidden flex flex-col-reverse p-4">
-                        <Paper className="p-4 text-sm">
+                    <Dialog open={openToc} onClose={handleToggleToc} className="md:hidden w-full m-0">
+                        <Paper className="fixed bottom-4 left-4 right-4 p-4 text-sm">
                             <p className="mb-3 text-text-subnote">文章目录</p>
                             <div className="p-1.5 overflow-auto xc-scroll floating-toc" onClick={handleToggleToc}>
                                 {toc}

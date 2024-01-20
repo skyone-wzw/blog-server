@@ -43,7 +43,7 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
             <div>
                 <button type="button" onClick={toggle}
                         className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
-                        id="menu-button" aria-expanded="true" aria-haspopup="true">
+                        id="menu-button" aria-expanded={isOpen} aria-haspopup={isOpen}>
                     过滤
                     <svg className="-mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
                          aria-hidden="true">
@@ -59,12 +59,13 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                 <div className="py-1 text-text-content overflow-y-auto xc-scroll article-dropdown-selector" role="none">
                     <button className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
+                            role="menuitem" type="button"
                             onClick={() => setSelection({type: "all", value: ""})}>
                         全部文章
                     </button>
                     <p className="px-2 py-1 text-text-subnote text-sm">按系列分类:</p>
                     {all.series.map(series => (
-                        <button key={series}
+                        <button key={series} role="menuitem" type="button"
                                 className={clsx("block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover", selected.value === series && "bg-bg-hover")}
                                 onClick={() => setSelection({type: "series", value: series})}>
                             {series}
@@ -72,14 +73,16 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
                     ))}
                     <p className="px-2 py-1 text-text-subnote text-sm">按标签分类:</p>
                     {all.tags.map(tag => (
-                        <button key={tag} className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
+                        <button key={tag} role="menuitem" type="button"
+                                className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
                                 onClick={() => setSelection({type: "tag", value: tag})}>
                             {tag}
                         </button>
                     ))}
                     <p className="px-2 py-1 text-text-subnote text-sm">按年份分类:</p>
                     {all.years.map(year => (
-                        <button key={year} className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
+                        <button key={year} role="menuitem" type="button"
+                                className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
                                 onClick={() => setSelection({type: "year", value: year})}>
                             {year}
                         </button>

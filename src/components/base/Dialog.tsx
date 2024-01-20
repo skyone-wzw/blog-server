@@ -1,30 +1,50 @@
 import clsx from "clsx";
-import {MouseEventHandler, ReactNode, useRef} from "react";
+import {ReactNode, useEffect, useRef} from "react";
 
 interface DialogProps {
     className?: string;
     open: boolean;
     onClose?: () => void;
-    clickInsideClose?: boolean;
+    clickOutsideClose?: boolean;
     children: ReactNode;
+    blur?: boolean;
 }
 
-function Dialog({className, open, onClose, clickInsideClose, children}: DialogProps) {
-    const ref = useRef<HTMLDivElement>(null);
+function Dialog({className, open, onClose, clickOutsideClose, blur, children}: DialogProps) {
+    const ref = useRef<HTMLDialogElement>(null);
 
-    const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
-        if (clickInsideClose || ref.current === e.target) {
-            onClose?.();
+    useEffect(() => {
+        if (ref.current) {
+            if (open) {
+                ref.current.showModal();
+            } else {
+                ref.current.close();
+            }
         }
-    };
+    }, [open]);
+
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (clickOutsideClose || ref.current === e.target) {
+                onClose?.();
+            }
+        };
+        if (open) {
+            window.addEventListener("click", handleClick);
+            return () => {
+                window.removeEventListener("click", handleClick);
+            };
+        }
+    }, [clickOutsideClose, onClose, open]);
 
     return (
-        <div
+        <dialog
             ref={ref}
-            className={clsx("fixed z-30 top-0 left-0 bottom-0 right-0 bg-[#00000066]", !open && "hidden", className)}
-            onClick={handleClick}>
+            className={clsx("backdrop:bg-[#00000033] bg-transparent", {
+                "backdrop:backdrop-blur-sm": blur,
+            }, className)}>
             {children}
-        </div>
+        </dialog>
     );
 }
 
