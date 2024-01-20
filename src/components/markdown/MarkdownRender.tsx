@@ -12,7 +12,6 @@ import remarkRehype from "remark-rehype";
 import {unified} from "unified";
 import * as Components from "./Components";
 
-
 export async function MarkdownRenderBase(content: string) {
     const elements = await unified()
         .use(remarkParse)
@@ -37,6 +36,7 @@ export async function MarkdownRenderBase(content: string) {
                 h5: Components.H5,
                 h6: Components.H6,
                 hr: Components.Hr,
+                iframe: Components.IFrame,
                 img: Components.Img,
                 ol: Components.Ol,
                 p: Components.P,

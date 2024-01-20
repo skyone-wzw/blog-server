@@ -6,7 +6,7 @@ import {
     AnchorHTMLAttributes,
     BlockquoteHTMLAttributes,
     DetailedHTMLProps,
-    HTMLAttributes,
+    HTMLAttributes, IframeHTMLAttributes,
     ImgHTMLAttributes,
     ThHTMLAttributes,
 } from "react";
@@ -114,6 +114,15 @@ type HrProps = DetailedHTMLProps<HTMLAttributes<HTMLHRElement>, HTMLHRElement>;
 function Hr({className, ...other}: HrProps) {
     return (
         <hr className={clsx("border-solid border-y-2 border-y-bg-tag my-6", className)} {...other} />
+    );
+}
+
+type IFrameProps = DetailedHTMLProps<IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement>;
+
+function IFrame({className, height, ...other}: IFrameProps) {
+    height = height || "100px";
+    return (
+        <iframe className={clsx("w-full mb-4", className)} height={height} {...other} />
     );
 }
 
@@ -231,6 +240,7 @@ export {
     H5,
     H6,
     Hr,
+    IFrame,
     Img,
     Ol,
     P,
