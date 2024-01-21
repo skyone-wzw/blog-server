@@ -12,7 +12,7 @@ function NotFoundIcon({className}: { className?: string }) {
 function NotFoundPage() {
     return (
         <>
-            <section className="col-span-full h-full pb-6 flex flex-col justify-center items-center">
+            <section className="row-start-2 col-span-full h-full pb-6 flex flex-col justify-center items-center">
                 <NotFoundIcon className="w-16 h-16 text-text-content fill-current"/>
                 <div className="mt-6 text-center space-y-2 max-w-full">
                     <p className="text-2xl text-text-main">找不到页面</p>
