@@ -16,6 +16,10 @@ function AdminLeftPage() {
             name: "文章编辑",
             url: "/editor",
         },
+        {
+            name: "友情链接",
+            url: "/admin/friends",
+        }
     ];
 
     return (

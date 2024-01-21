@@ -18,7 +18,7 @@ export async function LoginAction(email: string, password: string) {
             sameSite: "strict",
             maxAge: 60 * 60 * 24 * 7,
         });
-        redirect("/editor");
+        redirect("/admin");
     } else {
         return false;
     }

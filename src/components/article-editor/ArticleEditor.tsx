@@ -1,6 +1,6 @@
 "use client";
 
-import DangerousButton from "@/components/article-editor/DangerousButton";
+import DangerousButton from "@/components/DangerousButton";
 import ImageUploader from "@/components/article-editor/ImageUploader";
 import MarkdownPreview from "@/components/article-editor/MarkdownPreview";
 import Dialog from "@/components/base/Dialog";

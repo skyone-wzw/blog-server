@@ -4,28 +4,21 @@ import {Friend} from "@/lib/friends";
 import Image from "next/image";
 import Link from "next/link";
 
-interface FriendCardProps {
-    friend: Friend;
-    className?: string;
-}
-
-function FriendCard({friend, className}: FriendCardProps) {
-    const avatar = friend.avatar;
-    let avatarElement;
-    if (avatar && avatar.startsWith("http")) {
+export function getAvatarElement(friend: Friend) {
+    if (friend.avatar && friend.avatar.startsWith("http")) {
         // 是外部链接
         // eslint-disable-next-line @next/next/no-img-element
-        avatarElement = <img className="w-16 h-16 rounded-lg" src={avatar} alt={friend.name}/>;
-    } else if (avatar) {
+        return  <img className="w-16 h-16 rounded-lg" src={friend.avatar} alt={friend.name}/>;
+    } else if (friend.avatar) {
         // 内部链接
-        avatarElement = <Image className="w-16 h-16 rounded-lg" src={avatar} width={64} height={64} alt={friend.name}/>
+        return  <Image className="w-16 h-16 rounded-lg" src={friend.avatar} width={64} height={64} alt={friend.name}/>
     } else if (friend.email) {
         // 使用邮箱获取头像
         const hash = AES.encrypt(friend.email);
-        avatarElement = <Image className="w-16 h-16 rounded-lg" src={`/api/avatar/email/${hash}`} width={64} height={64} alt={friend.name}/>
+        return  <Image className="w-16 h-16 rounded-lg" src={`/api/avatar/email/${hash}`} width={64} height={64} alt={friend.name}/>
     } else {
         // 没有头像
-        avatarElement = (
+        return  (
             <svg fill="currentColor" viewBox="0 0 496 512" height="64" width="64"
                  className="w-16 h-16 rounded-lg"
                  xmlns="http://www.w3.org/2000/svg">
@@ -34,6 +27,15 @@ function FriendCard({friend, className}: FriendCardProps) {
             </svg>
         )
     }
+}
+
+interface FriendCardProps {
+    friend: Friend;
+    className?: string;
+}
+
+function FriendCard({friend, className}: FriendCardProps) {
+    const avatarElement = getAvatarElement(friend);
 
     return (
         <Link title={friend.siteName} href={friend.siteUrl} target="_blank" className={className}>

@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import {ReactNode, useEffect, useRef, useState} from "react";
+import {MouseEventHandler, ReactNode, useEffect, useRef, useState} from "react";
 
 interface DangerousButtonProps {
     className?: string;
@@ -35,7 +35,8 @@ function DangerousButton({className, children, onClick}: DangerousButtonProps) {
         }
     }, [isConfirm]);
 
-    const handleClick = () => {
+    const handleClick: MouseEventHandler = (e) => {
+        e.stopPropagation();
         if (isConfirm) {
             if (Date.now() - isConfirm < 200) {
                 // 点击间隔小于 200ms, 可能为误触, 不执行
