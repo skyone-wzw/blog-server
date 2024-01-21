@@ -35,7 +35,7 @@ interface AppHeaderProps {
 function AppHeader({className}: AppHeaderProps) {
     return (
         <header id="app-header"
-                className={clsx("sticky top-0 z-10 bg-bg-light text-text-content min-h-[48px] lg:px-4 shadow-md", className)}>
+                className={clsx("lg:sticky lg:top-0 lg:z-10 bg-bg-light text-text-content min-h-[48px] lg:px-4 shadow-md", className)}>
             <Container className="lg:flex lg:items-stretch">
                 <Flex component="h1" center className="overflow-x-auto">
                     <HeaderLink href="/">

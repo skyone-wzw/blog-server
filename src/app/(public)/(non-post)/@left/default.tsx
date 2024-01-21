@@ -8,7 +8,7 @@ async function NonPostLeftPage() {
     return (
         <>
             <AsideProfile className="mb-6"/>
-            <div className="top-[124px] lg:top-[76px] md:sticky space-y-6">
+            <div className="top-[24px] lg:top-[76px] md:sticky space-y-6">
                 <AsideRecentArticles className="xl:hidden"/>
                 <AsideArchiveList className="xl:hidden"/>
                 <AsideSeries/>

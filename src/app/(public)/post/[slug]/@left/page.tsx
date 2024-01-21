@@ -24,7 +24,7 @@ async function PostLeftPage({params}: PostLeftPageProps) {
     return (
         <>
             <AsideProfile className="mb-6"/>
-            <div className="top-[124px] lg:top-[76px] md:sticky space-y-6">
+            <div className="top-[24px] lg:top-[76px] md:sticky space-y-6">
                 <AsideArticleToc toc={toc} className="hidden md:block max-h-[40vh] min-h-[200px]"/>
                 <AsideRecentArticles className="xl:hidden"/>
                 <AsideArchiveList className="xl:hidden"/>
