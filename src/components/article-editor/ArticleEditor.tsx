@@ -142,13 +142,13 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         <main className={clsx("flex-grow flex-col space-y-2 m-2", className)}>
             <div className="flex flex-row flex-wrap justify-start items-center gap-x-4 gap-y-2">
                 <div className="flex flex-row flex-nowrap items-center max-w-full basis-64 flex-shrink flex-grow">
-                    <label htmlFor="article-editor-menu-slug" className="mr-2">链接</label>
+                    <label htmlFor="article-editor-menu-slug" className="mr-2 text-text-content">链接</label>
                     <input id="article-editor-menu-slug" type="text" required value={slug}
                            onChange={e => setSlug(e.target.value)}
                            className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                 </div>
                 <div className="flex flex-row flex-nowrap items-center max-w-full basis-96 flex-shrink flex-grow">
-                    <label htmlFor="article-editor-menu-title" className="mr-2">标题</label>
+                    <label htmlFor="article-editor-menu-title" className="mr-2 text-text-content">标题</label>
                     <input id="article-editor-menu-title" type="text" required value={title}
                            onChange={e => setTitle(e.target.value)}
                            className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>

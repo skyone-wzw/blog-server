@@ -82,6 +82,7 @@ const ServerMarkdownRender = cache(async (content: string) => {
                 td: Components.Td,
                 tr: Components.Tr,
                 ul: Components.Ul,
+                li: Components.Li,
             },
         })
         .process(content);

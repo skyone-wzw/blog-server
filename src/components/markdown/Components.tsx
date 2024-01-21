@@ -6,7 +6,8 @@ import {
     AnchorHTMLAttributes,
     BlockquoteHTMLAttributes,
     DetailedHTMLProps,
-    HTMLAttributes, IframeHTMLAttributes,
+    HTMLAttributes,
+    IframeHTMLAttributes,
     ImgHTMLAttributes,
     ThHTMLAttributes,
 } from "react";
@@ -37,8 +38,9 @@ type BlockquoteProps = DetailedHTMLProps<BlockquoteHTMLAttributes<HTMLQuoteEleme
 
 function Blockquote({children, className, ...other}: BlockquoteProps) {
     return (
-        <blockquote className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4 rounded quote-alert", className)}
-                    {...other}>{children}</blockquote>
+        <blockquote
+            className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4 rounded quote-alert", className)}
+            {...other}>{children}</blockquote>
     );
 
 }
@@ -47,7 +49,8 @@ type CodeProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 
 function Code({children, className, ...other}: CodeProps) {
     return (
-        <code className={clsx("bg-bg-tag px-1.5 py-0.5 rounded xc-scroll", className)} {...other}>{children}</code>
+        <code
+            className={clsx("bg-bg-tag px-1.5 py-0.5 text-text-content rounded xc-scroll", className)} {...other}>{children}</code>
     );
 }
 
@@ -227,6 +230,14 @@ function Ul({children, className, ...other}: UlProps) {
     );
 }
 
+type LiProps = DetailedHTMLProps<HTMLAttributes<HTMLLIElement>, HTMLLIElement>;
+
+function Li({children, className, ...other}: LiProps) {
+    return (
+        <li className={clsx("text-text-content", className)} {...other}>{children}</li>
+    );
+}
+
 export {
     A,
     AInNavBar,
@@ -252,4 +263,5 @@ export {
     Td,
     Tr,
     Ul,
+    Li,
 };

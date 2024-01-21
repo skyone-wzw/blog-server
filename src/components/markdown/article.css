@@ -166,6 +166,7 @@ span.optimize-server-image:only-child {
 }
 
 .katex-display {
+    color: var(--text-content);
     overflow-x: auto;
     overflow-y: clip;
 }

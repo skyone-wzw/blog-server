@@ -54,7 +54,7 @@ function RootLayout({children}: RootLayoutProps) {
             <head>
                 <script dangerouslySetInnerHTML={{__html: bootloader}}/>
             </head>
-            <body className={clsx(inter.className, "pk-scroll")}>
+            <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>
                 <NextTopLoader color="#ec4899"/>
                 <AppHeader className="row-start-1"/>
                 {children}

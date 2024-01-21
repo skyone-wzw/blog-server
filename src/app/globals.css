@@ -78,6 +78,15 @@ img, video {
     }
 }
 
+.color-transition * {
+    transition: color 200ms ease,
+    background-color 200ms ease,
+    border-top-color 200ms ease,
+    border-left-color 200ms ease,
+    border-bottom-color 200ms ease,
+    border-right-color 200ms ease;
+}
+
 .tag-prefix::before {
     content: '# ';
 }

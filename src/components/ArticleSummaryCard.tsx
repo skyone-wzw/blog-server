@@ -28,10 +28,10 @@ function ArticleSummaryCard({className, article}: ArticleSummaryCardProps) {
                     src={`/api/cover/${article.slug}`} width={1300} height={630} alt="cover"/>
             </Link>
             <article className="p-6">
-                <h2 className="mb-4 text-xl break-words font-normal text-text-main">
-                    <Link href={`/post/${article.slug}`}>{article.title}</Link>
+                <h2 className="mb-4 break-words font-normal">
+                    <Link className="text-xl text-text-main" href={`/post/${article.slug}`}>{article.title}</Link>
                 </h2>
-                <section className="mb-4 text-sm 2xl:text-base">
+                <section className="mb-4 text-sm 2xl:text-base text-text-content">
                     {article.description}
                 </section>
                 <div className="flex justify-between text-text-subnote text-sm">

@@ -20,7 +20,11 @@ interface Config {
 
     avatar: {
         gravatar: string;
-    }
+    };
+
+    theme: {
+        colorTransition: boolean;
+    };
 
     dir: {
         data: string;
@@ -111,6 +115,10 @@ const config = (() => {
 
         avatar: {
             gravatar: "https://www.gravatar.com/avatar",
+        },
+
+        theme: {
+            colorTransition: true,
         },
 
         dir: {
