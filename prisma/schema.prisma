@@ -21,3 +21,17 @@ model Post {
 
   @@map("posts")
 }
+
+model Friend {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String?
+  avatar      String?
+  siteName    String    @map("site_name")
+  siteUrl     String    @map("site_url")
+  description String
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
+
+  @@map("friends")
+}

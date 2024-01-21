@@ -18,6 +18,10 @@ interface Config {
         zhihu?: string;
     };
 
+    avatar: {
+        gravatar: string;
+    }
+
     dir: {
         data: string;
         image: string;
@@ -105,6 +109,10 @@ const config = (() => {
             github: "example",
         },
 
+        avatar: {
+            gravatar: "https://www.gravatar.com/avatar",
+        },
+
         dir: {
             data: dataDir,
             image: DataDirResolve("images"),
@@ -138,6 +146,10 @@ const config = (() => {
                 {
                     name: "归档",
                     url: "/archive",
+                },
+                {
+                    name: "友链",
+                    url: "/friends",
                 },
             ],
         },
