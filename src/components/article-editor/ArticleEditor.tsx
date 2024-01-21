@@ -255,7 +255,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 </button>
                 {article.id && (
                     <DangerousButton
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover"
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm shadow-sm hover:bg-bg-hover"
                         onClick={handleDeleteArticle}>
                         删除文章
                     </DangerousButton>

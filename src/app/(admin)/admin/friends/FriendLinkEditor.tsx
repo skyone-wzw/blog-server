@@ -217,7 +217,7 @@ export function FriendLinkEditor({friend, className, avatarElement}: FriendLinkE
                     </p>
                 </div>
                 <DangerousButton
-                    className="p-2 mx-2 rounded-md outline outline-button-bg outline-1 px-3 py-2 text-sm text-text-content"
+                    className="p-2 mx-2 rounded-md outline outline-button-bg outline-1 px-3 py-2 text-sm"
                     onClick={handleDeleteFriendLink}>
                     删除友链
                 </DangerousButton>
