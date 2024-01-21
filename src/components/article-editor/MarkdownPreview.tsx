@@ -32,10 +32,21 @@ function MarkdownPreview({content}: MarkdownPreviewProps) {
         if (render) {
             const now = Date.now();
             waiter.current = now;
-            setTimeout(() => {
+            setTimeout(async () => {
                 if (now === waiter.current) {
-                    render(content).then(setElements).catch(() => {
-                    });
+                    try {
+                        const element = await render(content);
+                        setElements(element);
+                    } catch (err) {
+                        setElements(
+                            <>
+                                <p className="mb-4 text-2xl text-text-main">渲染失败</p>
+                                {err?.toString &&
+                                    <p className="mb-2 font-mono text-md text-text-subnote">{err?.toString()}</p>}
+                                <p className="mb-6 text-md text-text-subnote">请检查 Markdown 语法是否正确</p>
+                            </>,
+                        );
+                    }
                 }
             }, 500);
         }
