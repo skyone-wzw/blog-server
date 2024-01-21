@@ -5,13 +5,15 @@ interface DialogProps {
     className?: string;
     open: boolean;
     onClose?: () => void;
+    clickInsideClose?: boolean;
     clickOutsideClose?: boolean;
     children: ReactNode;
     blur?: boolean;
 }
 
-function Dialog({className, open, onClose, clickOutsideClose, blur, children}: DialogProps) {
+function Dialog({className, open, onClose, clickInsideClose, clickOutsideClose, blur, children}: DialogProps) {
     const ref = useRef<HTMLDialogElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (ref.current) {
@@ -25,8 +27,13 @@ function Dialog({className, open, onClose, clickOutsideClose, blur, children}: D
 
     useEffect(() => {
         const handleClick = (e: MouseEvent) => {
-            if (clickOutsideClose || ref.current === e.target) {
+            if (clickInsideClose && rootRef.current === e.target) {
                 onClose?.();
+                return;
+            }
+            if (clickOutsideClose && !rootRef.current!.contains(e.target as Node)) {
+                onClose?.();
+                return;
             }
         };
         if (open) {
@@ -35,7 +42,7 @@ function Dialog({className, open, onClose, clickOutsideClose, blur, children}: D
                 window.removeEventListener("click", handleClick);
             };
         }
-    }, [clickOutsideClose, onClose, open]);
+    }, [clickInsideClose, clickOutsideClose, onClose, open]);
 
     return (
         <dialog
@@ -43,7 +50,7 @@ function Dialog({className, open, onClose, clickOutsideClose, blur, children}: D
             className={clsx("backdrop:bg-[#00000033] bg-transparent", {
                 "backdrop:backdrop-blur-sm": blur,
             }, className)}>
-            {children}
+            <div ref={rootRef}>{children}</div>
         </dialog>
     );
 }

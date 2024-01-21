@@ -10,7 +10,7 @@ export const metadata = {
 };
 
 async function LoginPage() {
-    if (await isUserLoggedIn()) redirect("/editor", RedirectType.replace);
+    if (await isUserLoggedIn()) redirect("/admin", RedirectType.replace);
     return (
         <div className="flex flex-col justify-center items-center p-12 row-start-2">
             <Image src={config.master.avatar} width="64" height="64" alt={config.master.name}

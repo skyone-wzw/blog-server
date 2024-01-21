@@ -14,7 +14,11 @@ interface ArticleFloatingButtonProps {
 function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
     const [openToc, setOpenToc] = useState(false);
 
-    const handleToggleToc = () => setOpenToc(prev => !prev);
+    const handleOpenToc: MouseEventHandler = (e) => {
+        e.stopPropagation();
+        setOpenToc(true);
+    }
+    const handleCloseToc = () => setOpenToc(false);
 
     const scrollToTop: MouseEventHandler<HTMLAnchorElement> = (e) => {
         e.preventDefault();
@@ -27,17 +31,17 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
             {toc && (
                 <>
                     <div className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag hover:text-link-hover md:hidden"
-                         onClick={handleToggleToc}>
+                         onClick={handleOpenToc}>
                         <svg fill="currentColor" viewBox="0 0 24 24" height={20} width={20}
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill="none" d="M0 0h24v24H0z"/>
                             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                         </svg>
                     </div>
-                    <Dialog open={openToc} onClose={handleToggleToc} className="md:hidden w-full m-0">
+                    <Dialog open={openToc} onClose={handleCloseToc} className="md:hidden w-full m-0" clickOutsideClose>
                         <Paper className="fixed bottom-4 left-4 right-4 p-4 text-sm">
                             <p className="mb-3 text-text-subnote">文章目录</p>
-                            <div className="p-1.5 overflow-auto xc-scroll floating-toc" onClick={handleToggleToc}>
+                            <div className="p-1.5 overflow-auto xc-scroll floating-toc" onClick={handleCloseToc}>
                                 {toc}
                             </div>
                         </Paper>

@@ -10,7 +10,7 @@ import {Article, ArticleCreate, ArticlePatch} from "@/lib/article";
 import clsx from "clsx";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {useCallback, useEffect, useState} from "react";
+import {MouseEventHandler, useCallback, useEffect, useState} from "react";
 
 interface ArticleEditorProps {
     article: Article;
@@ -103,6 +103,15 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         setIsLoading(false);
     }, [article, slug, title, description, content, series, tags, router]);
 
+    const handleOpenEditInfo: MouseEventHandler = (e) => {
+        e.stopPropagation();
+        setIsEditInfo(true);
+    };
+    const handleOpenImageUploader: MouseEventHandler = (e) => {
+        e.stopPropagation();
+        setIsUploadImage(true);
+    };
+
     const handleDeleteArticle = async () => {
         if (article.id) {
             const result = await DeleteArticleAction(article.id);
@@ -146,12 +155,11 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 </div>
                 <div>
                     <button
-                        onClick={() => setIsEditInfo(true)} type="button"
+                        onClick={handleOpenEditInfo} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
                         编辑信息
                     </button>
-                    <Dialog open={isEditInfo} blur
-                            onClose={() => setIsEditInfo(false)}>
+                    <Dialog open={isEditInfo} blur clickOutsideClose onClose={() => setIsEditInfo(false)}>
                         <Paper
                             className="p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
                             <div className="pb-4 text-text-main">编辑信息</div>
@@ -224,11 +232,11 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 </button>
                 <div>
                     <button
-                        onClick={() => setIsUploadImage(true)} type="button"
+                        onClick={handleOpenImageUploader} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
                         上传图片
                     </button>
-                    <Dialog open={isUploadImage} blur
+                    <Dialog open={isUploadImage} blur clickOutsideClose
                             onClose={() => setIsUploadImage(false)}>
                         <ImageUploader className="max-w-full"/>
                     </Dialog>
