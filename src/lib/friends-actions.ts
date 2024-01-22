@@ -18,12 +18,6 @@ export async function CreateFriendAction(friend: FriendCreate) {
 export async function SaveFriendAction(friend: FriendPatch) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
 
-    if (!friend.id) return false;
-    if (!friend.name) return false;
-    if (!friend.siteName) return false;
-    if (!friend.siteUrl) return false;
-    friend.description = friend.description || "";
-
     return await patchFriend(friend);
 }
 
