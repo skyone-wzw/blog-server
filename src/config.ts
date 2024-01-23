@@ -118,7 +118,7 @@ const config = (() => {
         },
 
         theme: {
-            colorTransition: true,
+            colorTransition: false,
         },
 
         dir: {

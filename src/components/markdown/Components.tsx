@@ -50,7 +50,7 @@ type CodeProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 function Code({children, className, ...other}: CodeProps) {
     return (
         <code
-            className={clsx("bg-bg-tag px-1.5 py-0.5 text-text-content rounded xc-scroll", className)} {...other}>{children}</code>
+            className={clsx("bg-bg-tag px-1.5 py-0.5 rounded xc-scroll", className)} {...other}>{children}</code>
     );
 }
 
