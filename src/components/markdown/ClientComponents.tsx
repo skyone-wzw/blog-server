@@ -8,10 +8,19 @@ type HeadingLinkProps = DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HT
 
 const autoScroll = (targetId: string): MouseEventHandler<HTMLAnchorElement> => (e) => {
     e.preventDefault();
-    const header = document.getElementById("app-header");
+    const paddingTop = 8;
     const target = document.getElementById(targetId);
-    if (header && target) {
-        const scrollY = target.offsetTop - header.clientHeight - 4;
+    if (target) {
+        let scrollY;
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+            const header = document.getElementById("app-header");
+            if (header) {
+                scrollY = target.offsetTop - header.offsetHeight - paddingTop;
+            }
+        }
+        if (!scrollY) {
+            scrollY = target.offsetTop - paddingTop;
+        }
         window.scrollTo({top: scrollY, behavior: "smooth"});
     }
 };
