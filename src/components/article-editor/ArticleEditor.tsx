@@ -1,10 +1,10 @@
 "use client";
 
-import DangerousButton from "@/components/DangerousButton";
 import ImageUploader from "@/components/article-editor/ImageUploader";
-import MarkdownPreview from "@/components/article-editor/MarkdownPreview";
+import MarkdownEditor from "@/components/article-editor/MarkdownEditor";
 import Dialog from "@/components/base/Dialog";
 import Paper from "@/components/base/Paper";
+import DangerousButton from "@/components/DangerousButton";
 import {CreateArticleAction, DeleteArticleAction, LogoutAction, SaveArticleAction} from "@/lib/actions";
 import {Article, ArticleCreate, ArticlePatch} from "@/lib/article";
 import clsx from "clsx";
@@ -271,15 +271,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                     登出
                 </button>
             </div>
-            <div className="flex-grow h-0 rounded-lg flex flex-row gap-x-4">
-                <textarea aria-label="输入区" id="article-editor-content" value={content}
-                          onChange={e => setContent(e.target.value)}
-                          className={clsx(isPreview ? "hidden xl:block" : "block", "w-0 text-sm 2xl:text-base flex-grow font-mono resize-none p-2 bg-bg-light overflow-auto shadow appearance-none border rounded text-text-content leading-tight focus:outline-none focus:shadow-link-content focus:border-link-content pk-scroll")}/>
-                <Paper
-                    className={clsx(isPreview ? "block" : "hidden xl:block", "w-0 flex-grow p-4 text-sm 2xl:text-base overflow-auto pk-scroll")}>
-                    <MarkdownPreview content={content}/>
-                </Paper>
-            </div>
+            <MarkdownEditor content={article.content} setContent={setContent} isPreview={isPreview} className="flex-grow h-0"/>
         </main>
     );
 }

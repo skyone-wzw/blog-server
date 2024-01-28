@@ -105,7 +105,8 @@ body {
 }
 
 .xc-scroll::-webkit-scrollbar,
-.katex-display::-webkit-scrollbar {
+.katex-display::-webkit-scrollbar,
+.pk-scroll::-webkit-scrollbar {
     width: .35rem;
     height: .28rem;
 }
@@ -114,11 +115,6 @@ body {
 .katex-display::-webkit-scrollbar-thumb {
     background-color: var(--bg-tag);
     border-radius: .2rem;
-}
-
-.pk-scroll::-webkit-scrollbar {
-    width: .35rem;
-    height: .28rem;
 }
 
 .pk-scroll::-webkit-scrollbar-thumb {
