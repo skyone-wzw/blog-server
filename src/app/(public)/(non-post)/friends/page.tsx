@@ -1,7 +1,7 @@
 import Paper from "@/components/base/Paper";
 import FriendCard from "@/components/FriendCard";
 import config from "@/config";
-import {getAllFriends} from "@/lib/friends";
+import {gatAllClientFriends} from "@/lib/friends";
 import {notFound} from "next/navigation";
 
 export const metadata = {
@@ -10,7 +10,7 @@ export const metadata = {
 };
 
 async function FriendsPage() {
-    const friends = await getAllFriends();
+    const friends = await gatAllClientFriends();
     if (friends.length === 0) return notFound();
 
     return (

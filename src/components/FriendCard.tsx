@@ -1,21 +1,16 @@
 import Paper from "@/components/base/Paper";
-import {AES} from "@/lib/encrypt";
-import {Friend} from "@/lib/friends";
+import {ClientFriend} from "@/lib/friends";
 import Image from "next/image";
 import Link from "next/link";
 
-export function getAvatarElement(friend: Friend) {
+export function getAvatarElement(friend: ClientFriend) {
     if (friend.avatar && friend.avatar.startsWith("http")) {
-        // 是外部链接
+        // 外部链接
         // eslint-disable-next-line @next/next/no-img-element
         return  <img className="w-16 h-16 rounded-lg" src={friend.avatar} alt={friend.name}/>;
     } else if (friend.avatar) {
         // 内部链接
         return  <Image className="w-16 h-16 rounded-lg" src={friend.avatar} width={64} height={64} alt={friend.name}/>
-    } else if (friend.email) {
-        // 使用邮箱获取头像
-        const hash = AES.encrypt(friend.email);
-        return  <Image className="w-16 h-16 rounded-lg" src={`/api/avatar/email/${hash}`} width={64} height={64} alt={friend.name}/>
     } else {
         // 没有头像
         return  (
@@ -30,7 +25,7 @@ export function getAvatarElement(friend: Friend) {
 }
 
 interface FriendCardProps {
-    friend: Friend;
+    friend: ClientFriend;
     className?: string;
 }
 

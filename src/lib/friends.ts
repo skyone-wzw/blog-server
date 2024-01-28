@@ -1,3 +1,4 @@
+import {AES} from "@/lib/encrypt";
 import prisma from "@/lib/prisma";
 import {ObjectPick} from "@/lib/type-utils";
 import {cache} from "react";
@@ -12,6 +13,17 @@ export interface Friend {
     description: string;
     createdAt: Date;
     deletedAt: Date | null;
+}
+
+export interface ClientFriend {
+    id: number;
+    name: string;
+    avatar?: string;
+    siteName: string;
+    siteUrl: string;
+    description: string;
+    createdAt: Date;
+    deletedAt?: Date;
 }
 
 export interface FriendCreate {
@@ -49,6 +61,25 @@ const FriendSelector = {
     deletedAt: true,
 };
 
+export function toClientFriend(friend: Friend): ClientFriend {
+    let avatar = friend.avatar;
+    if (!avatar) {
+        if (friend.email) {
+            avatar = `/api/avatar/email/${AES.encrypt(friend.email)}`;
+        }
+    }
+    return {
+        id: friend.id,
+        name: friend.name,
+        avatar: avatar || undefined,
+        siteName: friend.siteName,
+        siteUrl: friend.siteUrl,
+        description: friend.description,
+        createdAt: friend.createdAt,
+        deletedAt: friend.deletedAt || undefined,
+    };
+}
+
 export const getAllFriends = cache(async (deleted: boolean = false): Promise<Friend[]> => {
     const where = {
         deletedAt: deleted ? {not: null} : null,
@@ -57,6 +88,11 @@ export const getAllFriends = cache(async (deleted: boolean = false): Promise<Fri
         where: where,
         select: FriendSelector,
     });
+});
+
+export const gatAllClientFriends = cache(async (deleted: boolean = false): Promise<ClientFriend[]> => {
+    const friends = await getAllFriends(deleted);
+    return friends.map(toClientFriend);
 });
 
 export async function createFriend(friend: FriendCreate) {
