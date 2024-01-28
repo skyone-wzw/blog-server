@@ -109,6 +109,51 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
         }
     }, [editor]);
 
+    // useEffect(() => {
+    //     if (editor.current && previewRef.current) {
+    //         const Editor = editor.current!;
+    //         const Preview = previewRef.current!;
+    //
+    //         let lastScrollTop = 0;
+    //         const onScroll = () => {
+    //             if (previewScroll > 0) return;
+    //             if (editor.current && previewRef.current && Preview.scrollTop !== lastScrollTop) {
+    //                 const Preview = previewRef.current!;
+    //                 const scrollTop = Preview.scrollTop;
+    //                 let target = -1;
+    //                 Preview.querySelectorAll("#article-editor-markdown-editor [data-line]").forEach((child) => {
+    //                     if ((child as HTMLElement).offsetTop > scrollTop && target === -1) {
+    //                         const line = (child as HTMLElement).dataset?.["line"];
+    //                         const lineNumber = line ? parseInt(line) : NaN;
+    //                         if (!isNaN(lineNumber)) {
+    //                             target = lineNumber;
+    //                         }
+    //                         return;
+    //                     }
+    //                 });
+    //                 if (target !== -1 && !isNaN(target)) {
+    //                     lastScrollTop = target;
+    //                     editorScroll = Date.now();
+    //                     cleanEditorScroll();
+    //                     const from = Editor.state.doc.line(target).from
+    //                     const top = Editor.coordsAtPos(from)?.top;
+    //                     console.log(target, from, top);
+    //                     top && Editor.scrollDOM.scrollTo({
+    //                         top: top,
+    //                         behavior: "smooth",
+    //                     });
+    //                 }
+    //             }
+    //         }
+    //
+    //         Preview.addEventListener("scroll", onScroll);
+    //
+    //         return () => {
+    //             Preview?.removeEventListener("scroll", onScroll);
+    //         }
+    //     }
+    // }, [editor, previewRef]);
+
     useEffect(() => {
         if (editor.current) {
             editor.current.dispatch({
