@@ -1,4 +1,5 @@
-import {Heading, Root} from "mdast";
+import {Heading, Root as MDRoot} from "mdast";
+import {Element, Root as HTMLRoot} from "hast";
 import * as prod from "react/jsx-runtime";
 import {visit} from "unist-util-visit";
 import {VFile} from "vfile";
@@ -7,14 +8,14 @@ import {VFile} from "vfile";
 export const jsxConfig = {Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs};
 
 export function headingFilter() {
-    return (tree: Root, _: VFile) => {
+    return (tree: MDRoot, _: VFile) => {
         tree.children = tree.children.filter(node => node.type === "heading" && node.depth >= 2 && node.depth <= 3);
     };
 }
 
 export function autoHeadingId() {
     const used = new Set<string>();
-    return (tree: Root, file: VFile) => {
+    return (tree: MDRoot, file: VFile) => {
         visit(tree, "heading", (node: Heading) => {
             const lastChild = node.children[node.children.length - 1];
             if (lastChild && lastChild.type === "text") {
@@ -77,4 +78,16 @@ export function getHeadingId(children: any): string {
     } else {
         return "";
     }
+}
+
+export function markLineNumber() {
+    return (tree: HTMLRoot) => {
+        visit(tree, "element", (node: Element) => {
+            const line = node.position?.start.line
+            if (line) {
+                node.properties = node.properties || {};
+                node.properties["data-line"] = line;
+            }
+        });
+    };
 }

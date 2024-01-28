@@ -1,5 +1,5 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
-import {autoHeadingId, jsxConfig} from "@/components/markdown/tools";
+import {autoHeadingId, jsxConfig, markLineNumber} from "@/components/markdown/tools";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -22,6 +22,7 @@ async function ClientMarkdownRender(content: string) {
         .use(rehypeKatex)
         .use(rehypeHighlight)
         .use(rehypeRaw)
+        .use(markLineNumber)
         .use(rehypeReact, {
             ...jsxConfig, components: {
                 a: Components.A,

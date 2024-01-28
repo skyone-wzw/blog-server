@@ -1,7 +1,6 @@
 "use client";
 
 import MarkdownPreview from "@/components/article-editor/MarkdownPreview";
-import Paper from "@/components/base/Paper";
 import {markdown} from "@codemirror/lang-markdown";
 import {Compartment, EditorState} from "@codemirror/state";
 import {githubDark, githubLight} from "@uiw/codemirror-theme-github";
@@ -35,6 +34,7 @@ interface MarkdownEditorProps {
 function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPreview, className}: MarkdownEditorProps) {
     const [content, setContent] = useState("");
     const inputRef = useRef<HTMLDivElement>(null);
+    const previewRef = useRef<HTMLDivElement>(null);
     const editor = useRef<EditorView>();
 
     useEffect(() => {
@@ -72,7 +72,6 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
                 .addEventListener("change", themeChangeListener);
 
             return () => {
-                console.log("destroy");
                 observer.disconnect();
                 window.matchMedia("(prefers-color-scheme: dark)")
                     .removeEventListener("change", themeChangeListener);
@@ -84,6 +83,34 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
 
     useEffect(() => {
         if (editor.current) {
+            const Editor = editor.current!;
+            let lastScrollTop = 0;
+            const onScroll = () => {
+                if (editor.current && previewRef.current && editor.current.scrollDOM.scrollTop !== lastScrollTop) {
+                    const Editor = editor.current!;
+                    const scrollTop = Editor.scrollDOM.scrollTop;
+                    const block = Editor.lineBlockAtHeight(scrollTop)
+                    const line = Editor.state.doc.lineAt(block.from).number;
+                    const target = document.querySelector(`#article-editor-markdown-editor [data-line="${line}"]`);
+                    if (target) {
+                        previewRef.current.scrollTo({
+                            top: (target as HTMLElement).offsetTop - 140,
+                            behavior: "smooth",
+                        });
+                    }
+                }
+            }
+
+            Editor.scrollDOM.addEventListener("scroll", onScroll)
+
+            return () => {
+                editor.current?.scrollDOM.removeEventListener("scroll", onScroll);
+            }
+        }
+    }, [editor]);
+
+    useEffect(() => {
+        if (editor.current) {
             editor.current.dispatch({
                 changes: {from: 0, to: editor.current.state.doc.length, insert: PrevContent},
             });
@@ -91,17 +118,20 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
     }, [PrevContent, editor]);
 
     return (
-        <div className={clsx("flex flex-row gap-x-4", className)}>
+        <div
+            id="article-editor-markdown-editor"
+            className={clsx("flex flex-row gap-x-4", className)}>
             <div
                 ref={inputRef}
                 className={clsx("w-0 flex-grow resize-none text-sm lg:text-base rounded-lg", {
                     "hidden xl:block": isPreview,
                     "block": !isPreview,
                 })}/>
-            <Paper
-                className={clsx(isPreview ? "block" : "hidden xl:block", "w-0 flex-grow p-4 text-sm 2xl:text-base overflow-auto pk-scroll")}>
+            <div
+                ref={previewRef}
+                className={clsx(isPreview ? "block" : "hidden xl:block", "bg-bg-light rounded-lg shadow w-0 flex-grow p-4 text-sm 2xl:text-base overflow-auto pk-scroll")}>
                 <MarkdownPreview content={content}/>
-            </Paper>
+            </div>
         </div>
     );
 }
