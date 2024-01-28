@@ -141,7 +141,9 @@ function Img({className, alt, src, ...other}: ImgProps) {
         alt = alt || "";
         return (
             // @ts-ignore
-            <Image className={clsx("mx-auto object-contain optimize-image", className)}
+            <Image className={clsx("mx-auto optimize-image", className)}
+                   style={{objectFit: "contain"}}
+                   sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
                 // 对于透明图片效果很差, 暂时不使用
                 // blurDataURL={`/_next/image?url=${encodeURIComponent(src)}&w=8&q=75`} placeholder="blur"
                    fill alt={alt} src={src} {...other}/>

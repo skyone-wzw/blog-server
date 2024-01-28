@@ -29,8 +29,9 @@ async function _Img({className, alt, src, ...other}: ImgProps) {
         if (metadata) {
             return (
                 <span style={{aspectRatio: `${metadata.width} / ${metadata.height}`}} className="optimize-server-image">
-                    {/* @ts-ignore */}
-                    <Image className="max-w-full" src={src} alt={alt} height={metadata.height} width={metadata.width} {...other}/>
+                    <Image className="max-w-full" sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
+                           // @ts-ignore
+                           src={src} alt={alt} height={metadata.height} width={metadata.width} {...other}/>
                 </span>
             )
         }
