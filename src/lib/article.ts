@@ -2,6 +2,32 @@ import prisma from "@/lib/prisma";
 import {ObjectPick} from "@/lib/type-utils";
 import {cache} from "react";
 
+namespace Database {
+    export interface Tag {
+        id: string;
+        tag: string;
+    }
+
+    export interface TagWithArticle extends Tag {
+        articles: Article[];
+    }
+
+    export interface Article {
+        id: string;
+        title: string;
+        slug: string;
+        description: string;
+        series: string;
+        published: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+    }
+
+    export interface ArticleWithTag extends Article {
+        tags: Tag[];
+    }
+}
+
 export interface ArticleMetadata {
     id: string;
     title: string;
@@ -71,17 +97,17 @@ type TypeReplaceIf<E, K extends keyof E, P, R> = E[K] extends P ?
     (Omit<E, K> & { [key in K]: R }) :
     (Omit<E, K> & { [key in K]?: R });
 
-export function Database2Article<T extends { tags?: string }>(article: T): TypeReplaceIf<T, "tags", string, string[]> {
-    return typeof article.tags === "string" ?
-        {...article, tags: article.tags.split(/,\s+/).filter(t => t.length > 0)} :
+export function Database2Article<T extends { tags?: Database.Tag[] }>(article: T): TypeReplaceIf<T, "tags", Database.Tag[], string[]> {
+    return Array.isArray(article.tags) ?
+        {...article, tags: article.tags.map(t => t.tag)} :
         (article as T & { tags: string[] });
 }
 
 export function Article2Database<T extends {
     tags?: string[]
-}>(article: T): TypeReplaceIf<T, "tags", string[], string> {
-    return Array.isArray(article.tags) ? {...article, tags: article.tags.join(", ")} : (article as T & {
-        tags: string
+}>(article: T): TypeReplaceIf<T, "tags", string[], Omit<Database.Tag, "id">[]> {
+    return Array.isArray(article.tags) ? {...article, tags: article.tags.map(tag => ({tag}))} : (article as T & {
+        tags: Omit<Database.Tag, "id">[]
     });
 }
 
@@ -93,7 +119,17 @@ export const getAllArticlesMetadata = cache(async (published: boolean = true): P
         orderBy: {
             createdAt: "desc",
         },
-        select: ArticleMetadataSelector,
+        select: {
+            id: true,
+            title: true,
+            slug: true,
+            description: true,
+            series: true,
+            tags: true,
+            published: true,
+            createdAt: true,
+            updatedAt: true,
+        },
     });
     return articles.map(Database2Article);
 });
@@ -275,7 +311,9 @@ export const getArticlesByTag = cache(async (tag: string, published: boolean = t
     const articles = await prisma.post.findMany({
         where: {
             tags: {
-                contains: tag,
+                some: {
+                    tag: tag,
+                }
             },
             published: published ? published : undefined,
         },
@@ -414,8 +452,20 @@ export const getAllArticleCount = cache(async (published: boolean = true): Promi
 export const createArticle = cache(async (article: ArticleCreate) => {
     try {
         return await prisma.post.create({
-            data: ObjectPick(Article2Database(article),
-                ["title", "slug", "description", "series", "tags", "published", "content"]),
+            data: {
+                ...ObjectPick(Article2Database(article),
+                    ["title", "slug", "description", "series", "published", "content"]),
+                tags: {
+                    connectOrCreate: article.tags.map(tag => ({
+                        where: {
+                            tag: tag
+                        },
+                        create: {
+                            tag: tag
+                        }
+                    })),
+                }
+            },
             select: ArticleMetadataSelector,
         });
     } catch (e) {
@@ -425,18 +475,56 @@ export const createArticle = cache(async (article: ArticleCreate) => {
 
 export const patchArticle = cache(async (article: ArticlePatch) => {
     try {
-        return await prisma.post.update({
-            where: {
-                id: article.id,
-            },
-            data: {
-                ...ObjectPick(Article2Database(article),
-                    ["title", "slug", "description", "series", "tags", "published", "content"]),
-                updatedAt: new Date(),
-            },
-            select: ArticleMetadataSelector,
+        return await prisma.$transaction(async (prisma) => {
+            const tags = await prisma.post.update({
+                where: {
+                    id: article.id,
+                },
+                data: {
+                    ...ObjectPick(Article2Database(article),
+                        ["title", "slug", "description", "series", "published", "content"]),
+                    tags: article.tags ? {
+                        connectOrCreate: article.tags.map(tag => ({
+                            where: {
+                                tag: tag
+                            },
+                            create: {
+                                tag: tag
+                            }
+                        })),
+                    } : undefined,
+                    updatedAt: new Date(),
+                },
+                select: {
+                    tags: true
+                },
+            });
+            if (article.tags) {
+                const deleteTags = tags.tags.filter(t => !article.tags?.includes(t.tag));
+                const deleteTagIds = deleteTags.map(t => t.id);
+                return prisma.post.update({
+                    where: {
+                        id: article.id,
+                    },
+                    data: {
+                        tags: {
+                            disconnect: deleteTagIds.map(id => ({id})),
+                        },
+                        updatedAt: new Date(),
+                    },
+                    select: ArticleMetadataSelector,
+                });
+            } else  {
+                return prisma.post.findUnique({
+                    where: {
+                        id: article.id,
+                    },
+                    select: ArticleMetadataSelector,
+                })
+            }
         });
     } catch (e) {
+        console.log(e)
         return null;
     }
 });

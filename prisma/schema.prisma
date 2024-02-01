@@ -14,12 +14,22 @@ model Post {
   description String
   content     String
   series      String
-  tags        String
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 
+  tags Tag[]
+
   @@map("posts")
+}
+
+model Tag {
+  id  String @id @default(uuid())
+  tag String @unique
+
+  posts Post[]
+
+  @@map("tags")
 }
 
 model Friend {

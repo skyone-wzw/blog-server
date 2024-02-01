@@ -91,7 +91,9 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 description: description.trim(),
                 content: content.trim(),
                 series: series.trim() || "未分类",
-                tags: tags.replace(/\s+/, " ").split(/,\s*/).map(tag => tag.trim()),
+                tags: tags.replace(/\s+/, " ")
+                    .split(/,\s*/).map(tag => tag.trim())
+                    .filter(tag => !!tag),
                 updatedAt: new Date(),
             };
             result = await SaveArticleAction(patchArticle);
