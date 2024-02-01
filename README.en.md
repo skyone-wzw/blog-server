@@ -1,24 +1,24 @@
 # Blog-Server
 
-[English](README.md)
+[简体中文](README.zh-CN.md)
 
-项目名称尚未确定，也许你可以给我一些建议？
+The name of the project has not yet been decided, and you can give me some suggestions.
 
-> 一个简单的博客服务器。基于 Node.js、Next.js 和 SQLite。
+> A simple blog server based on Node.js, Next.js and SQLite.
 
 ![License](https://img.shields.io/github/license/skyone-wzw/blog-server)
 ![Node.js Version](https://img.shields.io/node/v/blog-server)
 
-## 特点
+## Features
 
-* [x] 支持 GFM (GitHub Flavored Markdown)
-* [x] 在线编辑文章
+* [x] GitHub Flavored Markdown support
+* [x] Edit post online
 * [x] React Server Components
-* [ ] 可以使用 [skyone-wzw/blog-server-export](https://github.com/skyone-wzw/blog-server-export) 将文章导出为静态 HTML 文件
+* [ ] Export posts to static HTML files using [skyone-wzw/blog-server-export](https://github.com/skyone-wzw/blog-server-export)
 
-## 快速开始
+## Quick Start
 
-首先克隆这个仓库并安装依赖。
+Clone this repository and install dependencies.
 
 ```bash
 git clone https://github.com/skyone-wzw/blog-server.git --depth=1
@@ -26,19 +26,19 @@ cd blog-server
 npm install
 ```
 
-启动服务器
+Start the server.
 
 ```bash
 npm run build && npm run start
 ```
 
-在浏览器中打开 `http://localhost:3000` 并享受它吧！
+Open `http://localhost:3000` in your browser and enjoy it!
 
-## 配置
+## Configuration
 
-有两个配置文件：`.env` 和 `data/config.json`。
+There are tow configuration files about the application: `.env` and `data/config.json`.
 
-在 `.env` 文件中，你可以设置数据目录和数据库文件的路径。
+In `.env` file, you can set the data-dir of the server and the path of the database file.
 
 ```ini
 DATABASE_URL="file:./data/data.db"
@@ -51,9 +51,9 @@ AUTH_EMAIL=abc@example.com
 AUTH_PASSWORD=123456
 ```
 
-`data/config.json` 是博客的配置文件。你可以设置标题、描述、作者等。配置文件位于 `${DATA_DIR}/config.json`。
+The `data/config.json` is the configuration file of the blog. You can set the title, description, author and so on. The configure file is located in `${DATA_DIR}/config.json`.
 
-参考下面的示例：
+Refer the example below:
 
 ```json
 {
@@ -81,6 +81,6 @@ AUTH_PASSWORD=123456
 }
 ```
 
-## 开源许可证
+## License
 
 [MIT](LICENSE)
