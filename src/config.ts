@@ -4,25 +4,6 @@ import path from "path";
 import packageJson from "../package.json";
 
 interface Config {
-    title: string;
-    description: string;
-    cover: string;
-    url: string;
-
-    master: {
-        name: string;
-        avatar: string;
-        cover: string;
-        description: string;
-        email?: string;
-        github?: string;
-        zhihu?: string;
-    };
-
-    avatar: {
-        gravatar: string;
-    };
-
     theme: {
         colorTransition: boolean;
     };
@@ -46,15 +27,6 @@ interface Config {
         iv: string;
     },
 
-    keywords: string[];
-
-    navbar: {
-        items: {
-            name: string;
-            url: string;
-        }[];
-    };
-
     package: typeof packageJson;
 }
 
@@ -74,24 +46,6 @@ const config = (() => {
     }
 
     const defaultConfig: Config = {
-        title: "Example Blog",
-        description: "Example Blog - 关注有趣的技术",
-        cover: `/api/image/profile?type=og-cover`,
-        url: "https://blog.example.com",
-
-        master: {
-            name: "Example",
-            avatar: "/api/image/profile?type=avatar",
-            cover: "/api/image/profile?type=profile-cover",
-            description: "科技爱好者",
-            email: "i@example.com",
-            github: "example",
-        },
-
-        avatar: {
-            gravatar: "https://www.gravatar.com/avatar",
-        },
-
         theme: {
             colorTransition: false,
         },
@@ -113,29 +67,6 @@ const config = (() => {
         secret: {
             key: process.env.SECRET_KEY!,
             iv: process.env.SECRET_IV!,
-        },
-
-        keywords: ["blog"],
-
-        navbar: {
-            items: [
-                {
-                    name: "分类",
-                    url: "/series",
-                },
-                {
-                    name: "标签",
-                    url: "/tags",
-                },
-                {
-                    name: "归档",
-                    url: "/archive",
-                },
-                {
-                    name: "友链",
-                    url: "/friends",
-                },
-            ],
         },
 
         package: packageJson,

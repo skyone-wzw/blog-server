@@ -1,5 +1,5 @@
 import Paper from "@/components/base/Paper";
-import config from "@/config";
+import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import Image from "next/image";
 import Link from "next/link";
@@ -49,18 +49,19 @@ interface AsideProfileProps {
     className?: string;
 }
 
-const profile = config.master;
-
 async function AsideProfile({className}: AsideProfileProps) {
+    const dynamicConfig = await getDynamicConfig();
+    const profile = dynamicConfig.profile;
+
     return (
         <Paper className={className}>
-            <Image alt="profil" src={config.master.cover} width="1500" height="750"
-                   blurDataURL={`/_next/image?url=${encodeURIComponent(config.master.cover)}&w=8&q=75`}
+            <Image alt="profil" src={profile.cover} width="1500" height="750"
+                   blurDataURL={`/_next/image?url=${encodeURIComponent(profile.cover)}&w=8&q=75`}
                    placeholder="blur" className="w-full mb-4 object-cover rounded-t-lg h-28"/>
             <div className="flex flex-col items-center justify-center p-4 -mt-16">
-                <Image alt="profil" src={config.master.avatar} height={64} width={64}
-                       blurDataURL={`/_next/image?url=${encodeURIComponent(config.master.avatar)}&w=8&q=75`}
-                       placeholder="blur" className="mx-auto object-cover rounded-full"/>
+                <Image alt="profil" src={profile.avatar} height={64} width={64}
+                       blurDataURL={`/_next/image?url=${encodeURIComponent(profile.avatar)}&w=8&q=75`}
+                       placeholder="blur" className="mx-auto object-cover rounded-full border-2 border-bg-tag"/>
                 <Link href={L.page("login")} className="mt-2 text-xl font-medium text-text-main">
                     {profile.name}
                 </Link>
@@ -68,19 +69,19 @@ async function AsideProfile({className}: AsideProfileProps) {
                     {profile.description}
                 </p>
                 <div className="w-full mt-2 flex justify-around text-sm text-text-subnote">
-                    {profile.github && (
+                    {profile.social.github && (
                         <Link
                             className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
                             title="建议没收违法所得" target="_blank"
-                            href={L.social.github(profile.github)}>
+                            href={L.social.github(profile.social.github)}>
                             <GithubIcon/>
                         </Link>
                     )}
-                    {profile.zhihu && (
+                    {profile.social.zhihu && (
                         <Link
                             className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
                             title="去B乎看看吧~" target="_blank"
-                            href={L.social.zhihu(profile.zhihu)}>
+                            href={L.social.zhihu(profile.social.zhihu)}>
                             <ZhihuIcon/>
                         </Link>
                     )}

@@ -1,13 +1,16 @@
 import Paper from "@/components/base/Paper";
 import FriendCard from "@/components/FriendCard";
-import config from "@/config";
+import {getDynamicConfig} from "@/lib/config";
 import {gatAllClientFriends} from "@/lib/friends";
 import {notFound} from "next/navigation";
 
-export const metadata = {
-    title: `友情链接 - ${config.title}`,
-    description: `${config.master.name} 的朋友们`,
-};
+export async function generateMetadata() {
+    const dynamicConfig = await getDynamicConfig();
+    return {
+        title: `友情链接 - ${dynamicConfig.site.title}`,
+        description: `${dynamicConfig.profile.name} 的朋友们`,
+    }
+}
 
 async function FriendsPage() {
     const friends = await gatAllClientFriends();

@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import {DeepMergeTemplate, DeepPartial} from "@/lib/type-utils";
+import {cache} from "react";
 
 namespace Database {
     interface ConfigEntity {
@@ -50,9 +51,9 @@ const defaultConfig: DynamicConfig = {
     site: {
         title: "My Blog",
         description: "A blog powered by Blog Server",
-        cover: "/default/cover.png",
+        cover: "/default/og-cover.webp",
         url: "https://example.com",
-        keywords: [],
+        keywords: ["Blog"],
     },
     profile: {
         name: "Explorers",
@@ -84,9 +85,9 @@ const defaultConfig: DynamicConfig = {
             },
         ],
     },
-}
+};
 
-export async function getDynamicConfig(): Promise<DynamicConfig> {
+export const getDynamicConfig = cache(async (): Promise<DynamicConfig> => {
     const db = await prisma.config.findMany();
     const config: DeepPartial<DynamicConfig> = {};
     for (const item of db) {
@@ -94,4 +95,4 @@ export async function getDynamicConfig(): Promise<DynamicConfig> {
         config[item.key] = JSON.parse(item.value);
     }
     return DeepMergeTemplate(defaultConfig, config);
-}
+});

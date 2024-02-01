@@ -4,8 +4,8 @@ import ArticleFooterInfo from "@/components/ArticleFooterInfo";
 import Paper from "@/components/base/Paper";
 import ServerMarkdownRender from "@/components/markdown/ServerMarkdownRender";
 import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
-import config from "@/config";
 import {getArticleBySlug} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,9 +23,11 @@ export async function generateMetadata({params}: PostPageProps) {
 
     if (!article) return {};
 
+    const dynamicConfig = await getDynamicConfig();
+
     return {
-        metadataBase: new URL(config.url),
-        title: `${article.title} - ${config.title}`,
+        metadataBase: new URL(dynamicConfig.site.url),
+        title: `${article.title} - ${dynamicConfig.site.title}`,
         description: article.description,
         keywords: article.tags,
         alternates: {
@@ -34,16 +36,16 @@ export async function generateMetadata({params}: PostPageProps) {
         category: article.series,
         openGraph: {
             type: "article",
-            title: `${article.title} - ${config.title}`,
+            title: `${article.title} - ${dynamicConfig.site.title}`,
             description: article.description,
             publishedTime: article.createdAt.toISOString(),
             modifiedTime: article.updatedAt.toISOString(),
             tags: article.tags,
             authors: [
-                new URL(config.url + L.page("about")),
+                new URL(dynamicConfig.site.url + L.page("about")),
             ],
-            emails: config.master.email ? [config.master.email] : undefined,
-            siteName: config.title,
+            emails: dynamicConfig.profile.email ? [dynamicConfig.profile.email] : undefined,
+            siteName: dynamicConfig.site.title,
             locale: "zh_CN",
             url: L.post(article.slug),
             images: [

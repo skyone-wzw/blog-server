@@ -1,8 +1,8 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import Paper from "@/components/base/Paper";
 import FooterPagination from "@/components/FooterPagination";
-import config from "@/config";
 import {DEFAULT_ARTICLE_PER_PAGE, getArticleCountByYear, getArticlesByYearPaginate} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import {notFound} from "next/navigation";
 
@@ -13,11 +13,12 @@ interface ArchivePaginationPageProps {
     };
 }
 
-export const generateMetadata = ({params}: ArchivePaginationPageProps) => {
+export const generateMetadata = async ({params}: ArchivePaginationPageProps) => {
     const year = parseInt(params.year);
+    const dynamicConfig = await getDynamicConfig();
     return {
-        title: `归档: ${year} 年 - ${config.title}`,
-        description: `${config.description}。${year} 年所有文章的归档。第 ${params.page} 页。`,
+        title: `归档: ${year} 年 - ${dynamicConfig.site.title}`,
+        description: `${dynamicConfig.site.description}。${year} 年所有文章的归档。第 ${params.page} 页。`,
     };
 };
 

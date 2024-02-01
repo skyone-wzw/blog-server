@@ -1,7 +1,7 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import Paper from "@/components/base/Paper";
-import config from "@/config";
 import {getArticlesByTag} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
 
 interface TagDetailPageProps {
@@ -10,11 +10,12 @@ interface TagDetailPageProps {
     };
 }
 
-export const generateMetadata = ({params}: TagDetailPageProps) => {
+export const generateMetadata = async ({params}: TagDetailPageProps) => {
     const tag = decodeURIComponent(params.tag);
+    const dynamicConfig = await getDynamicConfig();
     return {
-        title: `标签: ${tag} - ${config.title}`,
-        description: `${config.description}。包含 ${tag} 标签的所有文章。`,
+        title: `标签: ${tag} - ${dynamicConfig.site.title}`,
+        description: `${dynamicConfig.site.description}。包含 ${tag} 标签的所有文章。`,
     };
 };
 

@@ -1,3 +1,5 @@
+"use server";
+
 import config from "@/config";
 import {isUserLoggedIn} from "@/lib/auth";
 import {HASH} from "@/lib/encrypt";

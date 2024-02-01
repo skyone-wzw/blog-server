@@ -1,11 +1,14 @@
 import ArticleEditor from "@/components/article-editor/ArticleEditor";
-import config from "@/config";
 import {Article} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 
-export const metadata = {
-    title: `编辑文章 - ${config.title}`,
-    description: config.description,
-};
+export async function generateMetadata() {
+    const dynamicConfig = await getDynamicConfig();
+    return {
+        title: `新建文章 - ${dynamicConfig.site.title}`,
+        description: dynamicConfig.site.description,
+    }
+}
 
 function NewEditorPage() {
     const date = new Date();

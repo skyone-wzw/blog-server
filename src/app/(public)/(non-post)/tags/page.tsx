@@ -1,13 +1,16 @@
 import Paper from "@/components/base/Paper";
-import config from "@/config";
 import {getAllTags} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import Link from "next/link";
 
-export const metadata = {
-    title: `全部标签 - ${config.title}`,
-    description: `${config.description}。所有标签汇总。`,
-};
+export async function generateMetadata() {
+    const dynamicConfig = await getDynamicConfig();
+    return {
+        title: `全部标签 - ${dynamicConfig.site.title}`,
+        description: `${dynamicConfig.site.description} - 所有标签汇总。`,
+    };
+}
 
 async function TagsPage() {
     const tagsInfo = (await getAllTags())

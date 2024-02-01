@@ -1,7 +1,7 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import Paper from "@/components/base/Paper";
-import config from "@/config";
 import {getArticlesBySeries} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
 
 interface SeriesPageProps {
@@ -10,11 +10,12 @@ interface SeriesPageProps {
     };
 }
 
-export const generateMetadata = ({params}: SeriesPageProps) => {
+export const generateMetadata = async ({params}: SeriesPageProps) => {
     const series = decodeURIComponent(params.series);
+    const dynamicConfig = await getDynamicConfig();
     return {
-        title: `分类: ${series} - ${config.title}`,
-        description: `${config.description}。${series}系列文章。`,
+        title: `分类: ${series} - ${dynamicConfig.site.title}`,
+        description: `${dynamicConfig.site.description}。${series}系列文章。`,
     };
 };
 
