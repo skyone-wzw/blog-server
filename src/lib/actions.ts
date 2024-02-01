@@ -122,7 +122,7 @@ export async function UploadImageAction(formData: FormData) {
         const stat = await fs.stat(filepath);
         if (stat.isFile()) {
             // 文件存在
-            return L.image(filename);
+            return filename;
         } else {
             // 为目录
             return "";

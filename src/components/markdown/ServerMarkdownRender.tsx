@@ -22,7 +22,7 @@ async function _Img({className, alt, src, ...other}: ImgProps) {
     if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
         alt = alt || "";
         const metadata = await getImageMetadata(src);
-        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image(src) : src;
+        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image.post(src) : src;
         if (metadata) {
             return (
                 <span style={{aspectRatio: `${metadata.width} / ${metadata.height}`}} className="optimize-server-image">

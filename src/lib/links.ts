@@ -38,11 +38,19 @@ const L = {
             `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
             url;
     },
-    image(file: string, blur: boolean = false) {
-        const url = `/api/image/${file}`;
-        return blur ?
-            `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
-            url;
+    image: {
+        post(file: string, blur: boolean = false) {
+            const url = `/assets/image/post/${file}`;
+            return blur ?
+                `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
+                url;
+        },
+        custom(file: string, blur: boolean = false) {
+            const url = `/assets/image/custom/${file}`;
+            return blur ?
+                `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
+                url;
+        }
     },
     avatar: {
         email(email: string): string {
@@ -51,13 +59,6 @@ const L = {
         external(url: string): string {
             return url;
         },
-    },
-    customImage(file: string, blur: boolean = false) {
-        // 暂时将自定义图片放在 image 同一目录下
-        const url = `/api/image/${file}`;
-        return blur ?
-            `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
-            url;
     },
 
     // external links

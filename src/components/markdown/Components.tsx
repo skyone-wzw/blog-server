@@ -135,7 +135,7 @@ type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImage
 function Img({className, alt, src, ...other}: ImgProps) {
     if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
         alt = alt || "";
-        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image(src) : src
+        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image.post(src) : src
         return (
             // @ts-ignore
             <Image className={clsx("mx-auto optimize-image", className)}
