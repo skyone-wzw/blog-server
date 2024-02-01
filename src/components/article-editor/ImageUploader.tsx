@@ -1,7 +1,7 @@
 "use client";
 
 import Paper from "@/components/base/Paper";
-import {UploadImageAction} from "@/lib/actions";
+import {UploadImageAction} from "@/lib/file-actions";
 import {useState} from "react";
 
 interface ImageUploaderProps {
@@ -10,7 +10,7 @@ interface ImageUploaderProps {
 
 function ImageUploader({className}: ImageUploaderProps) {
     const [isLoading, setIsLoading] = useState(false);
-    const [result, setResult] = useState<string>("");
+    const [result, setResult] = useState<string | null>("");
 
     const handleUpload = async (formData: FormData) => {
         const fileField = formData.get("file");

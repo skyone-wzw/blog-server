@@ -1,6 +1,6 @@
 import ArticleEditor from "@/components/article-editor/ArticleEditor";
-import config from "@/config";
 import {getArticleBySlug} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
 
 interface ArticleEditorPageProps {
@@ -10,11 +10,12 @@ interface ArticleEditorPageProps {
 }
 
 export const generateMetadata = async ({params: {slug}}: ArticleEditorPageProps) => {
+    const dynamicConfig = await getDynamicConfig();
     const article = await getArticleBySlug(slug);
 
     return {
-        title: `编辑: ${article?.title} - ${config.title}`,
-        description: config.description,
+        title: `编辑: ${article?.title} - ${dynamicConfig.site.title}`,
+        description: dynamicConfig.site.description,
     };
 };
 

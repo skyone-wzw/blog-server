@@ -1,6 +1,43 @@
 import config from "@/config";
 import {getArticleMetadataBySlug} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
+import fs from "fs/promises";
 import {ImageResponse} from "next/og";
+
+const coverDir = config.dir.cover;
+const randomDir = config.dir.random;
+
+async function selectRandomImage() {
+    const files = (await fs.readdir(randomDir))
+        .filter(file => file.match(/\.(jpe?g|png|webp)$/i));
+    if (files.length === 0) return null;
+    const index = Math.floor(Math.random() * files.length);
+    return `random/${files[index]}`;
+}
+
+async function matchImage(slug?: string | null) {
+    if (!slug) return await selectRandomImage();
+    const files = (await fs.readdir(coverDir))
+        .filter(file => file.match(/\.(jpe?g|png|webp)$/i) && file.startsWith(slug));
+    if (files.length === 0) return await selectRandomImage();
+    const index = Math.floor(Math.random() * files.length);
+    return files[index];
+}
+
+async function getImageDataUrl(slug?: string | null) {
+    const file = await matchImage(slug);
+    if (!file) return null;
+    let type;
+    if (file.endsWith(".webp")) {
+        type = "image/webp";
+    } else if (file.endsWith(".png")) {
+        type = "image/png";
+    } else {
+        type = "image/jpeg";
+    }
+    const buffer = await fs.readFile(`${coverDir}/${file}`);
+    return `data:${type};base64,${buffer.toString("base64")}`;
+}
 
 function formatDate(date: Date) {
     const year = date.getFullYear().toString();
@@ -20,9 +57,11 @@ interface ArticleCoverProps {
 export async function GET(_: Request, {params}: ArticleCoverProps) {
     const {slug} = params;
     const article = await getArticleMetadataBySlug(slug);
-    if (!article) {
+    const dataUrl = await getImageDataUrl(slug);
+    if (!article || !dataUrl) {
         return new Response("Not Found", {status: 404});
     }
+    const dynamicConfig = await getDynamicConfig();
     return new ImageResponse(
         <div style={{
             display: "flex",
@@ -31,7 +70,7 @@ export async function GET(_: Request, {params}: ArticleCoverProps) {
             background: "#ffffff",
         }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`http://127.0.0.1:3000/api/image/random?slug=${slug}`}
+            <img src={dataUrl}
                  alt="cover"
                  height={630}
                  width={1300}
@@ -98,7 +137,7 @@ export async function GET(_: Request, {params}: ArticleCoverProps) {
                             marginLeft: 10,
                             marginRight: 0,
                             color: "#37475b",
-                        }}>{config.title}</p>
+                        }}>{dynamicConfig.site.title}</p>
                         <p style={{
                             marginBlock: 0,
                             fontSize: 20,

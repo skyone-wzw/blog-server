@@ -3,7 +3,7 @@ import Flex from "@/components/base/Flex";
 import HeaderColorToggle from "@/components/layout/header/HeaderColorToggle";
 import HeaderLink from "@/components/layout/header/HeaderLink";
 import Logo from "@/components/layout/header/Logo";
-import config from "@/config";
+import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import clsx from "clsx";
 
@@ -33,7 +33,8 @@ interface AppHeaderProps {
     className?: string;
 }
 
-function AppHeader({className}: AppHeaderProps) {
+async function AppHeader({className}: AppHeaderProps) {
+    const dynamicConfig = await getDynamicConfig();
     return (
         <header id="app-header"
                 className={clsx("lg:sticky lg:top-0 lg:z-10 bg-bg-light text-text-content min-h-[48px] lg:px-4 shadow-md", className)}>
@@ -41,12 +42,12 @@ function AppHeader({className}: AppHeaderProps) {
                 <Flex component="h1" center className="overflow-x-auto">
                     <HeaderLink href={L.page()}>
                         <Logo className="mr-3"/>
-                        <span className="tracking-wide text-lg font-bold text-text-l">{config.title}</span>
+                        <span className="tracking-wide text-lg font-bold text-text-l">{dynamicConfig.site.title}</span>
                     </HeaderLink>
                 </Flex>
                 <Flex grow center className="overflow-x-auto">
                     <Flex className="lg:mr-auto mr-0">
-                        {config.navbar.items.map(item => (
+                        {dynamicConfig.navbar.items.map(item => (
                             <HeaderLink href={item.url} key={item.url}>{item.name}</HeaderLink>
                         ))}
                     </Flex>

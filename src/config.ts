@@ -1,3 +1,4 @@
+import {DeepMerge, DeepPartial} from "@/lib/type-utils";
 import fs from "fs";
 import path from "path";
 import packageJson from "../package.json";
@@ -32,6 +33,7 @@ interface Config {
         cover: string;
         random: string;
         profile: string;
+        custom: string;
     };
 
     auth: {
@@ -54,33 +56,6 @@ interface Config {
     };
 
     package: typeof packageJson;
-}
-
-type DeepPartial<T> = {
-    [P in keyof T]?: DeepPartial<T[P]>;
-};
-
-function isObject(item: any) {
-    return (item && typeof item === "object" && !Array.isArray(item));
-}
-
-function DeepMerge<T extends object>(target: T, ...sources: DeepPartial<T>[]): T {
-    if (!sources.length) return target;
-    const source = sources.shift();
-
-    if (isObject(target) && isObject(source)) {
-        for (const key in source) {
-            if (isObject(source[key])) {
-                if (!target[key]) Object.assign(target, {[key]: {}});
-                // @ts-ignore
-                DeepMerge(target[key], source[key]);
-            } else {
-                Object.assign(target, {[key]: source[key]});
-            }
-        }
-    }
-
-    return DeepMerge(target, ...sources);
 }
 
 const dataDir = process.env.DATA_DIR || path.resolve(process.cwd(), "data");
@@ -123,10 +98,11 @@ const config = (() => {
 
         dir: {
             data: dataDir,
-            image: DataDirResolve("images"),
-            cover: DataDirResolve("cover"),
-            random: DataDirResolve("cover/random"),
+            image: DataDirResolve("image/post"),
+            cover: DataDirResolve("image/cover"),
+            random: DataDirResolve("image/cover/random"),
             profile: DataDirResolve("profile"),
+            custom: DataDirResolve("image/custom"),
         },
 
         auth: {
@@ -179,12 +155,13 @@ if (config.secret.key === undefined || config.secret.iv === undefined) {
 }
 
 void function () {
-    const {data, image, cover, random, profile} = config.dir;
-    if (!fs.existsSync(data)) fs.mkdirSync(data);
-    if (!fs.existsSync(image)) fs.mkdirSync(image);
-    if (!fs.existsSync(cover)) fs.mkdirSync(cover);
-    if (!fs.existsSync(random)) fs.mkdirSync(random);
-    if (!fs.existsSync(profile)) fs.mkdirSync(profile);
+    const {data, image, cover, random, profile, custom} = config.dir;
+    if (!fs.existsSync(data)) fs.mkdirSync(data, {recursive: true});
+    if (!fs.existsSync(image)) fs.mkdirSync(image, {recursive: true});
+    if (!fs.existsSync(cover)) fs.mkdirSync(cover, {recursive: true});
+    if (!fs.existsSync(random)) fs.mkdirSync(random, {recursive: true});
+    if (!fs.existsSync(profile)) fs.mkdirSync(profile, {recursive: true});
+    if (!fs.existsSync(custom)) fs.mkdirSync(custom, {recursive: true});
 }();
 
 export default config;

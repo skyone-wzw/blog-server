@@ -54,7 +54,7 @@ const L = {
     },
     avatar: {
         email(email: string): string {
-            return `/api/avatar/email/${email}`;
+            return `/api/avatar/${email}`;
         },
         external(url: string): string {
             return url;

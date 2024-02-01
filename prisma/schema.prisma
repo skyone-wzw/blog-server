@@ -35,3 +35,13 @@ model Friend {
 
   @@map("friends")
 }
+
+model Config {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("configs")
+}
