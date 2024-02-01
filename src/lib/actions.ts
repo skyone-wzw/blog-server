@@ -5,6 +5,7 @@ import {ArticleCreate, ArticlePatch, createArticle, deleteArticle, patchArticle}
 import {generateToken, isUserLoggedIn} from "@/lib/auth";
 import {HASH} from "@/lib/encrypt";
 import fs from "fs/promises";
+import {revalidatePath} from "next/cache";
 import {cookies} from "next/headers";
 import {redirect, RedirectType} from "next/navigation";
 
@@ -45,7 +46,11 @@ export async function SaveArticleAction(article: ArticlePatch) {
     if (article.tags?.some(tag => tag.match(/[\/\\]/))) return false;
     if (article.series?.match(/[\/\\]/)) return false;
 
-    return await patchArticle(article);
+    const result = await patchArticle(article);
+
+    revalidatePath("/editor", "layout");
+    revalidatePath(`/post/${article.slug}`, "page");
+    return result;
 }
 
 export async function CreateArticleAction(article: ArticleCreate) {
@@ -58,13 +63,20 @@ export async function CreateArticleAction(article: ArticleCreate) {
     if (article.tags.some(tag => tag.match(/[\/\\]/))) return false;
     if (article.series.match(/[\/\\]/)) return false;
 
-    return await createArticle(article);
+    const result = await createArticle(article);
+
+    revalidatePath("/editor", "layout");
+    return result;
 }
 
 export async function DeleteArticleAction(id: string) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
 
-    return await deleteArticle(id);
+    const result = await deleteArticle(id);
+
+    revalidatePath("/editor", "layout");
+    revalidatePath(`/post/${id}`, "page");
+    return result;
 }
 
 //type ContentType = "image/webp" | "image/png" | "image/jpeg";

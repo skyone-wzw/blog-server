@@ -15,8 +15,7 @@ async function AdminFriendsPage() {
                     <Paper className="p-6">
                         <span className="text-text-content text-lg mr-3">点击以修改友链</span>
                         <span className="text-text-subnote">共 {friends.length} 条</span>
-                        <p className="text-sm text-text-subnote">在编辑完成后无法实时显示数据, 必须刷新页面,
-                            暂时不知道怎么解决</p>
+                        <p className="text-sm text-text-subnote">快和朋友们交换友链吧~</p>
                     </Paper>
                     <div className="grid grid-cols-2 flex-wrap gap-4 @container">
                         {friends.map((friend) => (
