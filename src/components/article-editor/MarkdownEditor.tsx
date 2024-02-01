@@ -91,13 +91,40 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
                     const scrollTop = Editor.scrollDOM.scrollTop;
                     const block = Editor.lineBlockAtHeight(scrollTop)
                     const line = Editor.state.doc.lineAt(block.from).number;
-                    const target = document.querySelector(`#article-editor-markdown-editor [data-line="${line}"]`);
-                    if (target) {
+                    const maxLine = Editor.state.doc.lines
+                    let target = document.querySelector(`#article-editor-markdown-editor [data-line="${line + 1}"]`);
+                    let startLine = line;
+                    let startTarget;
+                    let endLine = line + 1;
+                    let endTarget;
+                    while (!target && endLine < maxLine) {
+                        endLine++;
+                        target = document.querySelector(`#article-editor-markdown-editor [data-line="${endLine}"]`);
+                    }
+                    endTarget = target;
+                    target = document.querySelector(`#article-editor-markdown-editor [data-line="${startLine}"]`);
+                    while (!target && startLine > 0) {
+                        startLine--;
+                        target = document.querySelector(`#article-editor-markdown-editor [data-line="${startLine}"]`);
+                    }
+                    startTarget = target;
+                    if (startTarget && endTarget) {
+                        const startLineInfo = Editor.lineBlockAt(Editor.state.doc.line(startLine).from);
+                        const endLineInfo = Editor.lineBlockAt(Editor.state.doc.line(endLine).from);
+                        const startTop = (startTarget as HTMLElement).offsetTop;
+                        const endTop = (endTarget as HTMLElement).offsetTop;
+                        const height = endLineInfo.top - startLineInfo.top;
+                        const percent = (scrollTop - startLineInfo.top) / height;
                         previewRef.current.scrollTo({
-                            top: (target as HTMLElement).offsetTop - 140,
-                            behavior: "smooth",
+                            top: (startTarget as HTMLElement).offsetTop - 170 + (endTop - startTop) * percent,
                         });
                     }
+                    // const percent = (scrollTop - block.top) / block.height;
+                    // const height = target.clientHeight;
+                    // previewRef.current.scrollTo({
+                    //     top: (target as HTMLElement).offsetTop - 140 + height * percent,
+                    //     behavior: "smooth",
+                    // });
                 }
             }
 
