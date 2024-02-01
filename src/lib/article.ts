@@ -413,19 +413,19 @@ export const getAllArticleCount = cache(async (published: boolean = true): Promi
 
 export const createArticle = cache(async (article: ArticleCreate) => {
     try {
-        await prisma.post.create({
+        return await prisma.post.create({
             data: ObjectPick(Article2Database(article),
                 ["title", "slug", "description", "series", "tags", "published", "content"]),
+            select: ArticleMetadataSelector,
         });
-        return true;
     } catch (e) {
-        return false;
+        return null;
     }
 });
 
 export const patchArticle = cache(async (article: ArticlePatch) => {
     try {
-        await prisma.post.update({
+        return await prisma.post.update({
             where: {
                 id: article.id,
             },
@@ -434,22 +434,22 @@ export const patchArticle = cache(async (article: ArticlePatch) => {
                     ["title", "slug", "description", "series", "tags", "published", "content"]),
                 updatedAt: new Date(),
             },
+            select: ArticleMetadataSelector,
         });
-        return true;
     } catch (e) {
-        return false;
+        return null;
     }
 });
 
 export const deleteArticle = cache(async (id: string) => {
     try {
-        await prisma.post.delete({
+        return await prisma.post.delete({
             where: {
                 id: id,
             },
+            select: ArticleMetadataSelector
         });
-        return true;
     } catch (e) {
-        return false;
+        return null;
     }
 });

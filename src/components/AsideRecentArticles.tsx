@@ -1,5 +1,6 @@
 import Paper from "@/components/base/Paper";
 import {getRecentArticlesMetadata} from "@/lib/article";
+import L from "@/lib/links";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -16,7 +17,7 @@ async function AsideRecentArticles({className}: AsideRecentArticlesProps) {
                 {articles.map(article => (
                     <Link key={article.slug}
                           className="block p-3 text-text-content hover:text-link-hover hover:underline"
-                          href={`/post/${article.slug}`}>
+                          href={L.post(article.slug)}>
                         {article.title}
                     </Link>
                 ))}

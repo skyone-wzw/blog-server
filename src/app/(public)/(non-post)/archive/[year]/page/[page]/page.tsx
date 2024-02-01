@@ -3,6 +3,7 @@ import Paper from "@/components/base/Paper";
 import FooterPagination from "@/components/FooterPagination";
 import config from "@/config";
 import {DEFAULT_ARTICLE_PER_PAGE, getArticleCountByYear, getArticlesByYearPaginate} from "@/lib/article";
+import L from "@/lib/links";
 import {notFound} from "next/navigation";
 
 interface ArchivePaginationPageProps {
@@ -43,8 +44,8 @@ async function ArchivePaginationPage({params}: ArchivePaginationPageProps) {
                 <ArticleSummaryCard article={article} key={article.slug}/>
             ))}
             <FooterPagination current={page} total={total} getLink={(page) => {
-                if (total === 1) return `/archive/${year}`;
-                return `/archive/${year}/page/${page}`;
+                if (total === 1) return L.archive(year);
+                return L.archive(year, page);
             }}/>
         </>
     )

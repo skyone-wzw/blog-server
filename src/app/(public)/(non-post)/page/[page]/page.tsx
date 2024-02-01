@@ -1,6 +1,7 @@
 import ArticleSummaryCard from "@/components/ArticleSummaryCard";
 import FooterPagination from "@/components/FooterPagination";
 import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticlesMetadata} from "@/lib/article";
+import L from "@/lib/links";
 import {notFound} from "next/navigation";
 
 interface PaginationPageProps {
@@ -27,7 +28,7 @@ async function PaginationPage({params}: PaginationPageProps) {
             ))}
             <FooterPagination current={page} total={total} getLink={(page) => {
                 if (total === 1) return "/";
-                return `/page/${page}`;
+                return L.homePagination(page);
             }}/>
         </>
     );

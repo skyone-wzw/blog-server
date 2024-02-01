@@ -1,5 +1,6 @@
 import Paper from "@/components/base/Paper";
 import config from "@/config";
+import L from "@/lib/links";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -60,7 +61,7 @@ async function AsideProfile({className}: AsideProfileProps) {
                 <Image alt="profil" src={config.master.avatar} height={64} width={64}
                        blurDataURL={`/_next/image?url=${encodeURIComponent(config.master.avatar)}&w=8&q=75`}
                        placeholder="blur" className="mx-auto object-cover rounded-full"/>
-                <Link href="/login" className="mt-2 text-xl font-medium text-text-main">
+                <Link href={L.page("login")} className="mt-2 text-xl font-medium text-text-main">
                     {profile.name}
                 </Link>
                 <p className="mt-2 text-xs text-text-subnote">
@@ -71,7 +72,7 @@ async function AsideProfile({className}: AsideProfileProps) {
                         <Link
                             className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
                             title="建议没收违法所得" target="_blank"
-                            href={`https://github.com/${profile.github}`}>
+                            href={L.social.github(profile.github)}>
                             <GithubIcon/>
                         </Link>
                     )}
@@ -79,7 +80,7 @@ async function AsideProfile({className}: AsideProfileProps) {
                         <Link
                             className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
                             title="去B乎看看吧~" target="_blank"
-                            href={`https://github.com/${profile.github}`}>
+                            href={L.social.zhihu(profile.zhihu)}>
                             <ZhihuIcon/>
                         </Link>
                     )}
@@ -87,14 +88,14 @@ async function AsideProfile({className}: AsideProfileProps) {
                         <Link
                             className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded hover:bg-bg-hover"
                             title="要给我发邮件吗？"
-                            href={`mailto:${profile.email}`}>
+                            href={L.social.email(profile.email)}>
                             <EmailIcon/>
                         </Link>
                     )}
                     <Link
                         className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded hover:bg-bg-hover"
                         title="订阅我的RSS吧~"
-                        href={`#`}>
+                        href={L.social.rss()}>
                         <RssFeedIcon/>
                     </Link>
                 </div>

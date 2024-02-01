@@ -6,6 +6,7 @@ import ServerMarkdownRender from "@/components/markdown/ServerMarkdownRender";
 import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
 import config from "@/config";
 import {getArticleBySlug} from "@/lib/article";
+import L from "@/lib/links";
 import Image from "next/image";
 import Link from "next/link";
 import {notFound} from "next/navigation";
@@ -28,7 +29,7 @@ export async function generateMetadata({params}: PostPageProps) {
         description: article.description,
         keywords: article.tags,
         alternates: {
-            canonical: `/post/${slug}`,
+            canonical: L.post(article.slug),
         },
         category: article.series,
         openGraph: {
@@ -39,15 +40,15 @@ export async function generateMetadata({params}: PostPageProps) {
             modifiedTime: article.updatedAt.toISOString(),
             tags: article.tags,
             authors: [
-                new URL(`${config.url}/about`),
+                new URL(config.url + L.page("about")),
             ],
             emails: config.master.email ? [config.master.email] : undefined,
             siteName: config.title,
             locale: "zh_CN",
-            url: `/post/${slug}`,
+            url: L.post(article.slug),
             images: [
                 {
-                    url: `/_next/image?url=${encodeURIComponent(`/api/cover/${slug}`)}&w=1920&q=75`,
+                    url: L.cover(article.slug),
                     width: 1300,
                     height: 630,
                     alt: "cover",
@@ -69,8 +70,9 @@ async function PostPage({params}: PostPageProps) {
         <>
             <Paper className="space-y-3 md:space-y-4">
                 <Image
+                    blurDataURL={L.cover(article.slug, true)}
                     className="w-full aspect-[130/63] rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-                    src={`/api/cover/${slug}`} alt="cover" width={1300} height={630} priority/>
+                    src={L.cover(article.slug)} alt="cover" width={1300} height={630} priority/>
                 <h1 className="px-4 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
                 <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap justify-between">
                     <div>
@@ -81,15 +83,15 @@ async function PostPage({params}: PostPageProps) {
                         })}</time>
                         <span className="mx-1 after:content-['·']"></span>
                         <Link className="hover:text-link-hover"
-                              href={`/series/${encodeURIComponent(article.series)}`}>{article.series}</Link>
+                              href={L.series(article.series)}>{article.series}</Link>
                     </div>
-                    <Link className="hover:text-link-hover" href={`/editor/${article.slug}`}>编辑</Link>
+                    <Link className="hover:text-link-hover" href={L.editor(article.slug)}>编辑</Link>
                 </div>
                 <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(article.content)}</div>
                 <ArticleFooterInfo article={article}/>
                 <ArticleFloatingButton toc={toc}/>
             </Paper>
-            <ArticleFooterAdjacentNavigation slug={slug}/>
+            <ArticleFooterAdjacentNavigation slug={article.slug}/>
         </>
     );
 }

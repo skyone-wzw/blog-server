@@ -1,4 +1,5 @@
 import {isUserLoggedIn} from "@/lib/auth";
+import L from "@/lib/links";
 import {redirect, RedirectType} from "next/navigation";
 import {ReactNode} from "react";
 
@@ -7,7 +8,7 @@ interface AdminPageLayoutProps {
 }
 
 async function AdminPageLayout({children}: AdminPageLayoutProps) {
-    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    if (!await isUserLoggedIn()) redirect(L.page("login"), RedirectType.replace);
 
     return <>{children}</>;
 }

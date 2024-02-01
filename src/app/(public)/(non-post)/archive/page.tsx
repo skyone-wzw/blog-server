@@ -1,6 +1,7 @@
 import Paper from "@/components/base/Paper";
 import config from "@/config";
 import {ArticleMetadata, getAllArticlesMetadata} from "@/lib/article";
+import L from "@/lib/links";
 import Link from "next/link";
 
 export const metadata = {
@@ -35,7 +36,7 @@ async function ArchivePage() {
 
     return years.map(year => (
         <div key={year} id={`year-${year}`}>
-            <Link className="mb-2 block hover:underline" href={`/archive/${year}`}>
+            <Link className="mb-2 block hover:underline" href={L.archive(year)}>
                 <span className="text-text-content text-xl mr-3">{year} 年</span>
                 <span className="text-text-subnote">共 {grouped.get(year)!.length} 篇</span>
             </Link>
@@ -43,7 +44,7 @@ async function ArchivePage() {
                 {grouped.get(year)!.map((article) => (
                     <Paper key={year} className="p-4">
                         <p className="text-text-subnote text-sm">{formatDate(article.createdAt)}</p>
-                        <Link key={article.slug} href={`/post/${article.slug}`}
+                        <Link key={article.slug} href={L.post(article.slug)}
                               className="block text-text-content hover:text-link-hover hover:underline">{article.title}</Link>
                     </Paper>
                 ))}

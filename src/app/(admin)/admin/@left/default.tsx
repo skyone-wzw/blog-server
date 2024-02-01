@@ -1,4 +1,5 @@
 import Paper from "@/components/base/Paper";
+import L from "@/lib/links";
 import Link from "next/link";
 
 interface RouterItem {
@@ -10,15 +11,15 @@ function AdminLeftPage() {
     const routers: RouterItem[] = [
         {
             name: "管理面板",
-            url: "/admin",
+            url: L.admin(),
         },
         {
             name: "文章编辑",
-            url: "/editor",
+            url: L.editor(),
         },
         {
             name: "友情链接",
-            url: "/admin/friends",
+            url: L.admin("friends"),
         }
     ];
 

@@ -1,5 +1,6 @@
 import Paper from "@/components/base/Paper";
 import {getAllTags} from "@/lib/article";
+import L from "@/lib/links";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ async function AsideTags({className}: AsideTagsProps) {
                 {allTags.map(tag => (
                     <Link key={tag.tag}
                           className="p-2 text-text-content hover:text-link-hover hover:underline tag-prefix"
-                          href={`/tags/${encodeURIComponent(tag.tag)}`}>
+                          href={L.tags(tag.tag)}>
                         {tag.tag}
                     </Link>
                 ))}

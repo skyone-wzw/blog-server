@@ -4,6 +4,7 @@ import HeaderColorToggle from "@/components/layout/header/HeaderColorToggle";
 import HeaderLink from "@/components/layout/header/HeaderLink";
 import Logo from "@/components/layout/header/Logo";
 import config from "@/config";
+import L from "@/lib/links";
 import clsx from "clsx";
 
 interface IconProps {
@@ -38,7 +39,7 @@ function AppHeader({className}: AppHeaderProps) {
                 className={clsx("lg:sticky lg:top-0 lg:z-10 bg-bg-light text-text-content min-h-[48px] lg:px-4 shadow-md", className)}>
             <Container className="lg:flex lg:items-stretch">
                 <Flex component="h1" center className="overflow-x-auto">
-                    <HeaderLink href="/">
+                    <HeaderLink href={L.page()}>
                         <Logo className="mr-3"/>
                         <span className="tracking-wide text-lg font-bold text-text-l">{config.title}</span>
                     </HeaderLink>
@@ -50,7 +51,7 @@ function AppHeader({className}: AppHeaderProps) {
                         ))}
                     </Flex>
                     <Flex>
-                        <HeaderLink href="/admin" title="文章编辑器" className="fill-current"><AdminIcon/></HeaderLink>
+                        <HeaderLink href={L.admin()} title="文章编辑器" className="fill-current"><AdminIcon/></HeaderLink>
                         <HeaderLink href="#" title="搜索" className="fill-current"><SearchIcon/></HeaderLink>
                         <HeaderColorToggle/>
                     </Flex>

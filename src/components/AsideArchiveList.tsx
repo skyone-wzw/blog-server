@@ -1,5 +1,6 @@
 import Paper from "@/components/base/Paper";
 import {getAllYears} from "@/lib/article";
+import L from "@/lib/links";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -15,7 +16,7 @@ async function AsideArchiveList({className}: AsideArchiveListProps) {
             <p className="mb-3 text-text-subnote">归档</p>
             {years.map(y => (
                 <Link key={y.year} className="p-2 text-text-content flex justify-between hover:bg-bg-hover"
-                      href={`/archive/${y.year}`}>
+                      href={L.archive(y.year)}>
                     {y.year}
                     <span className="text-text-subnote bg-bg-tag rounded px-2">{y.count}</span>
                 </Link>

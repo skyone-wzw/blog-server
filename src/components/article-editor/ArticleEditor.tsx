@@ -7,6 +7,7 @@ import Paper from "@/components/base/Paper";
 import DangerousButton from "@/components/DangerousButton";
 import {CreateArticleAction, DeleteArticleAction, LogoutAction, SaveArticleAction} from "@/lib/actions";
 import {Article, ArticleCreate, ArticlePatch} from "@/lib/article";
+import L from "@/lib/links";
 import clsx from "clsx";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
@@ -96,7 +97,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
             result = await SaveArticleAction(patchArticle);
         }
         if (result) {
-            router.replace(`/editor/${slug}`);
+            router.replace(L.editor(slug));
         } else {
             alert("保存失败");
         }
@@ -243,7 +244,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 </div>
                 {article.id && (
                     <Link
-                        href={`/post/${slug}`}
+                        href={L.post(article.slug)}
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
                         转到文章
                     </Link>
@@ -261,7 +262,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                     </DangerousButton>
                 )}
                 <Link
-                    href="/editor" title="返回文章选择页"
+                    href={L.editor()} title="返回文章选择页"
                     className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover lg:hidden">
                     返回
                 </Link>

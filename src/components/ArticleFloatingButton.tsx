@@ -48,7 +48,7 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
                     </Dialog>
                 </>
             )}
-            <Link href="#article-content-main" title="返回顶部"
+            <Link href={"#article-content-main"} title="返回顶部"
                   className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag text-text-content hover:text-link-hover" onClick={scrollToTop}>
                 <svg fill="currentColor" viewBox="0 0 24 24" height={20} width={20} xmlns="http://www.w3.org/2000/svg">
                     <path

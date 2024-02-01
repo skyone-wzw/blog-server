@@ -2,6 +2,7 @@
 
 import Paper from "@/components/base/Paper";
 import {ArticleMetadata} from "@/lib/article";
+import L from "@/lib/links";
 import clsx from "clsx";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
@@ -128,7 +129,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
                 <p className="px-4 text-text-subnote text-sm">{selectedLabel}</p>
                 <div className="px-2.5 divide-y divide-dashed divide-bg-tag max-h-full overflow-auto xc-scroll">
                     {selected.type === "all" && (
-                        <Link href="/editor/new"
+                        <Link href={L.editor("new")}
                               className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover">
                             新建文章
                         </Link>
@@ -136,7 +137,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
                     {filteredArticles.map(article => (
                         <Link className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover"
                               key={article.slug}
-                              href={`/editor/${article.slug}`}>
+                              href={L.editor(article.slug)}>
                             {article.title}
                         </Link>
                     ))}

@@ -1,4 +1,5 @@
 import {getAdjacentArticleMetadata} from "@/lib/article";
+import L from "@/lib/links";
 import Link from "next/link";
 
 function PrevIcon() {
@@ -29,14 +30,14 @@ async function ArticleFooterAdjacentNavigation({slug}: ArticleFooterAdjacentNavi
     return (
         <div className="flex flex-col sm:grid sm:grid-cols-2 gap-6 font-sm 2xl:text-base">
             {adjacent.next && (
-                <Link href={`/post/${adjacent.next.slug}`}
+                <Link href={L.post(adjacent.next.slug)}
                       className="col-start-1 bg-bg-light text-text-content hover:text-link-hover rounded-lg shadow p-4 gap-x-2 flex flex-row justify-start items-center">
                     <PrevIcon/>
                     {adjacent.next.title}
                 </Link>
             )}
             {adjacent.prev && (
-                <Link href={`/post/${adjacent.prev.slug}`}
+                <Link href={L.post(adjacent.prev.slug)}
                       className="col-start-2 bg-bg-light text-text-content hover:text-link-hover rounded-lg shadow p-4 gap-x-2 flex flex-row justify-end items-center">
                     {adjacent.prev.title}
                     <NextIcon/>

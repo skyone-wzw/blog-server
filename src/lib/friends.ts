@@ -1,4 +1,5 @@
 import {AES} from "@/lib/encrypt";
+import L from "@/lib/links";
 import prisma from "@/lib/prisma";
 import {ObjectPick} from "@/lib/type-utils";
 import {cache} from "react";
@@ -65,7 +66,7 @@ export function toClientFriend(friend: Friend): ClientFriend {
     let avatar = friend.avatar;
     if (!avatar) {
         if (friend.email) {
-            avatar = `/api/avatar/email/${AES.encrypt(friend.email)}`;
+            avatar = L.avatar.email(AES.encrypt(friend.email));
         }
     }
     return {

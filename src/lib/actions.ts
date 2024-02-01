@@ -4,6 +4,7 @@ import config from "@/config";
 import {ArticleCreate, ArticlePatch, createArticle, deleteArticle, patchArticle} from "@/lib/article";
 import {generateToken, isUserLoggedIn} from "@/lib/auth";
 import {HASH} from "@/lib/encrypt";
+import L from "@/lib/links";
 import fs from "fs/promises";
 import {revalidatePath} from "next/cache";
 import {cookies} from "next/headers";
@@ -48,9 +49,13 @@ export async function SaveArticleAction(article: ArticlePatch) {
 
     const result = await patchArticle(article);
 
-    revalidatePath("/editor", "layout");
-    revalidatePath(`/post/${article.slug}`, "page");
-    return result;
+    if (result) {
+        revalidatePath(L.editor(), "layout");
+        revalidatePath(L.post(result.slug), "page");
+        return true;
+    } else {
+        return false;
+    }
 }
 
 export async function CreateArticleAction(article: ArticleCreate) {
@@ -65,8 +70,12 @@ export async function CreateArticleAction(article: ArticleCreate) {
 
     const result = await createArticle(article);
 
-    revalidatePath("/editor", "layout");
-    return result;
+    if (result) {
+        revalidatePath(L.editor(), "layout");
+        return true;
+    } else {
+        return false;
+    }
 }
 
 export async function DeleteArticleAction(id: string) {
@@ -74,9 +83,13 @@ export async function DeleteArticleAction(id: string) {
 
     const result = await deleteArticle(id);
 
-    revalidatePath("/editor", "layout");
-    revalidatePath(`/post/${id}`, "page");
-    return result;
+    if (result) {
+        revalidatePath(L.editor(), "layout");
+        revalidatePath(L.post(result.slug), "page");
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //type ContentType = "image/webp" | "image/png" | "image/jpeg";
@@ -109,7 +122,7 @@ export async function UploadImageAction(formData: FormData) {
         const stat = await fs.stat(filepath);
         if (stat.isFile()) {
             // 文件存在
-            return `/api/image/${filename}`;
+            return L.image(filename);
         } else {
             // 为目录
             return "";
@@ -120,7 +133,7 @@ export async function UploadImageAction(formData: FormData) {
     // 文件不存在, 写入文件
     try {
         await fs.writeFile(filepath, Buffer.from(file));
-        return `/api/image/${filename}`;
+        return L.image(filename);
     } catch (e) {
         return "";
     }
