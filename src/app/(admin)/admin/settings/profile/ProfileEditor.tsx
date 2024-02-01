@@ -18,7 +18,7 @@ function SubmitButton() {
 
     return (
         <input
-            className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
+            className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
             disabled={pending} type="submit" value="保存资料"/>
     );
 }

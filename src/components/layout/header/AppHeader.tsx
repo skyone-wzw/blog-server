@@ -41,7 +41,7 @@ async function AppHeader({className}: AppHeaderProps) {
             <Container className="lg:flex lg:items-stretch">
                 <Flex component="h1" center className="overflow-x-auto">
                     <HeaderLink href={L.page()}>
-                        <Logo className="mr-3"/>
+                        <Logo className="mr-3 w-6 h-6"/>
                         <span className="tracking-wide text-lg font-bold text-text-l">{dynamicConfig.site.title}</span>
                     </HeaderLink>
                 </Flex>

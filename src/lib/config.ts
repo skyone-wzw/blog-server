@@ -16,6 +16,7 @@ namespace Database {
 
 export interface SiteDynamicConfig {
     title: string;
+    logo: string;
     description: string;
     cover: string;
     url: string;
@@ -54,6 +55,7 @@ export interface DynamicConfig {
 const defaultConfig: DynamicConfig = {
     site: {
         title: "My Blog",
+        logo: "/default/logo.png",
         description: "A blog powered by Blog Server",
         cover: "/default/og-cover.webp",
         url: "https://example.com",
