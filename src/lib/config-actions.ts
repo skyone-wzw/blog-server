@@ -29,6 +29,30 @@ export async function SaveDynamicConfigAction<K extends keyof DynamicConfig>(key
     }
 }
 
+export async function UpdateServerUrlAction(url: string) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+
+    if (!url) return false;
+
+    try {
+        const _url = new URL(url);
+        const newUrl = `${_url.protocol}//${_url.host}`;
+        const dynamicConfig = await getDynamicConfig();
+        const siteConfig = dynamicConfig.site;
+        siteConfig.url = newUrl;
+        await prisma.config.upsert({
+            where: {key: "site"},
+            update: {value: JSON.stringify(siteConfig)},
+            create: {key: "site", value: JSON.stringify(siteConfig)},
+        });
+
+        revalidatePath("/", "layout");
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 export interface SaveProfileActionState {
     error: boolean;
     message: string;

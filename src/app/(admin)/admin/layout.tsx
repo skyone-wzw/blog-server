@@ -1,5 +1,7 @@
+import UpdateServerUrl from "@/app/(admin)/admin/UpdateServerUrl";
 import Container from "@/components/base/Container";
 import AppFooter from "@/components/layout/footer/AppFooter";
+import {getDynamicConfig} from "@/lib/config";
 import {ReactNode, Suspense} from "react";
 
 interface AdminRootLayoutProps {
@@ -8,6 +10,8 @@ interface AdminRootLayoutProps {
 }
 
 async function AdminRootLayout({left, children}: AdminRootLayoutProps) {
+    const dynamicConfig = await getDynamicConfig();
+
     return (
         <>
             <Container component="main"
@@ -18,6 +22,7 @@ async function AdminRootLayout({left, children}: AdminRootLayoutProps) {
                 {children}
             </Container>
             <AppFooter className="row-start-3"/>
+            <UpdateServerUrl url={dynamicConfig.site.url}/>
         </>
     );
 }
