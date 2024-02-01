@@ -14,26 +14,30 @@ namespace Database {
     export type Config = ConfigEntity[]
 }
 
-export interface DynamicConfig {
-    site: {
-        title: string;
-        description: string;
-        cover: string;
-        url: string;
-        keywords: string[];
-    };
+export interface SiteDynamicConfig {
+    title: string;
+    description: string;
+    cover: string;
+    url: string;
+    keywords: string[];
+}
 
-    profile: {
-        name: string;
-        avatar: string;
-        cover: string;
-        description: string;
-        email: string;
-        social: {
-            github?: string;
-            zhihu?: string;
-        }
-    };
+export interface ProfileDynamicConfig {
+    name: string;
+    avatar: string;
+    cover: string;
+    description: string;
+    email: string;
+    social: {
+        github?: string;
+        zhihu?: string;
+    }
+}
+
+export interface DynamicConfig {
+    site: SiteDynamicConfig;
+
+    profile: ProfileDynamicConfig;
 
     avatar: {
         gravatar: string;

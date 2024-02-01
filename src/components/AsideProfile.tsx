@@ -55,13 +55,13 @@ async function AsideProfile({className}: AsideProfileProps) {
 
     return (
         <Paper className={className}>
-            <Image alt="profil" src={profile.cover} width="1500" height="750"
-                   blurDataURL={`/_next/image?url=${encodeURIComponent(profile.cover)}&w=8&q=75`}
+            <Image alt="profil" src={L.image.custom(profile.cover)} width="1500" height="750"
+                   blurDataURL={L.image.custom(profile.cover, true)}
                    placeholder="blur" className="w-full mb-4 object-cover rounded-t-lg h-28"/>
             <div className="flex flex-col items-center justify-center p-4 -mt-16">
-                <Image alt="profil" src={profile.avatar} height={64} width={64}
-                       blurDataURL={`/_next/image?url=${encodeURIComponent(profile.avatar)}&w=8&q=75`}
-                       placeholder="blur" className="mx-auto object-cover rounded-full border-2 border-bg-tag"/>
+                <Image alt="profil" src={L.image.custom(profile.avatar)} height={64} width={64}
+                       blurDataURL={L.image.custom(profile.avatar, true)}
+                       placeholder="blur" className="mx-auto w-16 h-16 object-cover rounded-full border-2 border-bg-tag"/>
                 <Link href={L.page("login")} className="mt-2 text-xl font-medium text-text-main">
                     {profile.name}
                 </Link>

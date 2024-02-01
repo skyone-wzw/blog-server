@@ -1,9 +1,17 @@
-import {FriendLinkCreator, FriendLinkEditor} from "@/app/(admin)/admin/friends/FriendLinkEditor";
 import Paper from "@/components/base/Paper";
 import {getAvatarElement} from "@/components/FriendCard";
+import {getDynamicConfig} from "@/lib/config";
 import {getAllFriends, toClientFriend} from "@/lib/friends";
+import {FriendLinkCreator, FriendLinkEditor} from "./FriendLinkEditor";
 
-// FIXME 在编辑完成后无法实时显示数据, 必须刷新页面, 暂时不知道怎么解决
+export async function generateMetadata() {
+    const dynamicConfig = await getDynamicConfig();
+    return {
+        title: `友链管理 - ${dynamicConfig.site.title}`,
+        description: `${dynamicConfig.site.description}`,
+    }
+}
+
 async function AdminFriendsPage() {
     const friends = await getAllFriends();
 
