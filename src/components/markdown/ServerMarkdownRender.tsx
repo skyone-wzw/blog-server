@@ -1,6 +1,7 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
 import {autoHeadingId, jsxConfig} from "@/components/markdown/tools";
 import {getImageMetadata} from "@/lib/images";
+import L from "@/lib/links";
 import clsx from "clsx";
 import Image from "next/image";
 import {cache, DetailedHTMLProps, ImgHTMLAttributes} from "react";
@@ -18,22 +19,18 @@ import * as Components from "./Components";
 type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
 
 async function _Img({className, alt, src, ...other}: ImgProps) {
-    if (!src || !src.startsWith("/")) {
-        return (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
-        );
-    } else {
+    if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
         alt = alt || "";
         const metadata = await getImageMetadata(src);
+        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image(src) : src;
         if (metadata) {
             return (
                 <span style={{aspectRatio: `${metadata.width} / ${metadata.height}`}} className="optimize-server-image">
                     <Image className="max-w-full" sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
-                           // @ts-ignore
+                        // @ts-ignore
                            src={src} alt={alt} height={metadata.height} width={metadata.width} {...other}/>
                 </span>
-            )
+            );
         }
         return (
             // @ts-ignore
@@ -41,6 +38,11 @@ async function _Img({className, alt, src, ...other}: ImgProps) {
                 // 对于透明图片效果很差, 暂时不使用
                 // blurDataURL={`/_next/image?url=${encodeURIComponent(src)}&w=8&q=75`} placeholder="blur"
                    fill alt={alt} src={src} {...other}/>
+        );
+    } else {
+        return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
         );
     }
 }

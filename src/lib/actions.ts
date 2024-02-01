@@ -133,7 +133,7 @@ export async function UploadImageAction(formData: FormData) {
     // 文件不存在, 写入文件
     try {
         await fs.writeFile(filepath, Buffer.from(file));
-        return L.image(filename);
+        return filename;
     } catch (e) {
         return "";
     }

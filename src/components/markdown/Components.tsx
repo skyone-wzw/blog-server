@@ -1,4 +1,5 @@
 import {getHeadingId} from "@/components/markdown/tools";
+import L from "@/lib/links";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -132,13 +133,9 @@ function IFrame({className, height, ...other}: IFrameProps) {
 type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
 
 function Img({className, alt, src, ...other}: ImgProps) {
-    if (!src || !src.startsWith("/")) {
-        return (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
-        );
-    } else {
+    if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
         alt = alt || "";
+        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image(src) : src
         return (
             // @ts-ignore
             <Image className={clsx("mx-auto optimize-image", className)}
@@ -147,6 +144,11 @@ function Img({className, alt, src, ...other}: ImgProps) {
                 // 对于透明图片效果很差, 暂时不使用
                 // blurDataURL={`/_next/image?url=${encodeURIComponent(src)}&w=8&q=75`} placeholder="blur"
                    fill alt={alt} src={src} {...other}/>
+        );
+    } else {
+        return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
         );
     }
 }
