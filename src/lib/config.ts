@@ -89,6 +89,10 @@ const defaultConfig: DynamicConfig = {
                 name: "归档",
                 url: "/archive",
             },
+            {
+                name: "友链",
+                url: "/friends",
+            },
         ],
     },
 };
