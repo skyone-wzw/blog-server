@@ -32,8 +32,8 @@ const L = {
     },
 
     // assets
-    cover(slug: string, blur: boolean = false) {
-        const url = `/api/cover/${slug}`;
+    cover(slug: string, timestamp: number, icon: string, blur: boolean = false) {
+        const url = `/api/cover/${slug}?t=${timestamp}&i=${icon}`;
         return blur ?
             `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
             url;

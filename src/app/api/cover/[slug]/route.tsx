@@ -122,6 +122,7 @@ export async function GET(_: Request, {params}: ArticleCoverProps) {
                              height={36}
                              width={36}
                              style={{
+                                 borderRadius: "100%",
                                  width: 36,
                                  height: 36,
                                  objectFit: "cover",

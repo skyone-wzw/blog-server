@@ -50,7 +50,7 @@ export async function generateMetadata({params}: PostPageProps) {
             url: L.post(article.slug),
             images: [
                 {
-                    url: L.cover(article.slug),
+                    url: L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo),
                     width: 1300,
                     height: 630,
                     alt: "cover",
@@ -63,6 +63,7 @@ export async function generateMetadata({params}: PostPageProps) {
 async function PostPage({params}: PostPageProps) {
     const slug = decodeURIComponent(params.slug);
     const article = await getArticleBySlug(slug);
+    const dynamicConfig = await getDynamicConfig();
 
     if (!article) return notFound();
 
@@ -72,9 +73,10 @@ async function PostPage({params}: PostPageProps) {
         <>
             <Paper className="space-y-3 md:space-y-4">
                 <Image
-                    blurDataURL={L.cover(article.slug, true)}
+                    blurDataURL={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo, true)}
                     className="w-full aspect-[130/63] rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-                    src={L.cover(article.slug)} alt="cover" width={1300} height={630} priority/>
+                    src={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo)}
+                    alt="cover" width={1300} height={630} priority/>
                 <h1 className="px-4 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
                 <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap justify-between">
                     <div>

@@ -1,5 +1,6 @@
 import Paper from "@/components/base/Paper";
 import {ArticleMetadata} from "@/lib/article";
+import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import clsx from "clsx";
 import Image from "next/image";
@@ -18,15 +19,16 @@ function formatDate(date: Date) {
     });
 }
 
-function ArticleSummaryCard({className, article}: ArticleSummaryCardProps) {
+async function ArticleSummaryCard({className, article}: ArticleSummaryCardProps) {
+    const dynamicConfig = await getDynamicConfig();
     return (
         <Paper className={clsx("text-text-content", className)}>
             <Link className="contents" href={L.post(article.slug)}>
                 <Image
-                    blurDataURL={L.cover(article.slug, true)}
-                    placeholder="blur"
+                    blurDataURL={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo, true)}
+                    placeholder="blur" width={1300} height={630} alt="cover"
                     className="rounded-t-lg w-full min-[360px]:aspect-[1300/630] min-h-[176px] object-cover block"
-                    src={L.cover(article.slug)} width={1300} height={630} alt="cover"/>
+                    src={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo)}/>
             </Link>
             <article className="p-6">
                 <h2 className="mb-4 break-words font-normal">
