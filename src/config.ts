@@ -13,7 +13,6 @@ interface Config {
         image: string;
         cover: string;
         random: string;
-        profile: string;
         custom: string;
     };
 
@@ -55,7 +54,6 @@ const config = (() => {
             image: DataDirResolve("image/post"),
             cover: DataDirResolve("image/cover"),
             random: DataDirResolve("image/cover/random"),
-            profile: DataDirResolve("profile"),
             custom: DataDirResolve("image/custom"),
         },
 
@@ -86,12 +84,11 @@ if (config.secret.key === undefined || config.secret.iv === undefined) {
 }
 
 void function () {
-    const {data, image, cover, random, profile, custom} = config.dir;
+    const {data, image, cover, random, custom} = config.dir;
     if (!fs.existsSync(data)) fs.mkdirSync(data, {recursive: true});
     if (!fs.existsSync(image)) fs.mkdirSync(image, {recursive: true});
     if (!fs.existsSync(cover)) fs.mkdirSync(cover, {recursive: true});
     if (!fs.existsSync(random)) fs.mkdirSync(random, {recursive: true});
-    if (!fs.existsSync(profile)) fs.mkdirSync(profile, {recursive: true});
     if (!fs.existsSync(custom)) fs.mkdirSync(custom, {recursive: true});
 }();
 
