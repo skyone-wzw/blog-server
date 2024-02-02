@@ -32,7 +32,14 @@ export interface ProfileDynamicConfig {
     social: {
         github?: string;
         zhihu?: string;
-    }
+    };
+}
+
+export interface NavbarDynamicConfig {
+    items: {
+        name: string;
+        url: string;
+    }[];
 }
 
 export interface DynamicConfig {
@@ -40,7 +47,7 @@ export interface DynamicConfig {
 
     profile: ProfileDynamicConfig;
 
-    avatar: {
+    options: {
         gravatar: string;
     };
 
@@ -52,7 +59,7 @@ export interface DynamicConfig {
     };
 }
 
-const defaultConfig: DynamicConfig = {
+export const defaultDynamicConfig: DynamicConfig = {
     site: {
         title: "My Blog",
         logo: "/default/logo.png",
@@ -72,9 +79,11 @@ const defaultConfig: DynamicConfig = {
             zhihu: "example",
         },
     },
-    avatar: {
+
+    options: {
         gravatar: "https://www.gravatar.com/avatar",
     },
+
     navbar: {
         items: [
             {
@@ -104,5 +113,5 @@ export const getDynamicConfig = cache(async (): Promise<DynamicConfig> => {
         // @ts-ignore
         config[item.key] = JSON.parse(item.value);
     }
-    return DeepMergeTemplate(defaultConfig, config);
+    return DeepMergeTemplate(defaultDynamicConfig, config);
 });

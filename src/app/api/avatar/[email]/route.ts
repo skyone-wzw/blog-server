@@ -19,7 +19,7 @@ export async function GET(_: Request, {params}: AvatarEmailProps) {
     }
     const hash = HASH.sha256(email);
     const dynamicConfig = await getDynamicConfig();
-    const url = `${dynamicConfig.avatar.gravatar}/${hash}?s=64`;
+    const url = `${dynamicConfig.options.gravatar}/${hash}?s=64`;
     const result = await fetch(url);
 
     return new Response(result.body, {

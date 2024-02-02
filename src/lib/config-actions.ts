@@ -1,7 +1,13 @@
 "use server";
 
 import {isUserLoggedIn} from "@/lib/auth";
-import {DynamicConfig, getDynamicConfig, ProfileDynamicConfig, SiteDynamicConfig} from "@/lib/config";
+import {
+    DynamicConfig,
+    getDynamicConfig,
+    NavbarDynamicConfig,
+    ProfileDynamicConfig,
+    SiteDynamicConfig,
+} from "@/lib/config";
 import {uploadCustomImage} from "@/lib/file";
 import prisma from "@/lib/prisma";
 import {DeepMergeTemplate, DeepPartial} from "@/lib/type-utils";
@@ -191,6 +197,45 @@ export async function SaveSiteConfigAction(_prevState: SaveSiteConfigActionState
             where: {key: "site"},
             update: {value: JSON.stringify(update)},
             create: {key: "site", value: JSON.stringify(update)},
+        });
+
+        revalidatePath("/", "layout");
+
+        return success;
+    } catch (e) {
+        return error;
+    }
+}
+
+export interface SaveNavbarConfigActionState {
+    error: boolean;
+    message: string;
+    timestamp: number;
+}
+
+export async function SaveNavbarConfigAction(_prevState: SaveNavbarConfigActionState, formData: FormData) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const update: NavbarDynamicConfig = {
+        items: [],
+    };
+
+    const error = {error: true, message: "未知错误", timestamp: Date.now()};
+    const success = {error: false, message: "保存成功", timestamp: Date.now()};
+
+    let i = 0;
+    while (typeof formData.get(`name-${i}`) === "string" && typeof formData.get(`url-${i}`) === "string" && formData.get(`name-${i}`) !== "" && formData.get(`url-${i}`) !== "") {
+        update.items.push({
+            name: formData.get(`name-${i}`) as string,
+            url: formData.get(`url-${i}`) as string,
+        });
+        i++;
+    }
+
+    try {
+        await prisma.config.upsert({
+            where: {key: "navbar"},
+            update: {value: JSON.stringify(update)},
+            create: {key: "navbar", value: JSON.stringify(update)},
         });
 
         revalidatePath("/", "layout");

@@ -35,7 +35,11 @@ function AdminLeftPage() {
         {
             name: "网站信息",
             url: L.admin("settings/site"),
-        }
+        },
+        {
+            name: "导航栏",
+            url: L.admin("settings/navbar"),
+        },
     ];
 
     return (
