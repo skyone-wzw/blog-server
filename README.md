@@ -1,6 +1,6 @@
 # Blog-Server
 
-[English](README.md)
+[English](README.en.md)
 
 项目名称尚未确定，也许你可以给我一些建议？
 
@@ -14,6 +14,7 @@
 * [x] 支持 GFM (GitHub Flavored Markdown)
 * [x] 在线编辑文章
 * [x] React Server Components
+* [x] Docker 快速部署
 * [ ] 可以使用 [skyone-wzw/blog-server-export](https://github.com/skyone-wzw/blog-server-export) 将文章导出为静态 HTML 文件
 
 ## 快速开始
@@ -51,24 +52,12 @@ AUTH_EMAIL=abc@example.com
 AUTH_PASSWORD=123456
 ```
 
-`data/config.json` 是博客的配置文件。你可以设置标题、描述、作者等。配置文件位于 `${DATA_DIR}/config.json`。
+`data/config.json` 是环境变量的代替方案。如果你不喜欢使用环境变量，你可以使用这个文件。
 
 参考下面的示例：
 
 ```json
 {
-  "title": "Example Blog",
-  "description": "Example Blog - Powered by Blog-Server",
-  "url": "https://example.com",
-  "keywords": ["example", "blog"],
-
-  "master": {
-    "name": "Your Name",
-    "description": "Your Description",
-    "email": "your-email@example.com",
-    "github": "your-github-username"
-  },
-  
   "auth": {
     "email": "",
     "password": ""

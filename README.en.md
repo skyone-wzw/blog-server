@@ -1,6 +1,6 @@
 # Blog-Server
 
-[简体中文](README.zh-CN.md)
+[简体中文](README.md)
 
 The name of the project has not yet been decided, and you can give me some suggestions.
 
@@ -14,6 +14,7 @@ The name of the project has not yet been decided, and you can give me some sugge
 * [x] GitHub Flavored Markdown support
 * [x] Edit post online
 * [x] React Server Components
+* [x] Quick deployment with Docker
 * [ ] Export posts to static HTML files using [skyone-wzw/blog-server-export](https://github.com/skyone-wzw/blog-server-export)
 
 ## Quick Start
@@ -51,24 +52,12 @@ AUTH_EMAIL=abc@example.com
 AUTH_PASSWORD=123456
 ```
 
-The `data/config.json` is the configuration file of the blog. You can set the title, description, author and so on. The configure file is located in `${DATA_DIR}/config.json`.
+The `data/config.json` is an alternative to environment variables. If you don't like to use environment variables, you can use this file.
 
 Refer the example below:
 
 ```json
 {
-  "title": "Example Blog",
-  "description": "Example Blog - Powered by Blog-Server",
-  "url": "https://example.com",
-  "keywords": ["example", "blog"],
-
-  "master": {
-    "name": "Your Name",
-    "description": "Your Description",
-    "email": "your-email@example.com",
-    "github": "your-github-username"
-  },
-  
   "auth": {
     "email": "",
     "password": ""
