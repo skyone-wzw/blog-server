@@ -1,21 +1,21 @@
 import {getDynamicConfig} from "@/lib/config";
-import ProfileEditor from "./ProfileEditor";
+import SiteEditor from "./SiteEditor";
 
 export async function generateMetadata() {
     const dynamicConfig = await getDynamicConfig();
     return {
-        title: `个人资料 - ${dynamicConfig.site.title}`,
+        title: `网站配置 - ${dynamicConfig.site.title}`,
         description: `${dynamicConfig.site.description}`,
     };
 }
 
-async function AdminSettingsProfilePage() {
+async function AdminSettingsSitePage() {
     const dynamicConfig = await getDynamicConfig();
     return (
         <main className="mb-6 col-start-2 col-span-full space-y-6">
-            <ProfileEditor profile={dynamicConfig.profile}/>
+            <SiteEditor site={dynamicConfig.site}/>
         </main>
     );
 }
 
-export default AdminSettingsProfilePage;
+export default AdminSettingsSitePage;

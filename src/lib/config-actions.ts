@@ -1,7 +1,7 @@
 "use server";
 
 import {isUserLoggedIn} from "@/lib/auth";
-import {DynamicConfig, getDynamicConfig, ProfileDynamicConfig} from "@/lib/config";
+import {DynamicConfig, getDynamicConfig, ProfileDynamicConfig, SiteDynamicConfig} from "@/lib/config";
 import {uploadCustomImage} from "@/lib/file";
 import prisma from "@/lib/prisma";
 import {DeepMergeTemplate, DeepPartial} from "@/lib/type-utils";
@@ -59,7 +59,7 @@ export interface SaveProfileActionState {
     timestamp: number;
 }
 
-export async function SaveProfileAction(_prevState: SaveProfileActionState, formData: FormData) {
+export async function SaveProfileConfigAction(_prevState: SaveProfileActionState, formData: FormData) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     const update: DeepPartial<ProfileDynamicConfig> = {};
     const name = formData.get("name");
@@ -128,6 +128,69 @@ export async function SaveProfileAction(_prevState: SaveProfileActionState, form
             where: {key: "profile"},
             update: {value: JSON.stringify(update)},
             create: {key: "profile", value: JSON.stringify(update)},
+        });
+
+        revalidatePath("/", "layout");
+
+        return success;
+    } catch (e) {
+        return error;
+    }
+}
+
+export interface SaveSiteConfigActionState {
+    error: boolean;
+    message: string;
+    timestamp: number;
+}
+
+export async function SaveSiteConfigAction(_prevState: SaveSiteConfigActionState, formData: FormData) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const update: DeepPartial<SiteDynamicConfig> = {};
+    const title = formData.get("title");
+    const logo = formData.get("logo");
+    const description = formData.get("description");
+    const cover = formData.get("cover");
+    const keywords = formData.getAll("keywords[]");
+
+    const error = {error: true, message: "未知错误", timestamp: Date.now()};
+    const success = {error: false, message: "保存成功", timestamp: Date.now()};
+
+    if (typeof title === "string") {
+        update.title = title;
+    } else if (!!title) {
+        return error;
+    }
+
+    if (typeof description === "string") {
+        update.description = description;
+    } else if (!!description) {
+        return error;
+    }
+
+    if (Array.isArray(keywords) && keywords.every((k) => typeof k === "string")) {
+        update.keywords = (keywords as string[]).filter((k) => k.length > 0);
+    } else if (!!keywords) {
+        return error;
+    }
+
+    if (logo instanceof File && logo.type !== "application/octet-stream") {
+        const logoUrl = await uploadCustomImage(logo);
+        if (!logoUrl) return {error: true, message: "上传 Logo 失败", timestamp: Date.now()};
+        update.logo = logoUrl;
+    }
+
+    if (cover instanceof File && cover.type !== "application/octet-stream") {
+        const coverUrl = await uploadCustomImage(cover);
+        if (!coverUrl) return {error: true, message: "上传封面失败", timestamp: Date.now()};
+        update.cover = coverUrl;
+    }
+
+    try {
+        await prisma.config.upsert({
+            where: {key: "site"},
+            update: {value: JSON.stringify(update)},
+            create: {key: "site", value: JSON.stringify(update)},
         });
 
         revalidatePath("/", "layout");

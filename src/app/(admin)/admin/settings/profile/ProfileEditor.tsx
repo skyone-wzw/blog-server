@@ -1,7 +1,7 @@
 "use client";
 
 import {ProfileDynamicConfig} from "@/lib/config";
-import {SaveProfileAction, SaveProfileActionState} from "@/lib/config-actions";
+import {SaveProfileConfigAction, SaveProfileActionState} from "@/lib/config-actions";
 import L from "@/lib/links";
 import Image from "next/image";
 import {useEffect, useRef, useState} from "react";
@@ -16,8 +16,25 @@ const initialState: SaveProfileActionState = {
 function SubmitButton() {
     const {pending} = useFormStatus();
 
+    const formSubmitRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        const handleKeydown = (e: KeyboardEvent) => {
+            // ctr + s
+            if (!pending && formSubmitRef.current && e.ctrlKey && e.key === "s") {
+                e.preventDefault();
+                formSubmitRef.current.click();
+            }
+        }
+        window.addEventListener("keydown", handleKeydown)
+        return () => {
+            window.removeEventListener("keydown", handleKeydown)
+        }
+    }, [formSubmitRef, pending]);
+
     return (
         <input
+            ref={formSubmitRef}
             className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
             disabled={pending} type="submit" value="保存资料"/>
     );
@@ -47,7 +64,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
         setZhihu(profile.social.zhihu ?? "");
     }, [profile]);
 
-    const [formState, formAction] = useFormState(SaveProfileAction, initialState);
+    const [formState, formAction] = useFormState(SaveProfileConfigAction, initialState);
 
     useEffect(() => {
         if (formState.timestamp > 0) {

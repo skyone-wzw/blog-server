@@ -28,6 +28,10 @@ function AdminLeftPage() {
             name: "个人资料",
             url: L.admin("settings/profile"),
         },
+        {
+            name: "网站信息",
+            url: L.admin("settings/site"),
+        }
     ];
 
     return (
