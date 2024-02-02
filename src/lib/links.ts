@@ -79,7 +79,7 @@ const L = {
             return `mailto:${email}`;
         },
         rss() {
-            return "/"; // TODO: impl later
+            return "/atom.xml";
         },
     },
 };

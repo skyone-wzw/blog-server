@@ -58,6 +58,7 @@ function RootLayout({children}: RootLayoutProps) {
         <html lang="zh-CN">
             <head>
                 <link rel="icon" href={"/favicon"} sizes="any"/>
+                <link rel="sitemap" type="application/xml" title="Sitemap" href={"/sitemap.xml"}/>
                 <script dangerouslySetInnerHTML={{__html: bootloader}}/>
             </head>
             <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>
