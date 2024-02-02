@@ -10,7 +10,7 @@ const ParseArticleImages = cache(async (content: string) => {
         .parse(content)
     const images = [] as string[];
     visit(result, "image", (node) => {
-        if (node.url && node.url.match(/^\/api\/image\/([a-fA-F0-9]{64}\.(webp|png|jpe?g))$/i)) {
+        if (node.url && node.url.match(/^([a-fA-F0-9]{64}\.(webp|png|jpe?g))$/i)) {
             images.push(node.url)
         }
     });
