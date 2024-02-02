@@ -23,12 +23,20 @@ export async function GET() {
 
     const ext = logo.match(/\.(png|webp|jpe?g)$/)?.[1];
     const contentType = getFileContentTypeFromExtension(ext);
-    const headers = contentType ? {"Content-Type": contentType} : undefined;
+    const headers = contentType ? {
+        "Content-Type": contentType,
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "public, max-age=86400",
+    } : {
+        "Content-Type": "image/png",
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "public, max-age=86400",
+    };
 
     if (logo.startsWith("/default")) {
         return new Response((await fetch(`http://localhost:3000${logo}`)).body, {headers});
     } else if (await fs.stat(`${customImageDir}/${logo}`).then(stat => !stat.isFile()).catch(() => null)) {
-        return new Response((await fetch(`http://localhost:3000/default/logo.png`)).body, {headers: {"Content-Type": "image/png"}});
+        return new Response((await fetch(`http://localhost:3000/default/logo.png`)).body, {headers});
     }
 
     return new Response(await fs.readFile(`${customImageDir}/${logo}`), {headers});
