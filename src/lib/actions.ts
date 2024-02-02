@@ -48,7 +48,7 @@ export async function SaveArticleAction(article: ArticlePatch) {
     const result = await patchArticle(article);
 
     if (result) {
-        revalidatePath(L.editor(), "layout");
+        revalidatePath(L.editor.post(), "layout");
         revalidatePath(L.post(result.slug), "page");
         return true;
     } else {
@@ -69,7 +69,7 @@ export async function CreateArticleAction(article: ArticleCreate) {
     const result = await createArticle(article);
 
     if (result) {
-        revalidatePath(L.editor(), "layout");
+        revalidatePath(L.editor.post(), "layout");
         return true;
     } else {
         return false;
@@ -82,7 +82,7 @@ export async function DeleteArticleAction(id: string) {
     const result = await deleteArticle(id);
 
     if (result) {
-        revalidatePath(L.editor(), "layout");
+        revalidatePath(L.editor.post(), "layout");
         revalidatePath(L.post(result.slug), "page");
         return true;
     } else {

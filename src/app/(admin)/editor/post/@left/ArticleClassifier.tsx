@@ -107,7 +107,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
     const series = Array.from(new Set(articles.map(article => article.series))).sort();
     const years = Array.from(new Set(articles.map(article => article.createdAt.getFullYear().toString()))).sort();
 
-    const isSelectPage = !!pathname.match(/^\/editor$/);
+    const isSelectPage = pathname === L.editor.post();
 
     const selectedLabel = selected.type === "all" ? "全部文章" :
         selected.type === "tag" ? `标签: ${selected.value}` :
@@ -129,7 +129,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
                 <p className="px-4 text-text-subnote text-sm">{selectedLabel}</p>
                 <div className="px-2.5 divide-y divide-dashed divide-bg-tag max-h-full overflow-auto xc-scroll">
                     {selected.type === "all" && (
-                        <Link href={L.editor("new")}
+                        <Link href={L.editor.post("new")}
                               className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover">
                             新建文章
                         </Link>
@@ -137,7 +137,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
                     {filteredArticles.map(article => (
                         <Link className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover"
                               key={article.slug}
-                              href={L.editor(article.slug)}>
+                              href={L.editor.post(article.slug)}>
                             {article.title}
                         </Link>
                     ))}

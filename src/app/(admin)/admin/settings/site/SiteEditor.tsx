@@ -184,7 +184,7 @@ function SiteEditor({site}: SiteEditorProps) {
                                value={keyword} onChange={e => setKeyword(index, e.target.value)}
                                className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                         <button
-                            className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-button-text shadow-sm"
+                            className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
                             type="button" onClick={() => removeKeyword(index)}>
                             删除
                         </button>
@@ -195,7 +195,7 @@ function SiteEditor({site}: SiteEditorProps) {
                            value={newKeyword} onChange={e => setNewKeyword(e.target.value)}
                            className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                     <button
-                        className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-button-text shadow-sm"
+                        className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
                         type="button" onClick={() => addKeyword()}>
                         添加
                     </button>

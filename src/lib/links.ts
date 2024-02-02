@@ -26,9 +26,20 @@ const L = {
     admin(page?: string) {
         return `/admin${page ? `/${page}` : ""}`;
     },
-    editor(slug?: string) {
-        slug = slug ? `/${slug}` : "";
-        return `/editor${slug}`;
+    editor: {
+        post(slug?: string) {
+            slug = slug ? `/${slug}` : "";
+            return `/editor/post${slug}`;
+        },
+        custom(slug?: string) {
+            return `/editor/custom${slug ?? ""}`;
+        }
+    },
+    custom(path: string | string[]) {
+        if (Array.isArray(path)) {
+            path = "/" + path.join("/");
+        }
+        return path;
     },
 
     // assets

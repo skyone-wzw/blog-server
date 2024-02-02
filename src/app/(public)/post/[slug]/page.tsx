@@ -42,7 +42,7 @@ export async function generateMetadata({params}: PostPageProps) {
             modifiedTime: article.updatedAt.toISOString(),
             tags: article.tags,
             authors: [
-                new URL(dynamicConfig.site.url + L.page("about")),
+                new URL(dynamicConfig.site.url),
             ],
             emails: dynamicConfig.profile.email ? [dynamicConfig.profile.email] : undefined,
             siteName: dynamicConfig.site.title,
@@ -89,7 +89,7 @@ async function PostPage({params}: PostPageProps) {
                         <Link className="hover:text-link-hover"
                               href={L.series(article.series)}>{article.series}</Link>
                     </div>
-                    <Link className="hover:text-link-hover" href={L.editor(article.slug)}>编辑</Link>
+                    <Link className="hover:text-link-hover" href={L.editor.post(article.slug)}>编辑</Link>
                 </div>
                 <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(article.content)}</div>
                 <ArticleFooterInfo article={article}/>

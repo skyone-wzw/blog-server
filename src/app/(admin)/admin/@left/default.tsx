@@ -15,7 +15,11 @@ function AdminLeftPage() {
         },
         {
             name: "文章编辑",
-            url: L.editor(),
+            url: L.editor.post(),
+        },
+        {
+            name: "自定义页面",
+            url: L.editor.custom(),
         },
         {
             name: "友情链接",
