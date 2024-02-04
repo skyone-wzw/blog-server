@@ -4,6 +4,7 @@ import ParseArticleImages from "@/components/markdown/ParseAticleImages";
 import config from "@/config";
 import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticles} from "@/lib/article";
 import {isUserLoggedIn} from "@/lib/auth";
+import {getAllCustomPages} from "@/lib/custom-page";
 import fs from "fs/promises";
 import {redirect, RedirectType} from "next/navigation";
 
@@ -28,6 +29,11 @@ export async function RemoveUnusedAssetsAction() {
                 const images = await ParseArticleImages(article.content);
                 images.forEach((image) => imageSet.add(image));
             }
+        }
+        const customPages = await getAllCustomPages();
+        for (const page of customPages) {
+            const images = await ParseArticleImages(page.content);
+            images.forEach((image) => imageSet.add(image));
         }
 
         const imagesName = Array.from(imageSet)

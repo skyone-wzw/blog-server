@@ -75,6 +75,12 @@ export const getAllCustomPagesMetadata = cache(async () => {
     });
 });
 
+export const getAllCustomPages = cache(async () => {
+    return prisma.customPage.findMany({
+        select: CustomPageSelector,
+    });
+});
+
 export const getCustomPageBySlug = cache(async (slug: string) => {
     return prisma.customPage.findUnique({
         where: {slug},
