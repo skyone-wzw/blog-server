@@ -45,7 +45,7 @@ async function AppHeader({className}: AppHeaderProps) {
                         <span className="tracking-wide text-lg font-bold text-text-l">{dynamicConfig.site.title}</span>
                     </HeaderLink>
                 </Flex>
-                <Flex grow center className="overflow-x-auto">
+                <div className="flex items-stretch lg:flex-grow min-[416px]:justify-center justify-start overflow-x-auto">
                     <Flex className="lg:mr-auto mr-0">
                         {dynamicConfig.navbar.items.map(item => (
                             <HeaderLink href={item.url} key={item.url}>{item.name}</HeaderLink>
@@ -56,7 +56,7 @@ async function AppHeader({className}: AppHeaderProps) {
                         <HeaderLink href="#" title="搜索" className="fill-current"><SearchIcon/></HeaderLink>
                         <HeaderColorToggle/>
                     </Flex>
-                </Flex>
+                </div>
             </Container>
         </header>
     );
