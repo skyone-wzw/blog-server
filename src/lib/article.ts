@@ -27,6 +27,7 @@ export interface ArticlePatch {
     tags?: string[];
     published?: boolean;
     content?: string;
+    createdAt?: Date;
     updatedAt?: Date;
 }
 
@@ -431,7 +432,7 @@ export const patchArticle = cache(async (article: ArticlePatch) => {
             },
             data: {
                 ...ObjectPick(Article2Database(article),
-                    ["title", "slug", "description", "series", "tags", "published", "content"]),
+                    ["title", "slug", "description", "series", "tags", "published", "content", "createdAt"]),
                 updatedAt: new Date(),
             },
             select: ArticleMetadataSelector,

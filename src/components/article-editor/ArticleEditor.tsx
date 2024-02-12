@@ -13,6 +13,15 @@ import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {MouseEventHandler, useCallback, useEffect, useState} from "react";
 
+function formatDate(date: Date) {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
 interface ArticleEditorProps {
     article: Article;
     className?: string;
@@ -30,6 +39,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
     const [content, setContent] = useState("");
     const [series, setSeries] = useState("");
     const [tags, setTags] = useState("");
+    const [createdAt, setCreatedAt] = useState(formatDate(article.createdAt));
 
     useEffect(() => {
         setSlug(article.slug);
@@ -38,6 +48,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         setContent(article.content);
         setSeries(article.series);
         setTags(article.tags.join(", "));
+        setCreatedAt(formatDate(article.createdAt));
     }, [article]);
 
     const handleSaveArticle = useCallback(async () => {
@@ -94,6 +105,10 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 tags: tags.replace(/\s+/, " ").split(/,\s*/).map(tag => tag.trim()),
                 updatedAt: new Date(),
             };
+            const newDate = new Date(createdAt);
+            if (!isNaN(newDate.getTime()) && newDate !== article.createdAt) {
+                patchArticle.createdAt = newDate;
+            }
             result = await SaveArticleAction(patchArticle);
         }
         if (result) {
@@ -102,7 +117,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
             alert("保存失败");
         }
         setIsLoading(false);
-    }, [article, slug, title, description, content, series, tags, router]);
+    }, [article, slug, title, description, content, series, tags, createdAt, router]);
 
     const handleOpenEditInfo: MouseEventHandler = (e) => {
         e.stopPropagation();
@@ -216,6 +231,17 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                                 <div className="mt-2 flex flex-col lg:flex-row">
                                     <input id="article-editor-info-tags" type="text" required value={tags}
                                            onChange={(e) => setTags(e.target.value)}
+                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                </div>
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="article-editor-info-created-at"
+                                       className="block text-sm font-medium leading-6 text-text-content">
+                                    创建时间
+                                </label>
+                                <div className="mt-2 flex flex-col lg:flex-row">
+                                    <input id="article-editor-info-created-at" type="datetime-local" required value={createdAt}
+                                           onChange={e => setCreatedAt(e.target.value)}
                                            className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
