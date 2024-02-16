@@ -1,4 +1,4 @@
-import AdminQuickAction from "@/components/admin/AdminQuickAction";
+import AdminQuickActions from "@/app/(admin)/admin/AdminQuickActions";
 import {getDynamicConfig} from "@/lib/config";
 
 export async function generateMetadata() {
@@ -12,7 +12,7 @@ export async function generateMetadata() {
 async function AdminMainPage() {
     return (
         <main className="mb-6 col-start-2 col-span-full space-y-6">
-            <AdminQuickAction/>
+            <AdminQuickActions/>
         </main>
     );
 }

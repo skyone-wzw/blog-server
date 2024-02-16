@@ -42,6 +42,13 @@ function AdminLeftPage() {
         },
     ];
 
+    const assets: RouterItem[] = [
+        {
+            name: "图片管理",
+            url: L.admin("assets/images"),
+        },
+    ];
+
     return (
         <div className="mb-6 col-start-1 space-y-6">
             <Paper className="p-4 divide-y divide-bg-tag">
@@ -56,6 +63,15 @@ function AdminLeftPage() {
             <Paper className="p-4 divide-y divide-bg-tag">
                 <h2 className="mb-2 text-text-subnote">网站设置</h2>
                 {configs.map((router, index) => (
+                    <Link className="block p-2 text-text-content justify-between hover:bg-bg-hover"
+                          href={router.url} key={index}>
+                        {router.name}
+                    </Link>
+                ))}
+            </Paper>
+            <Paper className="p-4 divide-y divide-bg-tag">
+                <h2 className="mb-2 text-text-subnote">资源管理</h2>
+                {assets.map((router, index) => (
                     <Link className="block p-2 text-text-content justify-between hover:bg-bg-hover"
                           href={router.url} key={index}>
                         {router.name}

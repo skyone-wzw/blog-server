@@ -1,4 +1,5 @@
 import config from "@/config";
+import fs from "fs/promises";
 import {cache} from "react";
 import sharp from "sharp";
 
@@ -25,4 +26,20 @@ export const getImageMetadata = cache(async (url: string) => {
     } catch (e) {
         return null;
     }
+});
+
+interface ImageWithMetadata {
+    name: string;
+    metadata: ImageMetadata;
+}
+
+export const getAllPostImagesMetadata = cache(async () => {
+    const files = (await fs.readdir(imageDir))
+        .filter(file => file.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/i));
+    const metadata: ImageWithMetadata[] = [];
+    for (const file of files) {
+        const m = await getImageMetadata(file);
+        if (m) metadata.push({name: file, metadata: m});
+    }
+    return metadata;
 });

@@ -1,7 +1,6 @@
 "use client";
 
-import Paper from "@/components/base/Paper";
-import {QuickActionResult, RemoveUnusedAssetsAction} from "@/lib/admin-actions";
+import {QuickActionResult} from "@/lib/admin-actions";
 import clsx from "clsx";
 import {useState} from "react";
 
@@ -19,13 +18,13 @@ function RunIcon({className}: IconProps) {
     );
 }
 
-interface QuickActionItemProps {
+export interface QuickActionProps {
     name: string;
     description?: string;
     action: () => Promise<QuickActionResult> | QuickActionResult;
 }
 
-function QuickActionItem({name, description, action}: QuickActionItemProps) {
+function QuickAction({name, description, action}: QuickActionProps) {
     const [loading, setLoading] = useState(false);
 
     return (
@@ -52,29 +51,4 @@ function QuickActionItem({name, description, action}: QuickActionItemProps) {
     );
 }
 
-interface AdminQuickActionProps {
-    className?: string;
-}
-
-function AdminQuickAction({className}: AdminQuickActionProps) {
-    const actions: QuickActionItemProps[] = [
-        {
-            name: "清理图片",
-            description: "清理所有已上传但没有被文章引用的图片",
-            action: RemoveUnusedAssetsAction,
-        },
-    ];
-
-    return (
-        <Paper className={clsx("p-4", className)}>
-            <h2 className="mb-2 text-text-subnote">快速操作</h2>
-            <div className="divide-y divide-bg-tag border-y border-bg-tag">
-                {actions.map((action, index) => (
-                    <QuickActionItem key={index} {...action}/>
-                ))}
-            </div>
-        </Paper>
-    );
-}
-
-export default AdminQuickAction;
+export default QuickAction;
