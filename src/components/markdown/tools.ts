@@ -4,7 +4,6 @@ import * as prod from "react/jsx-runtime";
 import {visit} from "unist-util-visit";
 import {VFile} from "vfile";
 
-// @ts-expect-error: the react types are missing.
 export const jsxConfig = {Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs};
 
 export function headingFilter() {
@@ -13,11 +12,44 @@ export function headingFilter() {
     };
 }
 
+export function autofixHeadingLevel() {
+    return function (tree: MDRoot, _: VFile) {
+        const h1 = tree.children.filter(node => node.type === "heading" && node.depth === 1);
+        if (h1.length >= 1) {
+            // 将所有 heading 降 1 级
+            visit(tree, "heading", (node: Heading) => {
+                if (node.depth < 6) {
+                    node.depth++;
+                } else {
+                    Object.assign(node, {
+                        type: "paragraph",
+                        depth: undefined,
+                    });
+                }
+            });
+        }
+    };
+}
+
 export function autoHeadingId() {
-    const used = new Set<string>();
+    const used = {} as Record<string, number>;
+
+    const uniqueId = (prefix: string) => {
+        if (used[prefix]) {
+            used[prefix]++;
+            return `${prefix}-${used[prefix]}`;
+        } else {
+            used[prefix] = 1;
+            return prefix;
+        }
+    };
+
     return (tree: MDRoot, file: VFile) => {
         visit(tree, "heading", (node: Heading) => {
+            node.data = node.data || {};
+            node.data.hProperties = node.data.hProperties || {};
             const lastChild = node.children[node.children.length - 1];
+            // 使用 {#id} 语法
             if (lastChild && lastChild.type === "text") {
                 let string = lastChild.value.replace(/ +$/, "");
                 const matched = string.match(/ {#([^]+?)}$/);
@@ -25,11 +57,7 @@ export function autoHeadingId() {
                 if (matched) {
                     let id = matched[1];
                     if (!!id.length) {
-                        node.data = node.data || {};
-                        node.data.hProperties = node.data.hProperties || {};
-                        node.data.hProperties.id = id;
-
-                        used.add(id);
+                        node.data.hProperties.id = uniqueId(id);
 
                         string = string.substring(0, matched.index);
                         lastChild.value = string;
@@ -37,47 +65,21 @@ export function autoHeadingId() {
                     }
                 }
             }
-            if (!node?.data?.hProperties?.id && node.position?.start.offset && node.position?.end.offset) {
+            // 使用标题内容作为 id
+            if (!node.data.hProperties.id && node.position?.start.offset && node.position.end.offset) {
                 const formatId = (id: string) => id
                     .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, "-")
                     .replace(/-+/g, "-")
                     .replace(/^-|-$/g, "");
                 let id = formatId(String(file.value).slice(node.position.start.offset, node.position.end.offset));
-                let tail = 2;
-                if (used.has(id)) {
-                    while (used.has(`${id}-${tail}`)) {
-                        tail++;
-                    }
-                    id = `${id}-${tail}`;
-                }
-                used.add(id);
-                node.data = node.data || {};
-                node.data.hProperties = node.data.hProperties || {};
-                node.data.hProperties.id = id;
+                node.data.hProperties.id = uniqueId(id);
+            }
+            // 回退到默认 id
+            if (!node.data.hProperties.id) {
+                node.data.hProperties.id = uniqueId("title");
             }
         });
     };
-}
-
-export function getHeadingId(children: any): string {
-    if (!children) return "";
-    if (Array.isArray(children)) {
-        const res = [];
-        for (const child of children) {
-            if (typeof child === "string") {
-                res.push(child);
-            } else if (child?.props?.children) {
-                res.push(getHeadingId(child?.props?.children));
-            }
-        }
-        return res.join("");
-    } else if (typeof children === "string") {
-        return children;
-    } else if (children?.props?.children) {
-        return getHeadingId(children?.props?.children);
-    } else {
-        return "";
-    }
 }
 
 export function markLineNumber() {

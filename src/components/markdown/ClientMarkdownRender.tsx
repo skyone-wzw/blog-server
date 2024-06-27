@@ -1,5 +1,5 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
-import {autoHeadingId, jsxConfig, markLineNumber} from "@/components/markdown/tools";
+import {autofixHeadingLevel, autoHeadingId, jsxConfig, markLineNumber} from "@/components/markdown/tools";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -16,6 +16,7 @@ async function ClientMarkdownRender(content: string) {
         .use(remarkParse)
         .use(remarkGfm)
         .use(remarkMath)
+        .use(autofixHeadingLevel)
         .use(autoHeadingId)
         .use(BlockQuotePlugin)
         .use(remarkRehype, {allowDangerousHtml: true})
@@ -23,6 +24,7 @@ async function ClientMarkdownRender(content: string) {
         .use(rehypeHighlight)
         .use(rehypeRaw)
         .use(markLineNumber)
+        // @ts-expect-error
         .use(rehypeReact, {
             ...jsxConfig, components: {
                 a: Components.A,

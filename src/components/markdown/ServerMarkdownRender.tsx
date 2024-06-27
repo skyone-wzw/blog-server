@@ -1,5 +1,5 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
-import {autoHeadingId, jsxConfig} from "@/components/markdown/tools";
+import {autofixHeadingLevel, autoHeadingId, jsxConfig} from "@/components/markdown/tools";
 import {getImageMetadata} from "@/lib/images";
 import L from "@/lib/links";
 import clsx from "clsx";
@@ -54,12 +54,14 @@ const ServerMarkdownRender = cache(async (content: string) => {
         .use(remarkParse)
         .use(remarkGfm)
         .use(remarkMath)
+        .use(autofixHeadingLevel)
         .use(autoHeadingId)
         .use(BlockQuotePlugin)
         .use(remarkRehype, {allowDangerousHtml: true})
         .use(rehypeKatex)
         .use(rehypeHighlight)
         .use(rehypeRaw)
+        // @ts-expect-error
         .use(rehypeReact, {
             ...jsxConfig, components: {
                 a: Components.A,

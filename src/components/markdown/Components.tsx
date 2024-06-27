@@ -1,4 +1,3 @@
-import {getHeadingId} from "@/components/markdown/tools";
 import L from "@/lib/links";
 import clsx from "clsx";
 import Image from "next/image";
@@ -65,50 +64,44 @@ function Em({children, className, ...other}: EmProps) {
 
 type HProps = DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
 
-function H1({id, children, className, ...other}: HProps) {
+function H1({children, className, ...other}: HProps) {
     return (
-        <h1 id={id || getHeadingId(children)}
-            className={clsx("text-3xl pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid", className)}
+        <h1 className={clsx("text-3xl pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid", className)}
             {...other}>{children}</h1>
     );
 }
 
-function H2({id, children, className, ...other}: HProps) {
+function H2({children, className, ...other}: HProps) {
     return (
-        <h2 id={id || getHeadingId(children)}
-            className={clsx("text-2xl pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid", className)}
+        <h2 className={clsx("text-2xl pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid", className)}
             {...other}>{children}</h2>
     );
 }
 
-function H3({id, children, className, ...other}: HProps) {
+function H3({children, className, ...other}: HProps) {
     return (
-        <h3 id={id || getHeadingId(children)}
-            className={clsx("text-xl mb-4 font-semibold text-text-main", className)}
+        <h3 className={clsx("text-xl mb-4 font-semibold text-text-main", className)}
             {...other}>{children}</h3>
     );
 }
 
-function H4({id, children, className, ...other}: HProps) {
+function H4({children, className, ...other}: HProps) {
     return (
-        <h4 id={id || getHeadingId(children)}
-            className={clsx("text-lg mb-4 font-semibold text-text-main", className)}
+        <h4 className={clsx("text-lg mb-4 font-semibold text-text-main", className)}
             {...other}>{children}</h4>
     );
 }
 
-function H5({id, children, className, ...other}: HProps) {
+function H5({children, className, ...other}: HProps) {
     return (
-        <h5 id={id || getHeadingId(children)}
-            className={clsx("text-base mb-4 font-semibold text-text-main", className)}
+        <h5 className={clsx("text-base mb-4 font-semibold text-text-main", className)}
             {...other}>{children}</h5>
     );
 }
 
-function H6({id, children, className, ...other}: HProps) {
+function H6({children, className, ...other}: HProps) {
     return (
-        <h6 id={id || getHeadingId(children)}
-            className={clsx("text-base mb-4 text-text-content", className)}
+        <h6 className={clsx("text-base mb-4 text-text-content", className)}
             {...other}>{children}</h6>
     );
 }
@@ -135,7 +128,7 @@ type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImage
 function Img({className, alt, src, ...other}: ImgProps) {
     if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
         alt = alt || "";
-        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image.post(src) : src
+        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image.post(src) : src;
         return (
             // @ts-ignore
             <Image className={clsx("mx-auto optimize-image", className)}

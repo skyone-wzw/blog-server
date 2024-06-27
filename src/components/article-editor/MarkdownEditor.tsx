@@ -1,27 +1,16 @@
 "use client";
 
 import MarkdownPreview from "@/components/article-editor/MarkdownPreview";
-import {markdown} from "@codemirror/lang-markdown";
-import {Compartment, EditorState} from "@codemirror/state";
-import {githubDark, githubLight} from "@uiw/codemirror-theme-github";
 import clsx from "clsx";
-import {basicSetup, EditorView} from "codemirror";
+import type {editor as MonacoEditor} from "monaco-editor";
 import {useEffect, useRef, useState} from "react";
-import "./styles.css";
 
 function getCurrentTheme() {
     const root = document.documentElement.classList;
-    if (root.contains("dark")) {
-        return githubDark;
-    } else if (root.contains("light")) {
-        return githubLight;
-    } else {
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            return githubDark;
-        } else {
-            return githubLight;
-        }
+    if (root.contains("light") || !window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "light";
     }
+    return "dark";
 }
 
 interface MarkdownEditorProps {
@@ -35,87 +24,80 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
     const [content, setContent] = useState("");
     const inputRef = useRef<HTMLDivElement>(null);
     const previewRef = useRef<HTMLDivElement>(null);
-    const editor = useRef<EditorView>();
+    const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null);
 
     useEffect(() => {
-        if (inputRef.current && !editor.current) {
-            const themeCompartment = new Compartment();
-            editor.current = new EditorView({
-                parent: inputRef.current,
-                state: EditorState.create({
-                    extensions: [
-                        basicSetup,
-                        markdown(),
-                        themeCompartment.of(getCurrentTheme()),
-                        EditorView.lineWrapping,
-                        EditorView.updateListener.of((update) => {
-                            if (update.docChanged) {
-                                setPrevContent(update.state.doc.toString());
-                                setContent(update.state.doc.toString());
+        import("monaco-editor")
+            .then((monaco) => {
+                if (!self.MonacoEnvironment) {
+                    self.MonacoEnvironment = {
+                        getWorkerUrl: function (moduleId, label) {
+                            const base = "_next/static/chunks";
+                            if (label === "json") {
+                                return `${base}/json.worker.js`;
                             }
-                        }),
-                    ],
-                }),
-            });
-
-            const themeChangeListener = () => {
-                editor.current?.dispatch({
-                    effects: themeCompartment.reconfigure(getCurrentTheme()),
-                });
-            };
-            const observer = new MutationObserver(themeChangeListener);
-            observer.observe(document.documentElement, {
-                attributes: true,
-                attributeFilter: ["class"],
-            });
-            window.matchMedia("(prefers-color-scheme: dark)")
-                .addEventListener("change", themeChangeListener);
-
-            return () => {
-                observer.disconnect();
-                window.matchMedia("(prefers-color-scheme: dark)")
-                    .removeEventListener("change", themeChangeListener);
-                editor.current?.destroy();
-                editor.current = undefined;
-            };
-        }
-    }, [inputRef, editor, setContent, setPrevContent]);
-
-    useEffect(() => {
-        if (editor.current) {
-            const Editor = editor.current!;
-            let lastScrollTop = 0;
-            const onScroll = () => {
-                if (editor.current && previewRef.current && editor.current.scrollDOM.scrollTop !== lastScrollTop) {
-                    const Editor = editor.current!;
-                    const scrollTop = Editor.scrollDOM.scrollTop;
-                    const block = Editor.lineBlockAtHeight(scrollTop)
-                    const line = Editor.state.doc.lineAt(block.from).number;
-                    const target = document.querySelector(`#article-editor-markdown-editor [data-line="${line}"]`);
-                    if (target) {
-                        previewRef.current.scrollTo({
-                            top: (target as HTMLElement).offsetTop - 140,
-                            behavior: "smooth",
-                        });
-                    }
+                            if (label === "css" || label === "scss" || label === "less") {
+                                return `${base}/css.worker.js`;
+                            }
+                            if (label === "html" || label === "handlebars" || label === "razor") {
+                                return `${base}/html.worker.js`;
+                            }
+                            if (label === "typescript" || label === "javascript") {
+                                return `${base}/ts.worker.js`;
+                            }
+                            return `${base}/editor.worker.js`;
+                        },
+                    };
                 }
-            }
+                if (process.env.NODE_ENV === "production" || !editorRef.current) {
+                    editorRef.current = monaco.editor.create(inputRef.current!, {
+                        value: PrevContent,
+                        language: "markdown",
+                        wordWrap: "on",
+                        theme: getCurrentTheme() === "dark" ? "vs-dark" : "vs",
+                    });
+                    const editor = editorRef.current;
+                    editor.onDidScrollChange(() => {
+                        const line = editor.getVisibleRanges()[0]?.startLineNumber;
+                        if (typeof line === "number") {
+                            const element = previewRef.current?.querySelector(`[data-line="${line}"]`);
+                            if (element) {
+                                element.scrollIntoView({behavior: "smooth", block: "start"});
+                            }
+                        }
+                    })
 
-            Editor.scrollDOM.addEventListener("scroll", onScroll)
-
-            return () => {
-                editor.current?.scrollDOM.removeEventListener("scroll", onScroll);
-            }
-        }
-    }, [editor]);
-
-    useEffect(() => {
-        if (editor.current) {
-            editor.current.dispatch({
-                changes: {from: 0, to: editor.current.state.doc.length, insert: PrevContent},
+                    setContent(PrevContent);
+                    const model = editorRef.current.getModel();
+                    model?.onDidChangeContent(() => {
+                        const content = model.getValue();
+                        setContent(content);
+                        setPrevContent(content);
+                    });
+                }
             });
-        }
-    }, [PrevContent, editor]);
+        // Listen window resize event
+        const resize = () => {
+            editorRef.current?.layout();
+        };
+        window.addEventListener("resize", resize);
+        // Listen theme change event
+        const themeChangeListener = () => {
+            editorRef.current?.updateOptions({
+                theme: getCurrentTheme() === "dark" ? "vs-dark" : "vs",
+            });
+        };
+        const observer = new MutationObserver(themeChangeListener);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+        });
+        return () => {
+            editorRef.current?.dispose();
+            window.removeEventListener("resize", resize);
+            observer.disconnect();
+        };
+    }, [PrevContent, setPrevContent]);
 
     return (
         <div
@@ -123,7 +105,7 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
             className={clsx("flex flex-row gap-x-4", className)}>
             <div
                 ref={inputRef}
-                className={clsx("w-0 flex-grow resize-none text-sm lg:text-base rounded-lg", {
+                className={clsx("w-0 flex-grow resize-none text-sm lg:text-base rounded-lg overflow-hidden", {
                     "hidden xl:block": isPreview,
                     "block": !isPreview,
                 })}/>
