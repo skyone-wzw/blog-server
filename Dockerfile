@@ -1,19 +1,23 @@
 FROM node:20-alpine AS base
 
-FROM base AS deps
+FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY . .
+RUN rm -rf .env* data && \
+    npm ci && \
+    npm run patch-font && \
+    npm run build
 
 FROM base AS runner
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY prisma prisma
+COPY --from=builder /app/public public
+COPY --from=builder /app/.next/standalone .
+COPY --from=builder /app/.next/static .next/static
+COPY docker-bootstrap.sh .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npx prisma generate
-RUN npm run patch-font
-RUN npm run build
+RUN npm install -g prisma && npx prisma generate
 
 EXPOSE 3000
 VOLUME ["/data"]

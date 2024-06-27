@@ -2,6 +2,7 @@ import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+    output: "standalone",
     poweredByHeader: false,
     webpack(config, {isServer}) {
         if (!isServer) {

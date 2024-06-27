@@ -5,9 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --experimental-build-mode compile",
-    "start": "next start",
+    "start": "node server.js",
     "lint": "next lint",
     "patch-font": "node patch-font.js"
+  },
+  "overrides": {
+    "rimraf": "^5"
   },
   "engines": {
     "node": ">=20.0.0"
