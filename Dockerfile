@@ -4,10 +4,11 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY . .
-RUN rm -rf .env* data && \
-    npm ci && \
-    npm run patch-font && \
-    npm run build
+RUN rm -rf .env* data
+RUN npm ci
+RUN npx prisma generate
+RUN npm run patch-font
+RUN npm run build
 
 FROM base AS runner
 WORKDIR /app
@@ -17,7 +18,7 @@ COPY --from=builder /app/.next/standalone .
 COPY --from=builder /app/.next/static .next/static
 COPY docker-bootstrap.sh .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm install -g prisma && npx prisma generate
+RUN npm install -g prisma
 
 EXPOSE 3000
 VOLUME ["/data"]

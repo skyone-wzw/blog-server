@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-npx prisma migrate deploy && npx next start "$@"
+npx prisma migrate deploy && node server.js

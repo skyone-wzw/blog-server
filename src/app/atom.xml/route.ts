@@ -9,7 +9,7 @@ export async function GET() {
     const dynamicConfig = await getDynamicConfig();
     const baseUrl = dynamicConfig.site.url;
     const f = (url: string) => `${baseUrl}${url}`;
-    const lastUpdated = articles[0].updatedAt;
+    const lastUpdated = articles[0]?.updatedAt ?? new Date();
 
     const feed = new Feed({
         id: dynamicConfig.site.url,
