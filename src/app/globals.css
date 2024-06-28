@@ -125,3 +125,9 @@ body {
 .floating-toc, .article-dropdown-selector {
     max-height: calc(90vh - 200px);
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}

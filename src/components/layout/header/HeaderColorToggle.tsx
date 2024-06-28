@@ -1,7 +1,9 @@
 "use client";
 
+import {useColorMode} from "@/components/ColorModeProvider";
 import clsx from "clsx";
-import {useEffect, useState} from "react";
+import {MouseEventHandler} from "react";
+import {flushSync} from "react-dom";
 
 interface IconProps {
     className?: string;
@@ -47,45 +49,54 @@ function getColorModeIron(mode: ColorMode) {
 }
 
 function HeaderColorToggle() {
-    const [colorMode, _setColorMode] = useState<ColorMode>(null!);
-    const setColorMode = (colorMode: ColorMode) => {
-        localStorage.setItem("pattern.mode", colorMode);
-        window.dispatchEvent(new CustomEvent("color-mode-change", {
-            detail: colorMode,
-        }));
-        if (colorMode === "light") {
-            document.documentElement.classList.add("light");
-            document.documentElement.classList.remove("dark");
-        } else if (colorMode === "dark") {
-            document.documentElement.classList.add("dark");
-            document.documentElement.classList.remove("light");
-        } else {
-            document.documentElement.classList.remove("light");
-            document.documentElement.classList.remove("dark");
-        }
-        _setColorMode(colorMode);
-    };
-    useEffect(() => {
-        const colorMode = localStorage.getItem("pattern.mode");
-        if (colorMode === "light" || colorMode === "dark") {
-            setColorMode(colorMode);
-        } else {
-            setColorMode("system");
-        }
-    }, []);
+    const {colorMode, toggleColorMode} = useColorMode();
 
-    const toggleColorMode = () => {
+    const listener: MouseEventHandler = async (e) => {
+        if (!document.startViewTransition) {
+            toggleColorMode();
+            return;
+        }
+        const x = e.clientX;
+        const y = e.clientY;
+        const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+
+        const vt = document.startViewTransition(() => {
+            flushSync(() => {
+                toggleColorMode();
+            });
+        });
+        await vt.ready;
+        const duration = 200;
         if (colorMode === "light") {
-            setColorMode("dark");
-        } else if (colorMode === "dark") {
-            setColorMode("system");
+            const frameConfig = {
+                clipPath: [
+                    `circle(0 at ${x}px ${y}px)`,
+                    `circle(${radius}px at ${x}px ${y}px)`,
+                ],
+            };
+            const timingConfig = {
+                duration: duration,
+                pseudoElement: "::view-transition-new(root)",
+            };
+            document.documentElement.animate(frameConfig, timingConfig);
         } else {
-            setColorMode("light");
+            const frameConfig = {
+                clipPath: [
+                    `circle(${radius}px at ${x}px ${y}px)`,
+                    `circle(0 at ${x}px ${y}px)`,
+                ],
+                zIndex: [10, 10],
+            };
+            const timingConfig = {
+                duration: duration,
+                pseudoElement: "::view-transition-old(root)",
+            };
+            document.documentElement.animate(frameConfig, timingConfig);
         }
     };
 
     return (
-        <button onClick={toggleColorMode} aria-label="切换颜色模式" title="切换颜色模式" type="button"
+        <button onClick={listener} aria-label="切换颜色模式" title="切换颜色模式" type="button"
                 className={clsx("p-3 shrink-0 flex cursor-pointer items-center hover:bg-bg-hover hover:text-link-hover fill-current")}>
             {getColorModeIron(colorMode)}
         </button>

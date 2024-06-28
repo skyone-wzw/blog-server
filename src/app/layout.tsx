@@ -1,3 +1,4 @@
+import ColorModeProvider from "@/components/ColorModeProvider";
 import AppHeader from "@/components/layout/header/AppHeader";
 import config from "@/config";
 import {getDynamicConfig} from "@/lib/config";
@@ -62,9 +63,11 @@ function RootLayout({children}: RootLayoutProps) {
                 <script dangerouslySetInnerHTML={{__html: bootloader}}/>
             </head>
             <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>
-                <NextTopLoader color="#ec4899"/>
-                <AppHeader className="row-start-1"/>
-                {children}
+                <ColorModeProvider>
+                    <NextTopLoader color="#ec4899"/>
+                    <AppHeader className="row-start-1"/>
+                    {children}
+                </ColorModeProvider>
             </body>
         </html>
     );
