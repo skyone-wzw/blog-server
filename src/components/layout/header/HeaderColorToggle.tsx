@@ -49,10 +49,16 @@ function getColorModeIron(mode: ColorMode) {
 }
 
 function HeaderColorToggle() {
-    const {colorMode, toggleColorMode} = useColorMode();
+    const {colorMode, systemColorMode, toggleColorMode} = useColorMode();
 
     const listener: MouseEventHandler = async (e) => {
-        if (!document.startViewTransition) {
+        if (!document.startViewTransition
+            // Avoid triggering view transition when the color mode is already the same as the system color mode.
+            // light -> dark -> system
+            // if colorMode == dark && systemColorMode == dark, dark -> system not change currentColorMode.
+            || (colorMode === "dark" && systemColorMode === "dark")
+            // if colorMode == light && systemColorMode == light, system -> light not change currentColorMode.
+            || (colorMode === "system" && systemColorMode === "light")) {
             toggleColorMode();
             return;
         }

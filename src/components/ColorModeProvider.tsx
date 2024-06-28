@@ -4,10 +4,12 @@ import {createContext, ReactNode, useCallback, useContext, useEffect, useState} 
 
 export type ColorMode = "light" | "dark" | "system";
 export type CurrentColorMode = "light" | "dark";
+export type SystemColorMode = "light" | "dark";
 
 type ColorModeContext = {
     colorMode: ColorMode;
     currentColorMode: CurrentColorMode;
+    systemColorMode: SystemColorMode;
     setColorMode: (colorMode: ColorMode) => void;
     toggleColorMode: () => void;
 }
@@ -21,6 +23,7 @@ interface ColorModeProviderProps {
 function ColorModeProvider({children}: ColorModeProviderProps) {
     const [colorMode, _setColorMode] = useState<ColorMode>("light");
     const [currentColorMode, setCurrentColorMode] = useState<CurrentColorMode>("light");
+    const [systemColorMode, setSystemColorMode] = useState<SystemColorMode>("light");
 
     const setColorMode: typeof _setColorMode = (_colorMode) => {
         _setColorMode((prevColorMode) => {
@@ -44,37 +47,41 @@ function ColorModeProvider({children}: ColorModeProviderProps) {
     };
 
     useEffect(() => {
+        // Initialize color mode from local storage
         const colorMode = localStorage.getItem("pattern.mode");
         if (colorMode === "system" || colorMode === "dark") {
             setColorMode(colorMode);
         } else {
             setColorMode("light");
         }
+
+        // Listen for color mode change events
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        if (mediaQuery.matches) {
+            setSystemColorMode("dark");
+        } else {
+            setSystemColorMode("light");
+        }
+        const listener = (e: MediaQueryListEvent) => {
+            if (e.matches) {
+                setSystemColorMode("dark");
+            } else {
+                setSystemColorMode("light");
+            }
+        };
+        mediaQuery.addEventListener("change", listener);
+        return () => {
+            mediaQuery.removeEventListener("change", listener);
+        };
     }, []);
 
     useEffect(() => {
         if (colorMode === "system") {
-            const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-            if (mediaQuery.matches) {
-                setCurrentColorMode("dark");
-            } else {
-                setCurrentColorMode("light");
-            }
-            const listener = (e: MediaQueryListEvent) => {
-                if (e.matches) {
-                    setCurrentColorMode("dark");
-                } else {
-                    setCurrentColorMode("light");
-                }
-            };
-            mediaQuery.addEventListener("change", listener);
-            return () => {
-                mediaQuery.removeEventListener("change", listener);
-            };
+            setCurrentColorMode(systemColorMode);
         } else {
             setCurrentColorMode(colorMode);
         }
-    }, [colorMode]);
+    }, [colorMode, systemColorMode]);
 
     const toggleColorMode = () => {
         setColorMode(prev => {
@@ -94,6 +101,7 @@ function ColorModeProvider({children}: ColorModeProviderProps) {
     const value = {
         colorMode,
         currentColorMode,
+        systemColorMode,
         setColorMode: memoizedSetColorMode,
         toggleColorMode: memoizedToggleColorMode,
     }
