@@ -2,14 +2,13 @@
 
 [中文](README.md)
 
-<center>A simple blog server based on Node.js, Next.js, and SQLite.</center>
+<p align="center">A simple blog server based on Node.js, Next.js, and SQLite.</p>
 
 ![preview](previews/preview01.png)
 
 > The project name is yet to be determined. Maybe you can give me some suggestions?
 
 ![License](https://img.shields.io/github/license/skyone-wzw/blog-server)
-![Node.js Version](https://img.shields.io/node/v/blog-server)
 
 ## Features
 

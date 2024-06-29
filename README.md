@@ -2,14 +2,13 @@
 
 [English](README.en.md)
 
-<center>一个简单的博客服务器。基于 Node.js、Next.js 和 SQLite。</center>
+<p align="center">一个简单的博客服务器。基于 Node.js、Next.js 和 SQLite。</p>
 
 ![preview](previews/preview01.png)
 
 > 项目名称尚未确定，也许你可以给我一些建议？
 
 ![License](https://img.shields.io/github/license/skyone-wzw/blog-server)
-![Node.js Version](https://img.shields.io/node/v/skyone-wzw/blog-server)
 
 ## 特点
 
@@ -22,6 +21,8 @@
 * [ ] 在线上传自定义封面
 
 项目还有很多功能未实现，但已经达到了正常使用的程度。欢迎提出建议和贡献代码。 数据库部分应该不会出现不向前兼容的情况，但配置文件和环境变量可能会有变化。
+
+关于内存占用，由于使用 Node.js 且没有进行特殊优化（懒+不会+为了部署简单），和编译型语言自然比不了。空载状态下约 220MB，渲染一篇 3W 字的包含大量数学公式的文章额外使用约 20MB （仅首次渲染时，持续小于1秒），因此流量不大的博客一般使用 300MB。
 
 ## 快速开始
 
