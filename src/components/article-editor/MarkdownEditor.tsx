@@ -1,17 +1,10 @@
 "use client";
 
 import MarkdownPreview from "@/components/article-editor/MarkdownPreview";
+import {useColorMode} from "@/components/ColorModeProvider";
 import clsx from "clsx";
 import type {editor as MonacoEditor} from "monaco-editor";
 import {useEffect, useRef, useState} from "react";
-
-function getCurrentTheme() {
-    const root = document.documentElement.classList;
-    if (root.contains("light") || !window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        return "light";
-    }
-    return "dark";
-}
 
 interface MarkdownEditorProps {
     content: string;
@@ -22,6 +15,7 @@ interface MarkdownEditorProps {
 
 function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPreview, className}: MarkdownEditorProps) {
     const [content, setContent] = useState("");
+    const {currentColorMode} = useColorMode();
     const inputRef = useRef<HTMLDivElement>(null);
     const previewRef = useRef<HTMLDivElement>(null);
     const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null);
@@ -54,7 +48,7 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
                         value: PrevContent,
                         language: "markdown",
                         wordWrap: "on",
-                        theme: getCurrentTheme() === "dark" ? "vs-dark" : "vs",
+                        theme: currentColorMode === "dark" ? "vs-dark" : "vs",
                     });
                     const editor = editorRef.current;
                     editor.onDidScrollChange(() => {
@@ -65,7 +59,7 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
                                 element.scrollIntoView({behavior: "smooth", block: "start"});
                             }
                         }
-                    })
+                    });
 
                     setContent(PrevContent);
                     const model = editorRef.current.getModel();
@@ -81,23 +75,19 @@ function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPre
             editorRef.current?.layout();
         };
         window.addEventListener("resize", resize);
-        // Listen theme change event
-        const themeChangeListener = () => {
-            editorRef.current?.updateOptions({
-                theme: getCurrentTheme() === "dark" ? "vs-dark" : "vs",
-            });
-        };
-        const observer = new MutationObserver(themeChangeListener);
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ["class"],
-        });
         return () => {
             editorRef.current?.dispose();
             window.removeEventListener("resize", resize);
-            observer.disconnect();
         };
+        // 不需要 currentColorMode 作为依赖, 后续有 useEffect 处理
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [PrevContent, setPrevContent]);
+
+    useEffect(() => {
+        editorRef.current?.updateOptions({
+            theme: currentColorMode === "dark" ? "vs-dark" : "vs",
+        });
+    }, [currentColorMode]);
 
     return (
         <div
