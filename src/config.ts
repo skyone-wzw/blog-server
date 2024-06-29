@@ -38,14 +38,14 @@ export function DataDirResolve(...paths: string[]) {
 
 const config = (() => {
     const configFile = DataDirResolve("config.json");
-    let userConfig: DeepPartial<Config>;
+    let fileConfig: DeepPartial<Config>;
     try {
-        userConfig = JSON.parse(fs.readFileSync(configFile, "utf-8"));
+        fileConfig = JSON.parse(fs.readFileSync(configFile, "utf-8"));
     } catch (e) {
-        userConfig = {};
+        fileConfig = {};
     }
 
-    const defaultConfig: Config = {
+    const defaultConfig = {
         theme: {
             colorTransition: false,
         },
@@ -58,20 +58,16 @@ const config = (() => {
             custom: DataDirResolve("image/custom"),
         },
 
-        auth: {
-            email: process.env.AUTH_EMAIL!,
-            password: process.env.AUTH_PASSWORD!,
-        },
-
-        secret: {
-            key: process.env.SECRET_KEY!,
-            iv: process.env.SECRET_IV!,
-        },
-
         package: packageJson,
-    };
+    } as Config;
 
-    return DeepMerge(defaultConfig, userConfig);
+    const envConfig = {auth: {}, secret: {}} as DeepPartial<Config>;
+    if (process.env.AUTH_EMAIL) envConfig.auth!.email = process.env.AUTH_EMAIL;
+    if (process.env.AUTH_PASSWORD) envConfig.auth!.password = process.env.AUTH_PASSWORD;
+    if (process.env.SECRET_KEY) envConfig.secret!.key = process.env.SECRET_KEY;
+    if (process.env.SECRET_IV) envConfig.secret!.iv = process.env.SECRET_IV;
+
+    return DeepMerge(defaultConfig, fileConfig, envConfig);
 })();
 
 if (config.auth.email === undefined || config.auth.password === undefined) {

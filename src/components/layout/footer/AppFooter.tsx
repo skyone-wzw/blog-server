@@ -27,7 +27,7 @@ async function AppFooter({className}: AppFooterProps) {
                     <span className="mx-1 after:content-['·']"></span>
                     {"Designed by "}
                     <Link className="text-text-main underline hover:text-link-hover" target="_blank"
-                          href="https://blog.skyone.dev/">skyone-wzw</Link>
+                          href="https://www.skyone.host/">skyone-wzw</Link>
                     {" & "}
                     <Link className="text-text-main underline hover:text-link-hover" target="_blank"
                           href="https://skk.moe/">Sukka</Link>

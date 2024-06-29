@@ -2,21 +2,17 @@ version: "3.8"
 
 services:
   blog-server:
-    image: blog-server:latest
+    image: ghcr.io/skyone-wzw/blog-server:v1.0.0-alpha1
     container_name: blog-server
     restart: unless-stopped
     volumes:
-      - "./data:/app/data"
-    networks:
-      - proxy
+      - "./data:/data"
+    ports:
+      - "3000:3000"
     environment:
       DATABASE_URL: "file:/data/data.db"
-#      DATA_DIR: "/data" # The root directory of all data. default: /data
-      SECRET_KEY: "88888888888888888888888888888888"
-      SECRET_IV: "8888888888888888"
-      AUTH_EMAIL: abc@qq.com
-      AUTH_PASSWORD: 233
-
-networks:
-  proxy:
-    external: true
+      DATA_DIR: "/data"
+      SECRET_KEY: "changeme888888888888888888888888"
+      SECRET_IV: "changeme88888888"
+      AUTH_EMAIL: changeme@example.com
+      AUTH_PASSWORD: changeme
