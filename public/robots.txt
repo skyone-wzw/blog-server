@@ -1,2 +1,17 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
+
+User-agent: ia_archiver-web.archive.org
+Allow: /
+
+User-agent: archive.org_bot
+Allow: /
