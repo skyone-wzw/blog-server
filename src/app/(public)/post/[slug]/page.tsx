@@ -67,7 +67,7 @@ async function PostPage({params}: PostPageProps) {
 
     if (!article) return notFound();
 
-    const toc = await ParseArticleTitle(article.content);
+    const toc = await ParseArticleTitle(article);
 
     return (
         <>

@@ -19,7 +19,7 @@ async function PostLeftPage({params}: PostLeftPageProps) {
 
     if (!article) return null;
 
-    const toc = await ParseArticleTitle(article.content);
+    const toc = await ParseArticleTitle(article);
 
     return (
         <>

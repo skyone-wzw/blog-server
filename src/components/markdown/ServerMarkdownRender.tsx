@@ -16,6 +16,7 @@ import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import {unified} from "unified";
+import {VFile} from "vfile";
 import * as Components from "./Components";
 
 type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
@@ -112,14 +113,14 @@ export async function PreprocessArticleContent(article: ArticleLikeType) {
         }
     }
     const mdast = ServerMarkdownProcessor.parse(article.content);
-    const ast = await ServerMarkdownProcessor.run(mdast);
+    const ast = await ServerMarkdownProcessor.run(mdast, new VFile({value: article.content}));
     await fs.writeFile(cacheFile, JSON.stringify(ast));
     return ast;
 }
 
 const ServerMarkdownRender = cache(async (article: ArticleLikeType) => {
     const ast = await PreprocessArticleContent(article);
-    return ServerMarkdownCompiler.stringify(ast);
+    return ServerMarkdownCompiler.stringify(ast, new VFile({value: article.content}));
 });
 
 export default ServerMarkdownRender;

@@ -20,7 +20,7 @@ async function CustomLeftPage({params}: CustomLeftPageProps) {
 
     if (!customPage) return null;
 
-    const toc = await ParseArticleTitle(customPage.content);
+    const toc = await ParseArticleTitle(customPage);
 
     return (
         <>

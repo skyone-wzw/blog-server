@@ -55,7 +55,7 @@ async function CustomPage({params}: CustomPageProps) {
 
     if (!customPage) return notFound();
 
-    const toc = await ParseArticleTitle(customPage.content);
+    const toc = await ParseArticleTitle(customPage);
 
     return (
         <Paper className="py-6 space-y-3 md:space-y-4">
