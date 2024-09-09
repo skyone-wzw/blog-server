@@ -1,8 +1,10 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
 import {autofixHeadingLevel, autoHeadingId, jsxConfig} from "@/components/markdown/tools";
+import config from "@/config";
 import {getImageMetadata} from "@/lib/images";
 import L from "@/lib/links";
 import clsx from "clsx";
+import fs from "fs/promises";
 import Image from "next/image";
 import {cache, DetailedHTMLProps, ImgHTMLAttributes} from "react";
 import rehypeHighlight from "rehype-highlight";
@@ -26,7 +28,8 @@ async function _Img({className, alt, src, ...other}: ImgProps) {
         if (metadata) {
             return (
                 <span style={{aspectRatio: `${metadata.width} / ${metadata.height}`}} className="optimize-server-image">
-                    <Image className="max-w-full mx-auto" sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
+                    <Image className="max-w-full mx-auto"
+                           sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
                         // @ts-ignore
                            src={src} alt={alt} height={metadata.height} width={metadata.width} {...other}/>
                 </span>
@@ -49,49 +52,74 @@ async function _Img({className, alt, src, ...other}: ImgProps) {
 
 const SImg = _Img as unknown as (props: ImgProps) => JSX.Element;
 
-const ServerMarkdownRender = cache(async (content: string) => {
-    const elements = await unified()
-        .use(remarkParse)
-        .use(remarkGfm)
-        .use(remarkMath)
-        .use(autofixHeadingLevel)
-        .use(autoHeadingId)
-        .use(BlockQuotePlugin)
-        .use(remarkRehype, {allowDangerousHtml: true})
-        .use(rehypeKatex)
-        .use(rehypeHighlight)
-        .use(rehypeRaw)
-        // @ts-expect-error
-        .use(rehypeReact, {
-            ...jsxConfig, components: {
-                a: Components.A,
-                blockquote: Components.Blockquote,
-                code: Components.Code,
-                em: Components.Em,
-                h1: Components.H1,
-                h2: Components.H2,
-                h3: Components.H3,
-                h4: Components.H4,
-                h5: Components.H5,
-                h6: Components.H6,
-                hr: Components.Hr,
-                iframe: Components.IFrame,
-                img: SImg,
-                ol: Components.Ol,
-                p: Components.P,
-                pre: Components.Pre,
-                strong: Components.Strong,
-                table: Components.Table,
-                thead: Components.THead,
-                th: Components.Th,
-                td: Components.Td,
-                tr: Components.Tr,
-                ul: Components.Ul,
-                li: Components.Li,
-            },
-        })
-        .process(content);
-    return elements.result;
+const cacheDir = config.dir.cache;
+
+const ServerMarkdownProcessor = unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkMath)
+    .use(autofixHeadingLevel)
+    .use(autoHeadingId)
+    .use(BlockQuotePlugin)
+    .use(remarkRehype, {allowDangerousHtml: true})
+    .use(rehypeKatex)
+    .use(rehypeHighlight)
+    .use(rehypeRaw);
+
+const ServerMarkdownCompiler = unified()
+    // @ts-expect-error
+    .use(rehypeReact, {
+        ...jsxConfig, components: {
+            a: Components.A,
+            blockquote: Components.Blockquote,
+            code: Components.Code,
+            em: Components.Em,
+            h1: Components.H1,
+            h2: Components.H2,
+            h3: Components.H3,
+            h4: Components.H4,
+            h5: Components.H5,
+            h6: Components.H6,
+            hr: Components.Hr,
+            iframe: Components.IFrame,
+            img: SImg,
+            ol: Components.Ol,
+            p: Components.P,
+            pre: Components.Pre,
+            strong: Components.Strong,
+            table: Components.Table,
+            thead: Components.THead,
+            th: Components.Th,
+            td: Components.Td,
+            tr: Components.Tr,
+            ul: Components.Ul,
+            li: Components.Li,
+        },
+    });
+
+interface ArticleLikeType {
+    content: string;
+    updatedAt: Date;
+    slug: string;
+}
+
+export async function PreprocessArticleContent(article: ArticleLikeType) {
+    const cacheFile = `${cacheDir}/${article.slug}-${article.updatedAt.getTime()}.json`;
+    if (await fs.access(cacheFile).then(() => true).catch(() => false)) {
+        try {
+            return JSON.parse(await fs.readFile(cacheFile, "utf-8"));
+        } catch (e) {
+        }
+    }
+    const mdast = ServerMarkdownProcessor.parse(article.content);
+    const ast = await ServerMarkdownProcessor.run(mdast);
+    await fs.writeFile(cacheFile, JSON.stringify(ast));
+    return ast;
+}
+
+const ServerMarkdownRender = cache(async (article: ArticleLikeType) => {
+    const ast = await PreprocessArticleContent(article);
+    return ServerMarkdownCompiler.stringify(ast);
 });
 
 export default ServerMarkdownRender;

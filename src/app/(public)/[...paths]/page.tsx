@@ -70,7 +70,7 @@ async function CustomPage({params}: CustomPageProps) {
                 </div>
                 <Link className="hover:text-link-hover" href={L.editor.custom(customPage.slug)}>编辑</Link>
             </div>
-            <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(customPage.content)}</div>
+            <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(customPage)}</div>
             <ArticleFloatingButton toc={toc}/>
         </Paper>
     );

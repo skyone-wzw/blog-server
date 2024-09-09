@@ -15,6 +15,7 @@ interface Config {
         cover: string;
         random: string;
         custom: string;
+        cache: string;
     };
 
     auth: {
@@ -56,6 +57,7 @@ const config = (() => {
             cover: DataDirResolve("image/cover"),
             random: DataDirResolve("image/cover/random"),
             custom: DataDirResolve("image/custom"),
+            cache: DataDirResolve("cache"),
         },
 
         package: packageJson,
@@ -81,12 +83,13 @@ if (config.secret.key === undefined || config.secret.iv === undefined) {
 }
 
 void function () {
-    const {data, image, cover, random, custom} = config.dir;
+    const {data, image, cover, random, custom, cache} = config.dir;
     if (!fs.existsSync(data)) fs.mkdirSync(data, {recursive: true});
     if (!fs.existsSync(image)) fs.mkdirSync(image, {recursive: true});
     if (!fs.existsSync(cover)) fs.mkdirSync(cover, {recursive: true});
     if (!fs.existsSync(random)) fs.mkdirSync(random, {recursive: true});
     if (!fs.existsSync(custom)) fs.mkdirSync(custom, {recursive: true});
+    if (!fs.existsSync(cache)) fs.mkdirSync(cache, {recursive: true});
     if (fs.readdirSync(random).filter(file => file.match(/\.(jpe?g|png|webp)$/i)).length === 0) {
         fs.writeFileSync(`${random}/default.webp`, DefaultCoverImage);
     }

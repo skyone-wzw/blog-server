@@ -91,7 +91,7 @@ async function PostPage({params}: PostPageProps) {
                     </div>
                     <Link className="hover:text-link-hover" href={L.editor.post(article.slug)}>编辑</Link>
                 </div>
-                <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(article.content)}</div>
+                <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(article)}</div>
                 <ArticleFooterInfo article={article}/>
                 <ArticleFloatingButton toc={toc}/>
             </Paper>
