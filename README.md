@@ -1,15 +1,12 @@
 # Blog-Server
 
-[English](README.en.md)
+![License](https://img.shields.io/github/license/skyone-wzw/blog-server)
 
 <center>一个简单的博客服务器。基于 Node.js、Next.js 和 SQLite。</center>
 
 ![preview](previews/preview01.png)
 
 > 项目名称尚未确定，也许你可以给我一些建议？
-
-![License](https://img.shields.io/github/license/skyone-wzw/blog-server)
-![Node.js Version](https://img.shields.io/node/v/skyone-wzw/blog-server)
 
 ## 特点
 
@@ -139,7 +136,8 @@ AUTH_PASSWORD=123456
     "image": "./data/post",
     "cover": "./data/cover",
     "random": "./data/cover/random",
-    "custom": "./data/custom"
+    "custom": "./data/custom",
+    "cache": "./data/cache"
   }
 }
 ```
@@ -170,6 +168,7 @@ AUTH_PASSWORD=123456
 * `dir.cover`: 文章封面背景图目录，不建议修改
 * `dir.random`: 文章封面背景图随机目录，不建议修改
 * `dir.custom`: 自定义文件目录，不建议修改
+* `dir.cache`: 缓存目录，不建议修改
 
 ## 文章封面背景图
 
