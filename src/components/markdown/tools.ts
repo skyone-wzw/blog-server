@@ -93,3 +93,11 @@ export function markLineNumber() {
         });
     };
 }
+
+export function removePosition() {
+    return (tree: HTMLRoot) => {
+        visit(tree, (node: any) => {
+            delete node.position;
+        });
+    };
+}

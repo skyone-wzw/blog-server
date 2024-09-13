@@ -1,4 +1,4 @@
-import {autoHeadingId, headingFilter, jsxConfig} from "@/components/markdown/tools";
+import {autoHeadingId, headingFilter, jsxConfig, removePosition} from "@/components/markdown/tools";
 import config from "@/config";
 import fs from "fs/promises";
 import {cache} from "react";
@@ -20,7 +20,8 @@ const ArticleTitleProcessor = unified()
     .use(headingFilter)
     .use(autoHeadingId)
     .use(remarkRehype)
-    .use(rehypeKatex);
+    .use(rehypeKatex)
+    .use(removePosition);
 
 const ArticleTitleCompiler = unified()
     // @ts-expect-error
@@ -60,7 +61,7 @@ export async function PreprocessArticleTitle(article: ArticleLikeType) {
 
 const ParseArticleTitle = cache(async (article: ArticleLikeType) => {
     const ast = await PreprocessArticleTitle(article);
-    return ArticleTitleCompiler.stringify(ast, new VFile({value: article.content}));
+    return ArticleTitleCompiler.stringify(ast);
 });
 
 export default ParseArticleTitle;

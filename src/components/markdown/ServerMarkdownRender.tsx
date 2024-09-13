@@ -1,5 +1,5 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
-import {autofixHeadingLevel, autoHeadingId, jsxConfig} from "@/components/markdown/tools";
+import {autofixHeadingLevel, autoHeadingId, jsxConfig, removePosition} from "@/components/markdown/tools";
 import config from "@/config";
 import {getImageMetadata} from "@/lib/images";
 import L from "@/lib/links";
@@ -65,7 +65,8 @@ const ServerMarkdownProcessor = unified()
     .use(remarkRehype, {allowDangerousHtml: true})
     .use(rehypeKatex)
     .use(rehypeHighlight)
-    .use(rehypeRaw);
+    .use(rehypeRaw)
+    .use(removePosition);
 
 const ServerMarkdownCompiler = unified()
     // @ts-expect-error
@@ -120,7 +121,7 @@ export async function PreprocessArticleContent(article: ArticleLikeType) {
 
 const ServerMarkdownRender = cache(async (article: ArticleLikeType) => {
     const ast = await PreprocessArticleContent(article);
-    return ServerMarkdownCompiler.stringify(ast, new VFile({value: article.content}));
+    return ServerMarkdownCompiler.stringify(ast);
 });
 
 export default ServerMarkdownRender;
