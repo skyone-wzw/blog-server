@@ -1,8 +1,15 @@
-import {autoHeadingId, headingFilter, jsxConfig, removePosition} from "@/components/markdown/tools";
+import {
+    appendImageMetadata,
+    autoHeadingId,
+    headingFilter,
+    jsxConfig,
+    removePosition,
+} from "@/components/markdown/tools";
 import config from "@/config";
 import fs from "fs/promises";
 import {cache} from "react";
 import rehypeKatex from "rehype-katex";
+import rehypeRaw from "rehype-raw";
 import rehypeReact from "rehype-react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -21,6 +28,8 @@ const ArticleTitleProcessor = unified()
     .use(autoHeadingId)
     .use(remarkRehype)
     .use(rehypeKatex)
+    .use(rehypeRaw)
+    .use(appendImageMetadata)
     .use(removePosition);
 
 const ArticleTitleCompiler = unified()

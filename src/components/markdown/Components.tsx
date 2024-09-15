@@ -125,7 +125,17 @@ function IFrame({className, height, ...other}: IFrameProps) {
 
 type ImgProps = DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
 
-function Img({className, alt, src, ...other}: ImgProps) {
+function Img({className, alt, src, height, width, ...other}: ImgProps) {
+    if (typeof height === "number" && typeof width === "number") {
+        return (
+            <span style={{aspectRatio: `${width} / ${height}`}} className="optimize-server-image">
+                    <Image className="max-w-full mx-auto"
+                           sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
+                        // @ts-ignore
+                           src={src} alt={alt} height={height} width={width} {...other}/>
+                </span>
+        );
+    }
     if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
         alt = alt || "";
         src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image.post(src) : src;
