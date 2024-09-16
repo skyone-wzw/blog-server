@@ -1,5 +1,7 @@
 "use server";
 
+import {PreprocessArticleContent} from "@/components/markdown/server-content-processor";
+import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import config from "@/config";
 import {ArticleCreate, ArticlePatch, createArticle, deleteArticle, patchArticle} from "@/lib/article";
 import {generateToken, isUserLoggedIn} from "@/lib/auth";
@@ -48,6 +50,8 @@ export async function SaveArticleAction(article: ArticlePatch) {
     const result = await patchArticle(article);
 
     if (result) {
+        await PreprocessArticleContent(result).catch(() => {});
+        await PreprocessArticleTitle(result).catch(() => {});
         revalidatePath(L.editor.post(), "layout");
         revalidatePath(L.post(result.slug), "page");
         return true;
@@ -69,6 +73,8 @@ export async function CreateArticleAction(article: ArticleCreate) {
     const result = await createArticle(article);
 
     if (result) {
+        await PreprocessArticleContent(result).catch(() => {});
+        await PreprocessArticleTitle(result).catch(() => {});
         revalidatePath(L.editor.post(), "layout");
         return true;
     } else {

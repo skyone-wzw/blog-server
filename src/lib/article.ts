@@ -417,7 +417,7 @@ export const createArticle = cache(async (article: ArticleCreate) => {
         return await prisma.post.create({
             data: ObjectPick(Article2Database(article),
                 ["title", "slug", "description", "series", "tags", "published", "content"]),
-            select: ArticleMetadataSelector,
+            select: ArticleSelector,
         });
     } catch (e) {
         return null;
@@ -435,7 +435,7 @@ export const patchArticle = cache(async (article: ArticlePatch) => {
                     ["title", "slug", "description", "series", "tags", "published", "content", "createdAt"]),
                 updatedAt: new Date(),
             },
-            select: ArticleMetadataSelector,
+            select: ArticleSelector,
         });
     } catch (e) {
         return null;
