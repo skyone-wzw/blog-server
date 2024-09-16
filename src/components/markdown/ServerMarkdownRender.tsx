@@ -1,13 +1,9 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
-import {
-    appendImageMetadata,
-    autofixHeadingLevel,
-    autoHeadingId,
-    jsxConfig,
-    removePosition,
-} from "@/components/markdown/tools";
+import {autofixHeadingLevel, autoHeadingId, jsxConfig, removePosition} from "@/components/markdown/tools";
 import config from "@/config";
+import {getImageMetadata} from "@/lib/images";
 import fs from "fs/promises";
+import {Element, Root as HTMLRoot} from "hast";
 import {cache} from "react";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
@@ -18,10 +14,34 @@ import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import {unified} from "unified";
+import {visit} from "unist-util-visit";
 import {VFile} from "vfile";
 import * as Components from "./Components";
 
 const cacheDir = config.dir.cache;
+
+export function appendImageMetadata() {
+    return async (tree: HTMLRoot) => {
+        const promises: Promise<void>[] = [];
+        visit(tree, "element", (node: Element) => {
+            if (node.tagName === "img") {
+                promises.push((async () => {
+                    const src = node.properties?.src as string;
+                    if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
+                        const metadata = await getImageMetadata(src);
+                        if (metadata) {
+                            node.properties = node.properties || {};
+                            node.properties.width = metadata.width;
+                            node.properties.height = metadata.height;
+                        }
+                    }
+                })().catch(() => {
+                }));
+            }
+        });
+        await Promise.all(promises);
+    };
+}
 
 const ServerMarkdownProcessor = unified()
     .use(remarkParse)

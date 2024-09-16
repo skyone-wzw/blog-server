@@ -21,7 +21,7 @@
     "clsx": "^2.1.1",
     "feed": "^4.2.2",
     "monaco-editor": "^0.51.0",
-    "next": "14.2.8",
+    "next": "14.2.11",
     "nextjs-toploader": "^3.6.15",
     "react": "^18",
     "react-dom": "^18",
@@ -44,12 +44,12 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
     "eslint": "^8",
-    "eslint-config-next": "14.2.8",
+    "eslint-config-next": "14.2.11",
     "monaco-editor-webpack-plugin": "^7.1.0",
     "postcss": "^8",
     "prisma": "^5.19.1",
-    "tailwindcss": "^3.4.10",
-    "tsx": "^4.19.0",
+    "tailwindcss": "^3.4.11",
+    "tsx": "^4.19.1",
     "typescript": "^5"
   }
 }
