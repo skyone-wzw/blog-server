@@ -34,7 +34,10 @@ interface ArticleLikeType {
 const cacheDir = config.dir.cache;
 
 async function _PreprocessArticleTitle(article: ArticleLikeType) {
-    const cacheFile = `${cacheDir}/${article.slug}-${article.updatedAt.getTime()}-title.json`;
+    // custom page 的 slug 可以包含 /, 会导致文件名不合法
+    // 替换 / 为 @ 以避免问题
+    const slug = article.slug.replace(/\//g, "@");
+    const cacheFile = `${cacheDir}/${slug}-${article.updatedAt.getTime()}-title.json`;
     if (await fs.access(cacheFile).then(() => true).catch(() => false)) {
         try {
             return JSON.parse(await fs.readFile(cacheFile, "utf-8")) as Root;
