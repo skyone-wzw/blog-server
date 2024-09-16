@@ -1,4 +1,3 @@
-import L from "@/lib/links";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -136,9 +135,8 @@ function Img({className, alt, src, height, width, ...other}: ImgProps) {
                 </span>
         );
     }
-    if (src && (src.startsWith("/") || src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/))) {
-        alt = alt || "";
-        src = src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/) ? L.image.post(src) : src;
+    if (src && src.startsWith("/")) {
+        alt = alt || "image";
         return (
             // @ts-ignore
             <Image className={clsx("mx-auto optimize-image", className)}

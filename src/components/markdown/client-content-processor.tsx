@@ -1,6 +1,6 @@
 import {HASTCompiler} from "@/components/markdown/HASTRender";
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
-import {autofixHeadingLevel, autoHeadingId, markLineNumber} from "@/components/markdown/tools";
+import {autofixHeadingLevel, autoHeadingId, makeImageUrl, markLineNumber} from "@/components/markdown/tools";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -21,6 +21,7 @@ export const ClientMarkdownProcessor = unified()
     .use(rehypeKatex)
     .use(rehypeHighlight)
     .use(rehypeRaw)
+    .use(makeImageUrl)
     .use(markLineNumber);
 
 async function ClientMarkdownRender(content: string) {

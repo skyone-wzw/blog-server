@@ -13,6 +13,9 @@ const ImageMetadataCache = new Map<string, ImageMetadata>();
 const imageDir = config.dir.image;
 
 export const getImageMetadata = cache(async (url: string) => {
+    if (url.startsWith("/assets/image/post/")) {
+        url = url.slice("/assets/image/post/".length);
+    }
     const filename = url.match(/^([a-fA-F0-9]{64}\.(webp|png|jpe?g))$/i)?.[1];
     if (!filename) return null;
     if (ImageMetadataCache.has(filename)) return ImageMetadataCache.get(filename);

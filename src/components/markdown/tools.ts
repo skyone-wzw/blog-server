@@ -1,3 +1,4 @@
+import L from "@/lib/links";
 import {Element, Root as HTMLRoot} from "hast";
 import {Heading, Root as MDRoot} from "mdast";
 import * as prod from "react/jsx-runtime";
@@ -89,6 +90,19 @@ export function markLineNumber() {
             if (line) {
                 node.properties = node.properties || {};
                 node.properties["data-line"] = line;
+            }
+        });
+    };
+}
+
+export function makeImageUrl() {
+    return (tree: HTMLRoot) => {
+        visit(tree, "element", (node: Element) => {
+            if (node.tagName === "img") {
+                const src = node.properties?.src as string;
+                if (src && src.match(/^[a-fA-F0-9]{64}\.(webp|png|jpe?g)$/)) {
+                    node.properties.src = L.image.post(src);
+                }
             }
         });
     };

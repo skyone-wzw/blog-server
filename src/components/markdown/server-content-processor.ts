@@ -1,6 +1,6 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
 import {appendImageMetadata} from "@/components/markdown/server-tools";
-import {autofixHeadingLevel, autoHeadingId, removePosition} from "@/components/markdown/tools";
+import {autofixHeadingLevel, autoHeadingId, makeImageUrl, removePosition} from "@/components/markdown/tools";
 import config from "@/config";
 import fs from "fs/promises";
 import {Root} from "hast";
@@ -28,6 +28,7 @@ export const ServerMarkdownProcessor = unified()
     .use(rehypeHighlight)
     .use(rehypeRaw)
     .use(appendImageMetadata)
+    .use(makeImageUrl)
     .use(removePosition);
 
 interface ArticleLikeType {
