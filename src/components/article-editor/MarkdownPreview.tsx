@@ -15,7 +15,7 @@ function MarkdownPreview({content}: MarkdownPreviewProps) {
 
     useEffect(() => {
         const start = Date.now();
-        import("@/components/markdown/ClientMarkdownRender")
+        import("@/components/markdown/client-content-processor")
             .then(({default: MarkdownRender}) => {
                 const end = Date.now();
                 if (end - start < 500) {

@@ -1,7 +1,7 @@
 import ArticleFloatingButton from "@/components/ArticleFloatingButton";
 import Paper from "@/components/base/Paper";
 import {HASTRender, TitleHASTRender} from "@/components/markdown/HASTRender";
-import {PreprocessArticleContent} from "@/components/markdown/ServerMarkdownRender";
+import {PreprocessArticleContent} from "@/components/markdown/server-content-processor";
 import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {getDynamicConfig} from "@/lib/config";
 import {getCustomPageBySlug} from "@/lib/custom-page";
