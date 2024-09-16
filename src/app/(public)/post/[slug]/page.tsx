@@ -2,8 +2,9 @@ import ArticleFloatingButton from "@/components/ArticleFloatingButton";
 import ArticleFooterAdjacentNavigation from "@/components/ArticleFooterAdjacentNavigation";
 import ArticleFooterInfo from "@/components/ArticleFooterInfo";
 import Paper from "@/components/base/Paper";
-import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
-import ServerMarkdownRender from "@/components/markdown/ServerMarkdownRender";
+import {HASTRender, TitleHASTRender} from "@/components/markdown/HASTRender";
+import {PreprocessArticleContent} from "@/components/markdown/ServerMarkdownRender";
+import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {getArticleBySlug} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
@@ -67,7 +68,8 @@ async function PostPage({params}: PostPageProps) {
 
     if (!article) return notFound();
 
-    const toc = await ParseArticleTitle(article);
+    const toc = <TitleHASTRender ast={await PreprocessArticleTitle(article)}/>;
+    const content = <HASTRender ast={await PreprocessArticleContent(article)}/>;
 
     return (
         <>
@@ -91,7 +93,7 @@ async function PostPage({params}: PostPageProps) {
                     </div>
                     <Link className="hover:text-link-hover" href={L.editor.post(article.slug)}>编辑</Link>
                 </div>
-                <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(article)}</div>
+                <div className="px-4 md:px-6 text-sm 2xl:text-base">{content}</div>
                 <ArticleFooterInfo article={article}/>
                 <ArticleFloatingButton toc={toc}/>
             </Paper>

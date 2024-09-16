@@ -1,7 +1,8 @@
 import ArticleFloatingButton from "@/components/ArticleFloatingButton";
 import Paper from "@/components/base/Paper";
-import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
-import ServerMarkdownRender from "@/components/markdown/ServerMarkdownRender";
+import {HASTRender, TitleHASTRender} from "@/components/markdown/HASTRender";
+import {PreprocessArticleContent} from "@/components/markdown/ServerMarkdownRender";
+import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {getDynamicConfig} from "@/lib/config";
 import {getCustomPageBySlug} from "@/lib/custom-page";
 import L from "@/lib/links";
@@ -55,7 +56,8 @@ async function CustomPage({params}: CustomPageProps) {
 
     if (!customPage) return notFound();
 
-    const toc = await ParseArticleTitle(customPage);
+    const toc = <TitleHASTRender ast={await PreprocessArticleTitle(customPage)}/>;
+    const content = <HASTRender ast={await PreprocessArticleContent(customPage)}/>;
 
     return (
         <Paper className="py-6 space-y-3 md:space-y-4">
@@ -70,7 +72,7 @@ async function CustomPage({params}: CustomPageProps) {
                 </div>
                 <Link className="hover:text-link-hover" href={L.editor.custom(customPage.slug)}>编辑</Link>
             </div>
-            <div className="px-4 md:px-6 text-sm 2xl:text-base">{await ServerMarkdownRender(customPage)}</div>
+            <div className="px-4 md:px-6 text-sm 2xl:text-base">{content}</div>
             <ArticleFloatingButton toc={toc}/>
         </Paper>
     );

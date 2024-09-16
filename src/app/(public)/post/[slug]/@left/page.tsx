@@ -4,7 +4,8 @@ import AsideProfile from "@/components/AsideProfile";
 import AsideRecentArticles from "@/components/AsideRecentArticles";
 import AsideSeries from "@/components/AsideSeries";
 import AsideTags from "@/components/AsideTags";
-import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
+import {TitleHASTRender} from "@/components/markdown/HASTRender";
+import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {getArticleBySlug} from "@/lib/article";
 
 interface PostLeftPageProps {
@@ -19,7 +20,7 @@ async function PostLeftPage({params}: PostLeftPageProps) {
 
     if (!article) return null;
 
-    const toc = await ParseArticleTitle(article);
+    const toc = <TitleHASTRender ast={await PreprocessArticleTitle(article)}/>;
 
     return (
         <>

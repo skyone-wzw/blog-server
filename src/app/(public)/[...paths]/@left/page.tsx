@@ -4,7 +4,8 @@ import AsideProfile from "@/components/AsideProfile";
 import AsideRecentArticles from "@/components/AsideRecentArticles";
 import AsideSeries from "@/components/AsideSeries";
 import AsideTags from "@/components/AsideTags";
-import ParseArticleTitle from "@/components/markdown/ParseArticleTitle";
+import {TitleHASTRender} from "@/components/markdown/HASTRender";
+import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {getCustomPageBySlug} from "@/lib/custom-page";
 
 interface CustomLeftPageProps {
@@ -20,7 +21,7 @@ async function CustomLeftPage({params}: CustomLeftPageProps) {
 
     if (!customPage) return null;
 
-    const toc = await ParseArticleTitle(customPage);
+    const toc = <TitleHASTRender ast={await PreprocessArticleTitle(customPage)}/>;
 
     return (
         <>
