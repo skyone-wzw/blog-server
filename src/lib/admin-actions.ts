@@ -25,7 +25,7 @@ export async function RemoveUnusedAssetsAction() {
         const pages = Math.ceil(count / DEFAULT_ARTICLE_PER_PAGE);
         const imageSet = new Set<string>();
 
-        for (let i = 0; i < pages; i++) {
+        for (let i = 1; i <= pages; i++) {
             const articles = await getRecentArticles({page: i});
             for (const article of articles) {
                 const images = await ParseArticleImages(article.content);
@@ -83,7 +83,7 @@ export async function PreprocessArticleAction() {
         const count = await getAllArticleCount();
         const pages = Math.ceil(count / DEFAULT_ARTICLE_PER_PAGE);
 
-        for (let i = 0; i < pages; i++) {
+        for (let i = 1; i <= pages; i++) {
             const articles = await getRecentArticles({page: i});
             for (const article of articles) {
                 await PreprocessArticleContent(article);

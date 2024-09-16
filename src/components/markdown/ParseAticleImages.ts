@@ -10,8 +10,13 @@ const ParseArticleImages = cache(async (content: string) => {
         .parse(content);
     const images = [] as string[];
     visit(result, "image", (node) => {
-        if (node.url && node.url.match(/^([a-fA-F0-9]{64}\.(webp|png|jpe?g))$/i)) {
-            images.push(node.url);
+        if (node.url) {
+            if (node.url.match(/^([a-fA-F0-9]{64}\.(webp|png|jpe?g))$/i)) {
+                images.push(node.url);
+            }
+            if (node.url.startsWith("/assets/image/post/")) {
+                images.push(node.url.slice("/assets/image/post/".length));
+            }
         }
     });
     return images;
