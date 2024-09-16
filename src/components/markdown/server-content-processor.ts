@@ -3,6 +3,7 @@ import {appendImageMetadata} from "@/components/markdown/server-tools";
 import {autofixHeadingLevel, autoHeadingId, removePosition} from "@/components/markdown/tools";
 import config from "@/config";
 import fs from "fs/promises";
+import {Root} from "hast";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -39,7 +40,7 @@ export async function PreprocessArticleContent(article: ArticleLikeType) {
     const cacheFile = `${cacheDir}/${article.slug}-${article.updatedAt.getTime()}.json`;
     if (await fs.access(cacheFile).then(() => true).catch(() => false)) {
         try {
-            return JSON.parse(await fs.readFile(cacheFile, "utf-8"));
+            return JSON.parse(await fs.readFile(cacheFile, "utf-8")) as Root;
         } catch (e) {
         }
     }
