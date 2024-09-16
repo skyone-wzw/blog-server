@@ -49,7 +49,7 @@ async function ArchivePaginationPage({params}: ArchivePaginationPageProps) {
                 return L.archive(year, page);
             }}/>
         </>
-    )
+    );
 }
 
 export default ArchivePaginationPage;

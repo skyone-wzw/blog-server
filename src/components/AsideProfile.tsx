@@ -60,8 +60,8 @@ async function AsideProfile({className}: AsideProfileProps) {
                    placeholder="blur" className="w-full mb-4 object-cover rounded-t-lg h-28"/>
             <div className="flex flex-col items-center justify-center p-4 -mt-16">
                 <Image alt="profil" src={L.image.custom(profile.avatar)} height={64} width={64}
-                       blurDataURL={L.image.custom(profile.avatar, true)}
-                       placeholder="blur" className="mx-auto w-16 h-16 object-cover rounded-full border-2 border-bg-tag"/>
+                       blurDataURL={L.image.custom(profile.avatar, true)} placeholder="blur"
+                       className="mx-auto w-16 h-16 object-cover rounded-full border-2 border-bg-tag"/>
                 <Link href={L.page("login")} className="mt-2 text-xl font-medium text-text-main">
                     {profile.name}
                 </Link>

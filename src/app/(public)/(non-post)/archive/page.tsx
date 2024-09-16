@@ -9,7 +9,7 @@ export async function generateMetadata() {
     return {
         title: `归档 - ${dynamicConfig.site.title}`,
         description: `${dynamicConfig.site.description} - 所有文章的归档。`,
-    }
+    };
 }
 
 function formatDate(date: Date) {

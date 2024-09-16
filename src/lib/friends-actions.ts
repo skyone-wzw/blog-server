@@ -15,7 +15,7 @@ export async function CreateFriendAction(friend: FriendCreate) {
 
     const result = await createFriend(friend);
 
-    revalidatePath("/admin/friends", "page")
+    revalidatePath("/admin/friends", "page");
     revalidatePath("/friends", "page");
     return result;
 }
@@ -25,7 +25,7 @@ export async function SaveFriendAction(friend: FriendPatch) {
 
     const result = await patchFriend(friend);
 
-    revalidatePath("/admin/friends", "page")
+    revalidatePath("/admin/friends", "page");
     revalidatePath("/friends", "page");
     return result;
 }
@@ -35,7 +35,7 @@ export async function DeleteFriendAction(friendId: number) {
 
     const result = await deleteFriend(friendId);
 
-    revalidatePath("/admin/friends", "page")
+    revalidatePath("/admin/friends", "page");
     revalidatePath("/friends", "page");
     return result;
 }

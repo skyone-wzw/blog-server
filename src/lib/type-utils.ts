@@ -13,8 +13,8 @@ export function ObjectOmit<T, KT extends keyof T>(obj: T, keys: KT[]): Omit<T, K
 export function ObjectPick<T, KT extends keyof T>(obj: T, keys: KT[]): Pick<T, KT> {
     const result = {} as Pick<T, KT>;
     keys.forEach((key) => {
-        result[key] = obj[key]
-    })
+        result[key] = obj[key];
+    });
     return result;
 }
 

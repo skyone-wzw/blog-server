@@ -17,7 +17,7 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
     const handleOpenToc: MouseEventHandler = (e) => {
         e.stopPropagation();
         setOpenToc(true);
-    }
+    };
     const handleCloseToc = () => setOpenToc(false);
 
     const scrollToTop: MouseEventHandler<HTMLAnchorElement> = (e) => {
@@ -49,7 +49,8 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
                 </>
             )}
             <Link href={"#article-content-main"} title="返回顶部"
-                  className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag text-text-content hover:text-link-hover" onClick={scrollToTop}>
+                  className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag text-text-content hover:text-link-hover"
+                  onClick={scrollToTop}>
                 <svg fill="currentColor" viewBox="0 0 24 24" height={20} width={20} xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M4 21.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H4.75a.75.75 0 0 1-.75-.75ZM5.22 9.53a.749.749 0 0 1 0-1.06l6.25-6.25a.749.749 0 0 1 1.06 0l6.25 6.25a.749.749 0 1 1-1.06 1.06l-4.97-4.969V16.75a.75.75 0 0 1-1.5 0V4.561L6.28 9.53a.749.749 0 0 1-1.06 0Z"></path>

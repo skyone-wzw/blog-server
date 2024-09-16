@@ -11,7 +11,7 @@ function NoScroll({children}: NoScrollProps) {
         document.documentElement.style.overflow = "hidden";
         return () => {
             document.documentElement.style.overflow = "";
-        }
+        };
     }, []);
 
     return <>{children}</>;

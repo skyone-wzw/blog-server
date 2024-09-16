@@ -5,6 +5,7 @@ type StartViewTransitionReturn = {
     finished: Promise<void>;
 }
 declare type StartViewTransition = (func: StartViewTransitionFunc) => StartViewTransitionReturn;
+
 declare interface Document {
     startViewTransition?: StartViewTransition;
 }

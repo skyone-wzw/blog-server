@@ -9,7 +9,7 @@ export async function generateMetadata() {
     return {
         title: `友链管理 - ${dynamicConfig.site.title}`,
         description: `${dynamicConfig.site.description}`,
-    }
+    };
 }
 
 async function AdminFriendsPage() {

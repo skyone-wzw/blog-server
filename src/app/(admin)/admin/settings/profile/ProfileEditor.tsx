@@ -1,7 +1,7 @@
 "use client";
 
 import {ProfileDynamicConfig} from "@/lib/config";
-import {SaveProfileConfigAction, SaveProfileActionState} from "@/lib/config-actions";
+import {SaveProfileActionState, SaveProfileConfigAction} from "@/lib/config-actions";
 import L from "@/lib/links";
 import Image from "next/image";
 import {useEffect, useRef, useState} from "react";
@@ -25,11 +25,11 @@ function SubmitButton() {
                 e.preventDefault();
                 formSubmitRef.current.click();
             }
-        }
-        window.addEventListener("keydown", handleKeydown)
+        };
+        window.addEventListener("keydown", handleKeydown);
         return () => {
-            window.removeEventListener("keydown", handleKeydown)
-        }
+            window.removeEventListener("keydown", handleKeydown);
+        };
     }, [formSubmitRef, pending]);
 
     return (

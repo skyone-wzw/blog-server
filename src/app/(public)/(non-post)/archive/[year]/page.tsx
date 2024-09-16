@@ -42,7 +42,7 @@ async function YearArchivePage({params}: YearArchivePageProps) {
                 <ArticleSummaryCard article={article} key={article.slug}/>
             ))}
             <FooterPagination current={1} total={total} getLink={(page) => {
-                if (total === 1) return  L.archive(year);
+                if (total === 1) return L.archive(year);
                 return L.archive(year, page);
             }}/>
         </>

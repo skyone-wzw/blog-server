@@ -17,8 +17,8 @@ async function AdminAssetsImagesPage() {
                     {images.map((image, index) => {
                         const metadata = image.metadata;
                         const aspectRatio = `${image.metadata.width}/${image.metadata.height}`;
-                        const flexGrow = (metadata.width / metadata.height * 100).toFixed(5)
-                        const width = `${(200 * metadata.width / metadata.height).toFixed(5)}px`
+                        const flexGrow = (metadata.width / metadata.height * 100).toFixed(5);
+                        const width = `${(200 * metadata.width / metadata.height).toFixed(5)}px`;
                         return (
                             <div key={index} className="max-w-full min-h-[40px] max-h-[400px] border-2 border-bg-tag"
                                  style={{aspectRatio, flexGrow, width}}>

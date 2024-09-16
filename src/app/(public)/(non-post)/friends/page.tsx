@@ -9,7 +9,7 @@ export async function generateMetadata() {
     return {
         title: `友情链接 - ${dynamicConfig.site.title}`,
         description: `${dynamicConfig.profile.name} 的朋友们`,
-    }
+    };
 }
 
 async function FriendsPage() {

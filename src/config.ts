@@ -1,8 +1,8 @@
 import {DeepMerge, DeepPartial} from "@/lib/type-utils";
 import fs from "fs";
 import path from "path";
-import DefaultCoverImage from "./default-cover";
 import packageJson from "../package.json";
+import DefaultCoverImage from "./default-cover";
 
 interface Config {
     theme: {

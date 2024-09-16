@@ -7,7 +7,7 @@ export async function generateMetadata() {
     return {
         title: `新建文章 - ${dynamicConfig.site.title}`,
         description: dynamicConfig.site.description,
-    }
+    };
 }
 
 async function ArticleEditorPage() {

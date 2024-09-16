@@ -19,10 +19,10 @@ function getFileExtensionFromContentType(contentType: string) {
 
 export async function uploadImage(root: string, file: File) {
     const filename = HASH.sha256(Buffer.from(await file.arrayBuffer()));
-    const extension = getFileExtensionFromContentType(file.type)
+    const extension = getFileExtensionFromContentType(file.type);
     if (!extension) return null;
     const filepath = `${root}/${filename}.${extension}`;
-    const fileUrl = `${filename}.${extension}`
+    const fileUrl = `${filename}.${extension}`;
     try {
         // 文件或目录存在
         const stat = await fs.stat(filepath);

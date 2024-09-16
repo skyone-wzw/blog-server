@@ -448,7 +448,7 @@ export const deleteArticle = cache(async (id: string) => {
             where: {
                 id: id,
             },
-            select: ArticleMetadataSelector
+            select: ArticleMetadataSelector,
         });
     } catch (e) {
         return null;

@@ -33,7 +33,7 @@ const L = {
         },
         custom(slug?: string) {
             return `/editor/custom${slug ?? ""}`;
-        }
+        },
     },
     custom(path: string | string[]) {
         if (Array.isArray(path)) {
@@ -67,7 +67,7 @@ const L = {
             return blur ?
                 `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
                 url;
-        }
+        },
     },
     avatar: {
         email(email: string): string {

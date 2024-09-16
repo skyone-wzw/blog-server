@@ -22,7 +22,7 @@ function UpdateServerUrl({url}: UpdateServerUrlProps) {
                     }
                 });
         }
-    }, [url])
+    }, [url]);
 
     return null;
 }

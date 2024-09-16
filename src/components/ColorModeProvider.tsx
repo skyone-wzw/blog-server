@@ -92,7 +92,7 @@ function ColorModeProvider({children}: ColorModeProviderProps) {
             } else {
                 return "light";
             }
-        })
+        });
     };
 
     const memoizedSetColorMode = useCallback(setColorMode, []);
@@ -104,7 +104,7 @@ function ColorModeProvider({children}: ColorModeProviderProps) {
         systemColorMode,
         setColorMode: memoizedSetColorMode,
         toggleColorMode: memoizedToggleColorMode,
-    }
+    };
 
     return (
         <ColorModeContext.Provider value={value}>

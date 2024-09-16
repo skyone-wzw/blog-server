@@ -64,8 +64,8 @@ const CustomPageMetadataSelector = {
 
 export const CustomPageReservedPrefix = [
     "post", "admin", "editor", "api", "assets", "login", "tags",
-    "series", "search", "archive","sitemap", "robots.txt", "favicon",
-    "atom.xml", "new"
+    "series", "search", "archive", "sitemap", "robots.txt", "favicon",
+    "atom.xml", "new",
 ];
 export const CustomPageReservedPrefixRegex = RegExp(`^\\/(?:${CustomPageReservedPrefix.join("|")})(\/|$)`);
 
@@ -102,7 +102,7 @@ export const patchCustomPage = async (page: CustomPagePatch) => {
     } catch (e) {
         return null;
     }
-}
+};
 
 export const createCustomPage = async (page: CustomPageCreate) => {
     try {
@@ -118,7 +118,7 @@ export const createCustomPage = async (page: CustomPageCreate) => {
     } catch (e) {
         return null;
     }
-}
+};
 
 export const deleteCustomPage = async (id: string) => {
     try {
@@ -129,4 +129,4 @@ export const deleteCustomPage = async (id: string) => {
     } catch (e) {
         return null;
     }
-}
+};

@@ -240,8 +240,8 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                                     创建时间
                                 </label>
                                 <div className="mt-2 flex flex-col lg:flex-row">
-                                    <input id="article-editor-info-created-at" type="datetime-local" required value={createdAt}
-                                           onChange={e => setCreatedAt(e.target.value)}
+                                    <input id="article-editor-info-created-at" type="datetime-local" required
+                                           value={createdAt} onChange={e => setCreatedAt(e.target.value)}
                                            className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
@@ -298,7 +298,8 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                     登出
                 </button>
             </div>
-            <MarkdownEditor content={article.content} setContent={setContent} isPreview={isPreview} className="flex-grow h-0"/>
+            <MarkdownEditor content={article.content} setContent={setContent} isPreview={isPreview}
+                            className="flex-grow h-0"/>
         </main>
     );
 }

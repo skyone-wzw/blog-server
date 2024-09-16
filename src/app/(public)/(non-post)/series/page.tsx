@@ -9,7 +9,7 @@ export async function generateMetadata() {
     return {
         title: `全部分类 - ${dynamicConfig.site.title}`,
         description: `${dynamicConfig.site.description} - 所有文章分类。`,
-    }
+    };
 }
 
 function formatDate(date: Date) {

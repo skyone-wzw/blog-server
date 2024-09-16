@@ -1,5 +1,5 @@
-import NoScroll from "./NoScroll";
 import {ReactNode} from "react";
+import NoScroll from "./NoScroll";
 
 interface EditorPageLayoutProps {
     children: ReactNode;
