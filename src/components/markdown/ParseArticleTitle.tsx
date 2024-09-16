@@ -1,10 +1,5 @@
-import {
-    appendImageMetadata,
-    autoHeadingId,
-    headingFilter,
-    jsxConfig,
-    removePosition,
-} from "@/components/markdown/tools";
+import {appendImageMetadata} from "@/components/markdown/server-tools";
+import {autoHeadingId, headingFilter, jsxConfig, removePosition} from "@/components/markdown/tools";
 import config from "@/config";
 import fs from "fs/promises";
 import {cache} from "react";
