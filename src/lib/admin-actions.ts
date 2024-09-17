@@ -1,5 +1,6 @@
 "use server";
 
+import generateCover from "@/app/api/cover/[slug]/generate-cover";
 import ParseArticleImages from "@/components/markdown/ParseAticleImages";
 import {PreprocessArticleContent} from "@/components/markdown/server-content-processor";
 import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
@@ -110,4 +111,49 @@ export async function PreprocessArticleAction() {
             message: `任务失败：${e?.message ?? e}`,
         };
     }
+}
+
+export async function RemoveCoverCacheAction() {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+
+    async function removeCoverCache() {
+        const files = await fs.readdir(config.dir.cache);
+        for (const file of files) {
+            if (!file.endsWith(".png")) continue;
+            await fs.rm(`${config.dir.cache}/${file}`).catch(() => {});
+        }
+    }
+
+    setTimeout(removeCoverCache, 0);
+
+    return {
+        success: true,
+        message: "任务正在后台执行中，请稍后查看结果。",
+    };
+}
+
+export async function GenerateCoverAction() {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+
+    async function generateCovers() {
+        const count = await getAllArticleCount();
+        const pages = Math.ceil(count / DEFAULT_ARTICLE_PER_PAGE);
+
+        for (let i = 1; i <= pages; i++) {
+            const articles = await getRecentArticles({page: i});
+            for (const article of articles) {
+                await generateCover(article);
+            }
+        }
+    }
+
+    try {
+        await generateCovers();
+    } catch (e) {
+    }
+
+    return {
+        success: true,
+        message: "任务正在后台执行中，请稍后查看结果。",
+    };
 }

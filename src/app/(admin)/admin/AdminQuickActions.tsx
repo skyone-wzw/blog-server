@@ -17,13 +17,23 @@ function AdminQuickActions({className}: AdminQuickActionsProps) {
             action: RemoveUnusedAssetsAction,
         },
         {
-            name: "清除缓存",
+            name: "清除文章缓存",
             description: "清除服务端的文章预编译缓存。缓存不会影响文章内容，并且会在下次访问时重新生成。",
             action: RemoveArticleCacheAction,
         },
         {
-            name: "预热缓存",
+            name: "预热文章缓存",
             description: "预热所有文章的预编译缓存，以提高文章访问速度。此操作通常自动执行。",
+            action: PreprocessArticleAction,
+        },
+        {
+            name: "清除封面缓存",
+            description: "清除文章封面的缓存。缓存会在下次访问时重新生成。",
+            action: RemoveArticleCacheAction,
+        },
+        {
+            name: "生成封面缓存",
+            description: "预生成所有文章的封面。此操作通常自动执行。",
             action: PreprocessArticleAction,
         }
     ];

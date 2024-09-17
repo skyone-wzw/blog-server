@@ -29,8 +29,10 @@ function QuickAction({name, description, action}: QuickActionProps) {
 
     return (
         <div className="flex flex-col justify-start items-start lg:items-center lg:flex-row p-2 gap-y-2">
-            <span className="text-text-content">{name}</span>
-            <span className="text-sm lg:ml-2 lg:mt-1 text-text-subnote grow">{description}</span>
+            <div className="basis-0 flex-grow">
+                <p className="text-text-content">{name}</p>
+                <p className="text-sm text-text-subnote grow">{description}</p>
+            </div>
             <button
                 className="self-end rounded-md bg-button-bg px-4 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
                 disabled={loading} type="button"
