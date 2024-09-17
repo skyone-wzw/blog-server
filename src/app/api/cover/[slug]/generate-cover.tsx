@@ -1,7 +1,6 @@
 import {GET as getIcon} from "@/app/favicon/route";
 import config from "@/config";
 import DefaultCoverImage from "@/default-cover";
-import {ArticleMetadata} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 import fs from "fs/promises";
 import {ImageResponse} from "next/og";
