@@ -454,3 +454,10 @@ export const deleteArticle = cache(async (id: string) => {
         return null;
     }
 });
+
+export const getArticleTextSum = cache(async (): Promise<BigInt> => {
+    const result: {total: BigInt}[] = await prisma.$queryRaw`
+        SELECT SUM(LENGTH(content)) as total FROM posts;
+    `;
+    return result.pop()?.total ?? BigInt(-1);
+});
