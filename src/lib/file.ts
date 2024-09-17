@@ -56,6 +56,6 @@ export async function uploadCustomImage(file: File) {
 }
 
 export async function uploadCoverImage(file: File, name: string) {
-    const png = await sharp(await file.arrayBuffer()).png().toBuffer();
+    const png = await sharp(await file.arrayBuffer()).resize(1600).png().toBuffer();
     await fs.writeFile(`${coverDir}/${name}.png`, png);
 }

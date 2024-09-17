@@ -2,7 +2,6 @@ import {DeepMerge, DeepPartial} from "@/lib/type-utils";
 import fs from "fs";
 import path from "path";
 import packageJson from "../package.json";
-import DefaultCoverImage from "./default-cover";
 
 interface Config {
     theme: {
@@ -90,9 +89,6 @@ void function () {
     if (!fs.existsSync(random)) fs.mkdirSync(random, {recursive: true});
     if (!fs.existsSync(custom)) fs.mkdirSync(custom, {recursive: true});
     if (!fs.existsSync(cache)) fs.mkdirSync(cache, {recursive: true});
-    if (fs.readdirSync(random).filter(file => file.match(/\.(jpe?g|png|webp)$/i)).length === 0) {
-        fs.writeFileSync(`${random}/default.webp`, DefaultCoverImage);
-    }
 }();
 
 export default config;

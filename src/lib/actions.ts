@@ -1,5 +1,6 @@
 "use server";
 
+import generateCover from "@/app/api/cover/[slug]/generate-cover";
 import {PreprocessArticleContent} from "@/components/markdown/server-content-processor";
 import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import config from "@/config";
@@ -53,6 +54,7 @@ export async function SaveArticleAction(article: ArticlePatch) {
     if (result) {
         await PreprocessArticleContent(result).catch(() => {});
         await PreprocessArticleTitle(result).catch(() => {});
+        await generateCover(result).catch(() => {});
         revalidatePath(L.editor.post(), "layout");
         revalidatePath(L.post(result.slug), "page");
         return true;
@@ -76,6 +78,7 @@ export async function CreateArticleAction(article: ArticleCreate) {
     if (result) {
         await PreprocessArticleContent(result).catch(() => {});
         await PreprocessArticleTitle(result).catch(() => {});
+        await generateCover(result).catch(() => {});
         revalidatePath(L.editor.post(), "layout");
         return true;
     } else {
