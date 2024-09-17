@@ -2,7 +2,13 @@
 
 import QuickAction, {QuickActionProps} from "@/components/admin/QuickAction";
 import Paper from "@/components/base/Paper";
-import {PreprocessArticleAction, RemoveArticleCacheAction, RemoveUnusedAssetsAction} from "@/lib/admin-actions";
+import {
+    GenerateCoverAction,
+    PreprocessArticleAction,
+    RemoveArticleCacheAction,
+    RemoveCoverCacheAction,
+    RemoveUnusedAssetsAction,
+} from "@/lib/admin-actions";
 import clsx from "clsx";
 
 interface AdminQuickActionsProps {
@@ -29,12 +35,12 @@ function AdminQuickActions({className}: AdminQuickActionsProps) {
         {
             name: "清除封面缓存",
             description: "清除文章封面的缓存。缓存会在下次访问时重新生成。",
-            action: RemoveArticleCacheAction,
+            action: RemoveCoverCacheAction,
         },
         {
             name: "生成封面缓存",
             description: "预生成所有文章的封面。此操作通常自动执行。",
-            action: PreprocessArticleAction,
+            action: GenerateCoverAction,
         }
     ];
 
