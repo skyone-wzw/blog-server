@@ -360,7 +360,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                     登出
                 </button>
             </div>
-            <MarkdownEditor content={article.content} setContent={setContent} isPreview={isPreview}
+            <MarkdownEditor initContent={article.content} content={content} setContent={setContent} isPreview={isPreview}
                             className="flex-grow h-0"/>
         </main>
     );

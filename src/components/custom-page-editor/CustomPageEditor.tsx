@@ -237,7 +237,7 @@ function ArticleEditor({page, className}: CustomPageEditorProps) {
                     登出
                 </button>
             </div>
-            <MarkdownEditor content={page.content} setContent={setContent} isPreview={isPreview}
+            <MarkdownEditor initContent={page.content} content={content} setContent={setContent} isPreview={isPreview}
                             className="flex-grow h-0"/>
         </main>
     );

@@ -6,88 +6,102 @@ import clsx from "clsx";
 import type {editor as MonacoEditor} from "monaco-editor";
 import {useEffect, useRef, useState} from "react";
 
+function useMonaco() {
+    const [monaco, setMonaco] = useState<typeof import("monaco-editor")>();
+
+    useEffect(() => {
+        if (!self.MonacoEnvironment) {
+            self.MonacoEnvironment = {
+                getWorkerUrl: function (moduleId, label) {
+                    const base = "_next/static/chunks";
+                    if (label === "json") {
+                        return `${base}/json.worker.js`;
+                    }
+                    if (label === "css" || label === "scss" || label === "less") {
+                        return `${base}/css.worker.js`;
+                    }
+                    if (label === "html" || label === "handlebars" || label === "razor") {
+                        return `${base}/html.worker.js`;
+                    }
+                    if (label === "typescript" || label === "javascript") {
+                        return `${base}/ts.worker.js`;
+                    }
+                    return `${base}/editor.worker.js`;
+                },
+            };
+        }
+        import("monaco-editor").then((monaco) => {
+            setMonaco(monaco);
+        });
+    }, []);
+
+    return monaco;
+}
+
 interface MarkdownEditorProps {
+    initContent: string;
     content: string;
     setContent: (content: string) => void;
     isPreview: boolean;
     className?: string;
 }
 
-function MarkdownEditor({content: PrevContent, setContent: setPrevContent, isPreview, className}: MarkdownEditorProps) {
-    const [content, setContent] = useState("");
+function MarkdownEditor({initContent, content, setContent, isPreview, className}: MarkdownEditorProps) {
+    const monaco = useMonaco();
+    const [editor, setEditor] = useState<MonacoEditor.IStandaloneCodeEditor>();
     const {currentColorMode} = useColorMode();
     const inputRef = useRef<HTMLDivElement>(null);
     const previewRef = useRef<HTMLDivElement>(null);
-    const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null);
 
     useEffect(() => {
-        import("monaco-editor")
-            .then((monaco) => {
-                if (!self.MonacoEnvironment) {
-                    self.MonacoEnvironment = {
-                        getWorkerUrl: function (moduleId, label) {
-                            const base = "_next/static/chunks";
-                            if (label === "json") {
-                                return `${base}/json.worker.js`;
-                            }
-                            if (label === "css" || label === "scss" || label === "less") {
-                                return `${base}/css.worker.js`;
-                            }
-                            if (label === "html" || label === "handlebars" || label === "razor") {
-                                return `${base}/html.worker.js`;
-                            }
-                            if (label === "typescript" || label === "javascript") {
-                                return `${base}/ts.worker.js`;
-                            }
-                            return `${base}/editor.worker.js`;
-                        },
-                    };
-                }
-                if (process.env.NODE_ENV === "production" || !editorRef.current) {
-                    editorRef.current = monaco.editor.create(inputRef.current!, {
-                        value: PrevContent,
-                        language: "markdown",
-                        wordWrap: "on",
-                        theme: currentColorMode === "dark" ? "vs-dark" : "vs",
-                    });
-                    const editor = editorRef.current;
-                    editor.onDidScrollChange(() => {
-                        const line = editor.getVisibleRanges()[0]?.startLineNumber;
-                        if (typeof line === "number") {
-                            const element = previewRef.current?.querySelector(`[data-line="${line}"]`);
-                            if (element) {
-                                element.scrollIntoView({behavior: "smooth", block: "start"});
-                            }
-                        }
-                    });
+        if (!monaco) return;
 
-                    setContent(PrevContent);
-                    const model = editorRef.current.getModel();
-                    model?.onDidChangeContent(() => {
-                        const content = model.getValue();
-                        setContent(content);
-                        setPrevContent(content);
-                    });
+        if (process.env.NODE_ENV === "production" || !editor) {
+            const editor = monaco.editor.create(inputRef.current!, {
+                value: initContent,
+                language: "markdown",
+                wordWrap: "on",
+                theme: currentColorMode === "dark" ? "vs-dark" : "vs",
+            });
+            editor.onDidScrollChange(() => {
+                const line = editor.getVisibleRanges()[0]?.startLineNumber;
+                if (typeof line === "number") {
+                    const element = previewRef.current?.querySelector(`[data-line="${line}"]`);
+                    if (element) {
+                        element.scrollIntoView({behavior: "smooth", block: "start"});
+                    }
                 }
             });
+
+            setEditor(editor);
+
+            const model = editor.getModel();
+            model?.onDidChangeContent(() => {
+                const content = model.getValue();
+                setContent(content);
+            });
+        }
         // Listen window resize event
         const resize = () => {
-            editorRef.current?.layout();
+            editor?.layout();
         };
         window.addEventListener("resize", resize);
         return () => {
-            editorRef.current?.dispose();
+            editor?.dispose();
             window.removeEventListener("resize", resize);
         };
-        // 不需要 currentColorMode 作为依赖, 后续有 useEffect 处理
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [PrevContent, setPrevContent]);
+    }, [monaco, setContent]);
 
     useEffect(() => {
-        editorRef.current?.updateOptions({
+        editor?.setValue(initContent);
+    }, [editor, initContent]);
+
+    useEffect(() => {
+        editor?.updateOptions({
             theme: currentColorMode === "dark" ? "vs-dark" : "vs",
         });
-    }, [currentColorMode]);
+    }, [currentColorMode, editor]);
 
     return (
         <div
