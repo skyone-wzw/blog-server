@@ -5,13 +5,31 @@ import MarkdownEditor from "@/components/article-editor/MarkdownEditor";
 import Dialog from "@/components/base/Dialog";
 import Paper from "@/components/base/Paper";
 import DangerousButton from "@/components/DangerousButton";
-import {CreateArticleAction, DeleteArticleAction, LogoutAction, SaveArticleAction} from "@/lib/actions";
+import {
+    CreateArticleAction,
+    DeleteArticleAction,
+    LogoutAction,
+    SaveArticleAction,
+    UploadCoverAction,
+} from "@/lib/actions";
 import {Article, ArticleCreate, ArticlePatch} from "@/lib/article";
 import L from "@/lib/links";
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {MouseEventHandler, useCallback, useEffect, useState} from "react";
+import {MouseEventHandler, useCallback, useEffect, useRef, useState} from "react";
+import {useFormState, useFormStatus} from "react-dom";
+
+function SubmitCoverButton() {
+    const {pending} = useFormStatus();
+
+    return (
+        <input
+            className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
+            disabled={pending} type="submit" value="上传图片"/>
+    );
+}
 
 function formatDate(date: Date) {
     const year = date.getFullYear().toString();
@@ -35,11 +53,16 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
     const [isUploadImage, setIsUploadImage] = useState(false);
     const [slug, setSlug] = useState(article.slug);
     const [title, setTitle] = useState(article.title);
+    const [cover, setCover] = useState<File>();
     const [description, setDescription] = useState("");
     const [content, setContent] = useState("");
     const [series, setSeries] = useState("");
     const [tags, setTags] = useState("");
     const [createdAt, setCreatedAt] = useState(formatDate(article.createdAt));
+
+    const coverSelectorRef = useRef<HTMLInputElement>(null);
+
+    const [_, uploadCoverFormAction] = useFormState(UploadCoverAction, "");
 
     useEffect(() => {
         setSlug(article.slug);
@@ -128,6 +151,22 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         setIsUploadImage(true);
     };
 
+    const getCoverPreview = () => {
+        if (cover) {
+            return URL.createObjectURL(cover);
+        }
+        if (article.id) {
+            return L.image.cover(article.id);
+        }
+        return L.image.cover("random");
+    };
+
+    const handleCoverClick = () => {
+        if (coverSelectorRef.current) {
+            coverSelectorRef.current.click();
+        }
+    };
+
     const handleDeleteArticle = async () => {
         if (article.id) {
             const result = await DeleteArticleAction(article.id);
@@ -201,6 +240,29 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                                            className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
+                            {article.id && (
+                                <form className="w-full" action={uploadCoverFormAction}>
+                                    <input type="hidden" name="id" value={article.id}/>
+                                    <input type="hidden" name="slug" value={article.slug}/>
+                                    <label htmlFor="article-editor-cover"
+                                           className="block text-base font-medium leading-6 text-text-content">
+                                        Open Graph 封面
+                                        <p className="text-sm text-text-subnote">
+                                            默认随机选择。比例以 1300x630 为佳，如果不是这个比例，可能会被裁剪。
+                                        </p>
+                                    </label>
+                                    <div className="mt-1">
+                                        <input ref={coverSelectorRef} id="article-editor-cover" type="file" name="cover"
+                                               onChange={e => setCover(e.target.files?.[0])}
+                                               className="hidden" accept="image/webp,image/png,image/jpeg"/>
+                                        <Image
+                                            className="w-[520px] max-w-full aspect-[130/63] object-cover rounded border-2 border-bg-tag"
+                                            onClick={handleCoverClick}
+                                            src={getCoverPreview()} height={1300} width={630} alt="Avatar"/>
+                                    </div>
+                                    <SubmitCoverButton/>
+                                </form>
+                            )}
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-description"
                                        className="block text-sm font-medium leading-6 text-text-content">

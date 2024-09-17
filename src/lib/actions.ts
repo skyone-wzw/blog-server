@@ -5,6 +5,7 @@ import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import config from "@/config";
 import {ArticleCreate, ArticlePatch, createArticle, deleteArticle, patchArticle} from "@/lib/article";
 import {generateToken, isUserLoggedIn} from "@/lib/auth";
+import {uploadCoverImage} from "@/lib/file";
 import L from "@/lib/links";
 import {revalidatePath} from "next/cache";
 import {cookies} from "next/headers";
@@ -94,4 +95,23 @@ export async function DeleteArticleAction(id: string) {
     } else {
         return false;
     }
+}
+
+export async function UploadCoverAction(_prevState: string, form: FormData) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+
+    const id = form.get("id");
+    const slug = form.get("slug");
+    const cover = form.get("cover");
+
+    if (!id || !slug || !cover) return "";
+    if (!(typeof id === "string") || !(typeof slug === "string") || !(cover instanceof File)) return "";
+    if (!id.match(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/)) return "";
+    if (cover.type === "application/octet-stream") return "";
+
+    await uploadCoverImage(cover, id).catch(() => {});
+    revalidatePath(L.editor.post(slug), "layout");
+    revalidatePath(L.image.cover(slug), "layout");
+
+    return "";
 }

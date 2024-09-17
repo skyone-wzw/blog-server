@@ -43,7 +43,6 @@ interface HASTCompilerProps {
 }
 
 export function HASTRender({ast}: HASTCompilerProps) {
-    console.log(`expect: page first render in server, then render in client`);
     return HASTCompiler.stringify(ast);
 }
 

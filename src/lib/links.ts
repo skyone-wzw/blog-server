@@ -56,6 +56,12 @@ const L = {
                 `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
                 url;
         },
+        cover(file: string, blur: boolean = false) {
+            const url = `/assets/image/cover/${file}`;
+            return blur ?
+                `/_next/image?url=${encodeURIComponent(url)}&w=8&q=75` :
+                url;
+        },
         custom(file: string, blur: boolean = false) {
             if (file.startsWith("/default")) {
                 // 兼容默认配置

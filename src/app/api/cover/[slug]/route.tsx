@@ -17,17 +17,15 @@ async function selectRandomImage() {
     return `random/${files[index]}`;
 }
 
-async function matchImage(slug?: string | null) {
-    if (!slug) return await selectRandomImage();
-    const files = (await fs.readdir(coverDir))
-        .filter(file => file.match(/\.(jpe?g|png|webp)$/i) && file.startsWith(slug));
-    if (files.length === 0) return await selectRandomImage();
-    const index = Math.floor(Math.random() * files.length);
-    return files[index];
+async function matchImage(id?: string | null) {
+    if (!id) return await selectRandomImage();
+    const file = `${coverDir}/${id}.png`;
+    if (await fs.stat(file).catch(() => false)) return `${id}.png`;
+    else return await selectRandomImage();
 }
 
-async function getImageDataUrl(slug?: string | null) {
-    const file = await matchImage(slug);
+async function getImageDataUrl(id?: string | null) {
+    const file = await matchImage(id);
     if (!file) return null;
     let type;
     if (file.endsWith(".webp")) {
@@ -59,7 +57,7 @@ interface ArticleCoverProps {
 export async function GET(_: Request, {params}: ArticleCoverProps) {
     const {slug} = params;
     const article = await getArticleMetadataBySlug(slug);
-    const dataUrl = await getImageDataUrl(slug);
+    const dataUrl = await getImageDataUrl(article?.id);
     if (!article || !dataUrl) {
         return new Response("Not Found", {status: 404});
     }

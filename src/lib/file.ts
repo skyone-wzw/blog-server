@@ -1,9 +1,11 @@
 import config from "@/config";
 import {HASH} from "@/lib/encrypt";
 import fs from "fs/promises";
+import sharp from "sharp";
 
 const imageDir = config.dir.image;
 const customImageDir = config.dir.custom;
+const coverDir = config.dir.cover;
 
 function getFileExtensionFromContentType(contentType: string) {
     if (contentType === "image/webp") {
@@ -51,4 +53,9 @@ export async function uploadPostImage(file: File) {
 
 export async function uploadCustomImage(file: File) {
     return await uploadImage(customImageDir, file);
+}
+
+export async function uploadCoverImage(file: File, name: string) {
+    const png = await sharp(await file.arrayBuffer()).png().toBuffer();
+    await fs.writeFile(`${coverDir}/${name}.png`, png);
 }
