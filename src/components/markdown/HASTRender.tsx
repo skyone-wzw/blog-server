@@ -65,5 +65,6 @@ interface TitleHASTCompilerProps {
 }
 
 export function TitleHASTRender({ast}: TitleHASTCompilerProps) {
+    if (ast.children.length === 0) return null;
     return TitleHASTCompiler.stringify(ast);
 }
