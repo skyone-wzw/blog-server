@@ -6,6 +6,8 @@
 
 ![preview](previews/preview01.png)
 
+[更多预览](#更多预览)
+
 > 项目名称尚未确定，也许你可以给我一些建议？
 
 ## 特点
@@ -181,6 +183,12 @@ AUTH_PASSWORD=123456
 1. 查找 `data/cover/[slug].(jpg|png|webp)`，如果存在则使用，存在多个格式则随机选择一个
 2. 查找 `data/cover/random/`，如果存在则随机选择一个
 3. 若程序启动时未找到任何图片，则创建 `data/cover/random/default.webp` 作为默认图片
+
+## 更多预览
+
+![preview02](previews/preview02.png)
+
+![preview03](previews/preview03.png)
 
 ## 开源许可证
 
