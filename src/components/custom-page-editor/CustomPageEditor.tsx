@@ -227,7 +227,7 @@ function ArticleEditor({page, className}: CustomPageEditorProps) {
                     </DangerousButton>
                 )}
                 <Link
-                    href={L.editor.post()} title="返回文章选择页"
+                    href={L.editor.custom()} title="返回文章选择页"
                     className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover lg:hidden">
                     返回
                 </Link>
