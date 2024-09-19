@@ -1,0 +1,8 @@
+.tocPaper {
+    transition: transform 0.1s ease-in-out;
+    transform: translateY(calc(100% + 16px));
+}
+
+.tocPaper.tocPaperOpen {
+    transform: translateY(0);
+}

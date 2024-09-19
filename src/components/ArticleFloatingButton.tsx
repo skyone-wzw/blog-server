@@ -4,7 +4,8 @@ import Dialog from "@/components/base/Dialog";
 import Paper from "@/components/base/Paper";
 import clsx from "clsx";
 import Link from "next/link";
-import {MouseEventHandler, ReactNode, useState} from "react";
+import {MouseEventHandler, ReactNode, useEffect, useState} from "react";
+import styles from "./ArticleFloatingButton.module.css";
 
 interface ArticleFloatingButtonProps {
     toc?: ReactNode;
@@ -13,12 +14,25 @@ interface ArticleFloatingButtonProps {
 
 function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
     const [openToc, setOpenToc] = useState(false);
+    const [openTocPaper, setOpenTocPaper] = useState(false);
+
+    useEffect(() => {
+        if (openToc) {
+            setOpenTocPaper(true);
+        }
+    }, [openToc]);
+
+    useEffect(() => {
+        if (!openTocPaper) {
+            setTimeout(() => setOpenToc(false), 100);
+        }
+    }, [openTocPaper]);
 
     const handleOpenToc: MouseEventHandler = (e) => {
         e.stopPropagation();
         setOpenToc(true);
     };
-    const handleCloseToc = () => setOpenToc(false);
+    const handleCloseToc = () => setOpenTocPaper(false);
 
     const scrollToTop: MouseEventHandler<HTMLAnchorElement> = (e) => {
         e.preventDefault();
@@ -39,7 +53,9 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
                         </svg>
                     </div>
                     <Dialog open={openToc} onClose={handleCloseToc} className="md:hidden w-full m-0" clickOutsideClose>
-                        <Paper className="fixed bottom-4 left-4 right-4 p-4 text-sm">
+                        <Paper className={clsx("fixed bottom-4 left-4 right-4 p-4 text-sm", styles.tocPaper, {
+                            [styles.tocPaperOpen]: openTocPaper
+                        })}>
                             <p className="mb-3 text-text-subnote">文章目录</p>
                             <div className="p-1.5 overflow-auto xc-scroll floating-toc" onClick={handleCloseToc}>
                                 {toc}
