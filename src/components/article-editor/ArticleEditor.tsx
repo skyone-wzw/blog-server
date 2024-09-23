@@ -56,7 +56,8 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
     const [description, setDescription] = useState("");
     const [content, setContent] = useState("");
     const [series, setSeries] = useState("");
-    const [tags, setTags] = useState("");
+    const [tags, setTags] = useState<Array<string>>([]);
+    const [newTag, setNewTag] = useState("");
     const [createdAt, setCreatedAt] = useState(formatDate(article.createdAt));
 
     const coverSelectorRef = useRef<HTMLInputElement>(null);
@@ -69,7 +70,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         setDescription(article.description);
         setContent(article.content);
         setSeries(article.series);
-        setTags(article.tags.join(", "));
+        setTags(article.tags);
         setCreatedAt(formatDate(article.createdAt));
     }, [article]);
 
@@ -92,7 +93,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
             alert("链接不能为 new 或 index");
             return;
         }
-        if (tags.match(/[\/\\]/)) {
+        if (tags.find(tag => tag.match(/[\/\\]/))) {
             // 不是不能正确显示, 只是 Windows 下不能正确静态导出, Linux 下没问题
             alert("标签不能包含 / 或 \\");
             return;
@@ -112,7 +113,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 description: description,
                 content: content,
                 series: series || "未分类",
-                tags: tags.split(/,\s*/).map(tag => tag.trim()),
+                tags: tags.map(tag => tag.trim()),
                 published: true,
             };
             result = await CreateArticleAction(newArticle);
@@ -124,7 +125,7 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                 description: description.trim(),
                 content: content.trim(),
                 series: series.trim() || "未分类",
-                tags: tags.replace(/\s+/, " ").split(/,\s*/).map(tag => tag.trim()),
+                tags: tags.map(tag => tag.trim()),
                 updatedAt: new Date(),
             };
             const newDate = new Date(createdAt);
@@ -165,6 +166,24 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
             coverSelectorRef.current.click();
         }
     };
+
+    const setTag = (index: number, value: string) => {
+        const newTags = [...tags];
+        newTags[index] = value;
+        setTags(newTags);
+    }
+
+    const addTag = () => {
+        if (newTag === "") return;
+        setTags([...tags, newTag]);
+        setNewTag("");
+    }
+
+    const removeTag = (index: number) => {
+        const newTags = [...tags];
+        newTags.splice(index, 1);
+        setTags(newTags);
+    }
 
     const handleDeleteArticle = async () => {
         if (article.id) {
@@ -290,10 +309,28 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                                        className="block text-sm font-medium leading-6 text-text-content">
                                     标签
                                 </label>
-                                <div className="mt-2 flex flex-col lg:flex-row">
-                                    <input id="article-editor-info-tags" type="text" required value={tags}
-                                           onChange={(e) => setTags(e.target.value)}
-                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                {tags.map((tag, index) => (
+                                    <div key={`keyword-${index}`}
+                                         className="mt-1 flex flex-row flex-nowrap items-center max-w-full">
+                                        <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]" type="text"
+                                               value={tag} onChange={e => setTag(index, e.target.value)}
+                                               className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                        <button
+                                            className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
+                                            type="button" onClick={() => removeTag(index)}>
+                                            删除
+                                        </button>
+                                    </div>
+                                ))}
+                                <div className="mt-1 flex flex-row flex-nowrap items-center max-w-full">
+                                    <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]" type="text"
+                                           value={newTag} onChange={e => setNewTag(e.target.value)}
+                                           className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                    <button
+                                        className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
+                                        type="button" onClick={() => addTag()}>
+                                        添加
+                                    </button>
                                 </div>
                             </div>
                             <div className="w-full">
