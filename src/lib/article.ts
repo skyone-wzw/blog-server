@@ -1,6 +1,19 @@
-import prisma from "@/lib/prisma";
+import OriginPrisma from "@/lib/prisma";
 import {ObjectPick} from "@/lib/type-utils";
 import {cache} from "react";
+
+const prisma = OriginPrisma.$extends({
+    result: {
+        post: {
+            tags: {
+                needs: {tags: true},
+                compute(obj) {
+                    return JSON.parse(obj.tags as string) as string[];
+                },
+            },
+        },
+    },
+});
 
 export interface ArticleMetadata {
     id: string;
@@ -72,22 +85,17 @@ type TypeReplaceIf<E, K extends keyof E, P, R> = E[K] extends P ?
     (Omit<E, K> & { [key in K]: R }) :
     (Omit<E, K> & { [key in K]?: R });
 
-export function Database2Article<T extends { tags?: string }>(article: T): TypeReplaceIf<T, "tags", string, string[]> {
-    return typeof article.tags === "string" ?
-        {...article, tags: article.tags.split(/,\s+/).filter(t => t.length > 0)} :
-        (article as T & { tags: string[] });
-}
 
 export function Article2Database<T extends {
     tags?: string[]
 }>(article: T): TypeReplaceIf<T, "tags", string[], string> {
-    return Array.isArray(article.tags) ? {...article, tags: article.tags.join(", ")} : (article as T & {
+    return Array.isArray(article.tags) ? {...article, tags: JSON.stringify(article.tags)} : (article as T & {
         tags: string
     });
 }
 
 export const getAllArticlesMetadata = cache(async (published: boolean = true): Promise<ArticleMetadata[]> => {
-    const articles = await prisma.post.findMany({
+    return await prisma.post.findMany({
         where: {
             published: published,
         },
@@ -96,7 +104,6 @@ export const getAllArticlesMetadata = cache(async (published: boolean = true): P
         },
         select: ArticleMetadataSelector,
     });
-    return articles.map(Database2Article);
 });
 
 interface ArticleSeries {
@@ -147,7 +154,7 @@ export const getAllTags = cache(async (published: boolean = true): Promise<Artic
         },
     });
 
-    const allTag = result.map(Database2Article).flatMap(a => a.tags);
+    const allTag = result.flatMap(a => a.tags);
     const tagMap = new Map<string, number>();
     allTag.forEach(tag => {
         if (tagMap.has(tag)) {
@@ -208,7 +215,7 @@ export const getRecentArticles = cache(async (options: GetRecentArticlesOptions 
     const where = options.published ? {published: options.published} : {};
     const take = options.limit ? options.limit : DEFAULT_ARTICLE_PER_PAGE;
     const skip = options.page ? (options.page - 1) * take : 0;
-    const articles = await prisma.post.findMany({
+    return await prisma.post.findMany({
         where: where,
         orderBy: {
             createdAt: "desc",
@@ -217,14 +224,13 @@ export const getRecentArticles = cache(async (options: GetRecentArticlesOptions 
         take: take,
         select: ArticleSelector,
     });
-    return articles.map(Database2Article);
 });
 
 export const getRecentArticlesMetadata = cache(async (options: GetRecentArticlesOptions = {published: true}): Promise<ArticleMetadata[]> => {
     const where = options.published ? {published: options.published} : {};
     const take = options.limit ? options.limit : DEFAULT_ARTICLE_PER_PAGE;
     const skip = options.page ? (options.page - 1) * take : 0;
-    const articles = await prisma.post.findMany({
+    return await prisma.post.findMany({
         where: where,
         orderBy: {
             createdAt: "desc",
@@ -233,33 +239,30 @@ export const getRecentArticlesMetadata = cache(async (options: GetRecentArticles
         take: take,
         select: ArticleMetadataSelector,
     });
-    return articles.map(Database2Article);
 });
 
 export const getArticleBySlug = cache(async (slug: string, published: boolean = true): Promise<Article | null> => {
-    const article = await prisma.post.findUnique({
+    return await prisma.post.findUnique({
         where: {
             slug: slug,
             published: published ? published : undefined,
         },
         select: ArticleSelector,
     });
-    return article && Database2Article(article);
 });
 
 export const getArticleMetadataBySlug = cache(async (slug: string, published: boolean = true): Promise<ArticleMetadata | null> => {
-    const article = await prisma.post.findUnique({
+    return await prisma.post.findUnique({
         where: {
             slug: slug,
             published: published ? published : undefined,
         },
         select: ArticleMetadataSelector,
     });
-    return article && Database2Article(article);
 });
 
 export const getArticlesBySeries = cache(async (series: string, published: boolean = true): Promise<ArticleMetadata[]> => {
-    const articles = await prisma.post.findMany({
+    return await prisma.post.findMany({
         where: {
             series: series,
             published: published ? published : undefined,
@@ -269,11 +272,10 @@ export const getArticlesBySeries = cache(async (series: string, published: boole
         },
         select: ArticleMetadataSelector,
     });
-    return articles.map(Database2Article);
 });
 
 export const getArticlesByTag = cache(async (tag: string, published: boolean = true): Promise<ArticleMetadata[]> => {
-    const articles = await prisma.post.findMany({
+    return await prisma.post.findMany({
         where: {
             tags: {
                 contains: tag,
@@ -285,13 +287,12 @@ export const getArticlesByTag = cache(async (tag: string, published: boolean = t
         },
         select: ArticleMetadataSelector,
     });
-    return articles.map(Database2Article);
 });
 
 export const getArticlesByYear = cache(async (year: number, published: boolean = true): Promise<ArticleMetadata[]> => {
     const start = new Date(year, 0, 1);
     const end = new Date(year + 1, 0, 1);
-    const articles = await prisma.post.findMany({
+    return await prisma.post.findMany({
         where: {
             createdAt: {
                 gte: start,
@@ -304,7 +305,6 @@ export const getArticlesByYear = cache(async (year: number, published: boolean =
         },
         select: ArticleMetadataSelector,
     });
-    return articles.map(Database2Article);
 });
 
 interface GetArticlesByYearPaginateOptions {
@@ -326,7 +326,7 @@ export const getArticlesByYearPaginate = cache(async (year: number, options: Get
     };
     const take = limit ? limit : DEFAULT_ARTICLE_PER_PAGE;
     const skip = page ? (page - 1) * take : 0;
-    const articles = await prisma.post.findMany({
+    return await prisma.post.findMany({
         where: where,
         orderBy: {
             createdAt: "desc",
@@ -335,7 +335,6 @@ export const getArticlesByYearPaginate = cache(async (year: number, options: Get
         take: take,
         select: ArticleMetadataSelector,
     });
-    return articles.map(Database2Article);
 });
 
 export const getArticleCountByYear = cache(async (year: number, published: boolean = true): Promise<number> => {
@@ -397,10 +396,7 @@ export const getAdjacentArticleMetadata = cache(async (slug: string, published: 
             },
             select: ArticleMetadataSelector,
         });
-        return {
-            prev: prev && Database2Article(prev),
-            next: next && Database2Article(next),
-        };
+        return {prev, next};
     });
 });
 
@@ -456,8 +452,9 @@ export const deleteArticle = cache(async (id: string) => {
 });
 
 export const getArticleTextSum = cache(async (): Promise<BigInt> => {
-    const result: {total: BigInt}[] = await prisma.$queryRaw`
-        SELECT SUM(LENGTH(content)) as total FROM posts;
+    const result: { total: BigInt }[] = await prisma.$queryRaw`
+        SELECT SUM(LENGTH(content)) as total
+        FROM posts;
     `;
     return result.pop()?.total ?? BigInt(-1);
 });
