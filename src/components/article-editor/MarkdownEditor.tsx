@@ -81,6 +81,10 @@ function MarkdownEditor({initContent, content, setContent, isPreview, className}
                 setContent(content);
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [monaco, setContent]);
+
+    useEffect(() => {
         // Listen window resize event
         const resize = () => {
             editor?.layout();
@@ -90,8 +94,7 @@ function MarkdownEditor({initContent, content, setContent, isPreview, className}
             editor?.dispose();
             window.removeEventListener("resize", resize);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [monaco, setContent]);
+    }, [editor]);
 
     useEffect(() => {
         editor?.setValue(initContent);
