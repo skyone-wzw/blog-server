@@ -41,10 +41,11 @@ function formatDate(date: Date) {
 
 interface ArticleEditorProps {
     article: Article;
+    allTags: Array<string>;
     className?: string;
 }
 
-function ArticleEditor({article, className}: ArticleEditorProps) {
+function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [isPreview, setIsPreview] = useState(false);
@@ -167,23 +168,21 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
         }
     };
 
-    const setTag = (index: number, value: string) => {
-        const newTags = [...tags];
-        newTags[index] = value;
-        setTags(newTags);
-    }
+    const addTagQuick = (tag: string) => {
+        setTags([...tags, tag]);
+    };
 
     const addTag = () => {
         if (newTag === "") return;
         setTags([...tags, newTag]);
         setNewTag("");
-    }
+    };
 
     const removeTag = (index: number) => {
         const newTags = [...tags];
         newTags.splice(index, 1);
         setTags(newTags);
-    }
+    };
 
     const handleDeleteArticle = async () => {
         if (article.id) {
@@ -210,6 +209,8 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
     const handleLogout = async () => {
         await LogoutAction();
     };
+
+    const otherTags = allTags.filter(tag => !tags.includes(tag));
 
     return (
         <main className={clsx("flex-grow flex-col space-y-2 m-2", className)}>
@@ -309,22 +310,33 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                                        className="block text-sm font-medium leading-6 text-text-content">
                                     标签
                                 </label>
-                                {tags.map((tag, index) => (
-                                    <div key={`keyword-${index}`}
-                                         className="mt-1 flex flex-row flex-nowrap items-center max-w-full">
-                                        <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]" type="text"
-                                               value={tag} onChange={e => setTag(index, e.target.value)}
-                                               className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                <div
+                                    className="flex flex-row flex-wrap p-2 md:p-3 text-sm text-text-content gap-2 select-none">
+                                    {tags.map((tag, index) => (
                                         <button
-                                            className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
-                                            type="button" onClick={() => removeTag(index)}>
-                                            删除
+                                            key={`tag-${tag}`} onClick={() => removeTag(index)}
+                                            className="py-1 px-2 border-text-content hover:bg-bg-hover border-solid border-[1px] rounded-full tag-prefix">
+                                            {tag}
                                         </button>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
+                                <label htmlFor="article-editor-info-tags"
+                                       className="block text-sm font-medium leading-6 text-text-subnote">
+                                    快速添加
+                                </label>
+                                <div
+                                    className="flex flex-row flex-wrap p-2 md:p-3 text-sm text-text-subnote gap-2 select-none">
+                                    {otherTags.map((tag) => (
+                                        <button
+                                            key={`tag-other-${tag}`} onClick={() => addTagQuick(tag)}
+                                            className="py-1 px-2 border-text-subnote hover:text-text-content hover:bg-bg-hover border-solid border-[1px] rounded-full tag-prefix">
+                                            {tag}
+                                        </button>
+                                    ))}
+                                </div>
                                 <div className="mt-1 flex flex-row flex-nowrap items-center max-w-full">
-                                    <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]" type="text"
-                                           value={newTag} onChange={e => setNewTag(e.target.value)}
+                                    <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]"
+                                           type="text" value={newTag} onChange={e => setNewTag(e.target.value)}
                                            className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                                     <button
                                         className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
@@ -397,7 +409,8 @@ function ArticleEditor({article, className}: ArticleEditorProps) {
                     登出
                 </button>
             </div>
-            <MarkdownEditor initContent={article.content} content={content} setContent={setContent} isPreview={isPreview}
+            <MarkdownEditor initContent={article.content} content={content} setContent={setContent}
+                            isPreview={isPreview}
                             className="flex-grow h-0"/>
         </main>
     );

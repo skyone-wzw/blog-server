@@ -1,5 +1,5 @@
 import ArticleEditor from "@/components/article-editor/ArticleEditor";
-import {getArticleBySlug} from "@/lib/article";
+import {getAllTags, getArticleBySlug} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
 
@@ -21,10 +21,11 @@ export const generateMetadata = async ({params: {slug}}: ArticleEditorPageProps)
 
 async function ArticleEditorPage({params: {slug}}: ArticleEditorPageProps) {
     const article = await getArticleBySlug(slug);
+    const allTags = (await getAllTags()).map(tag => tag.tag);
 
     if (!article) return notFound();
 
-    return <ArticleEditor article={article} className="flex"/>;
+    return <ArticleEditor article={article} allTags={allTags} className="flex"/>;
 }
 
 export default ArticleEditorPage;

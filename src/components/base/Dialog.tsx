@@ -31,7 +31,7 @@ function Dialog({className, open, onClose, clickInsideClose, clickOutsideClose, 
                 onClose?.();
                 return;
             }
-            if (clickOutsideClose && !rootRef.current!.contains(e.target as Node)) {
+            if (clickOutsideClose && !rootRef.current!.contains(e.target as Node) && document.body.contains(e.target as Node)) {
                 onClose?.();
                 return;
             }

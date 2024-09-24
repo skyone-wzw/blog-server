@@ -1,5 +1,5 @@
 import ArticleEditor from "@/components/article-editor/ArticleEditor";
-import {Article} from "@/lib/article";
+import {Article, getAllTags} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 
 export async function generateMetadata() {
@@ -10,8 +10,9 @@ export async function generateMetadata() {
     };
 }
 
-function NewEditorPage() {
+async function NewEditorPage() {
     const date = new Date();
+    const allTags = (await getAllTags()).map(tag => tag.tag);
     const article: Article = {
         id: "",
         title: `untitled-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
@@ -25,7 +26,7 @@ function NewEditorPage() {
         content: "",
     };
 
-    return <ArticleEditor article={article} className="hidden lg:flex w-0"/>;
+    return <ArticleEditor article={article} allTags={allTags} className="hidden lg:flex w-0"/>;
 }
 
 export default NewEditorPage;
