@@ -1,5 +1,7 @@
 "use server";
 
+import {PreprocessArticleContent} from "@/components/markdown/server-content-processor";
+import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {isUserLoggedIn} from "@/lib/auth";
 import {
     createCustomPage,
@@ -23,6 +25,8 @@ export async function SaveCustomPageAction(page: CustomPagePatch) {
     const result = await patchCustomPage(page);
 
     if (result) {
+        await PreprocessArticleContent(result).catch(() => {});
+        await PreprocessArticleTitle(result).catch(() => {});
         revalidatePath(L.editor.custom(), "layout");
         revalidatePath(L.page(result.slug), "page");
         return true;
@@ -41,6 +45,8 @@ export async function CreateCustomPageAction(page: CustomPageCreate) {
     const result = await createCustomPage(page);
 
     if (result) {
+        await PreprocessArticleContent(result).catch(() => {});
+        await PreprocessArticleTitle(result).catch(() => {});
         revalidatePath(L.editor.custom(), "layout");
         return true;
     } else {
