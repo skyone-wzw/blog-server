@@ -68,7 +68,8 @@ async function PostPage({params}: PostPageProps) {
 
     if (!article) return notFound();
 
-    const toc = <TitleHASTRender ast={await PreprocessArticleTitle(article)}/>;
+    const tocHast = await PreprocessArticleTitle(article);
+    const toc = <TitleHASTRender ast={tocHast}/>;
     const content = <HASTRender ast={await PreprocessArticleContent(article)}/>;
 
     return (
@@ -95,7 +96,7 @@ async function PostPage({params}: PostPageProps) {
                 </div>
                 <div className="px-4 md:px-6 text-sm 2xl:text-base">{content}</div>
                 <ArticleFooterInfo article={article}/>
-                <ArticleFloatingButton toc={toc}/>
+                <ArticleFloatingButton toc={tocHast.children.length > 0 && toc}/>
             </Paper>
             <ArticleFooterAdjacentNavigation slug={article.slug}/>
         </>

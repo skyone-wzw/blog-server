@@ -56,7 +56,8 @@ async function CustomPage({params}: CustomPageProps) {
 
     if (!customPage) return notFound();
 
-    const toc = <TitleHASTRender ast={await PreprocessArticleTitle(customPage)}/>;
+    const tocHast = await PreprocessArticleTitle(customPage);
+    const toc = <TitleHASTRender ast={tocHast}/>;
     const content = <HASTRender ast={await PreprocessArticleContent(customPage)}/>;
 
     return (
@@ -73,7 +74,7 @@ async function CustomPage({params}: CustomPageProps) {
                 <Link className="hover:text-link-hover" href={L.editor.custom(customPage.slug)}>编辑</Link>
             </div>
             <div className="px-4 md:px-6 text-sm 2xl:text-base">{content}</div>
-            <ArticleFloatingButton toc={toc}/>
+            <ArticleFloatingButton toc={tocHast.children.length > 0 && toc}/>
         </Paper>
     );
 }

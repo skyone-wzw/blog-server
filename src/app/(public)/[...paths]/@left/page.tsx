@@ -21,13 +21,15 @@ async function CustomLeftPage({params}: CustomLeftPageProps) {
 
     if (!customPage) return null;
 
-    const toc = <TitleHASTRender ast={await PreprocessArticleTitle(customPage)}/>;
+    const hast = await PreprocessArticleTitle(customPage);
+    const toc = <TitleHASTRender ast={hast}/>;
 
     return (
         <>
             <AsideProfile className="mb-6"/>
             <div className="top-[24px] lg:top-[76px] md:sticky space-y-6">
-                <AsideArticleToc toc={toc} className="hidden md:block max-h-[40vh] min-h-[200px]"/>
+                {hast.children.length > 0 &&
+                    <AsideArticleToc toc={toc} className="hidden md:block max-h-[40vh] min-h-[200px]"/>}
                 <AsideRecentArticles className="xl:hidden"/>
                 <AsideArchiveList className="xl:hidden"/>
                 <AsideSeries/>
