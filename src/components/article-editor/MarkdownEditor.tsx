@@ -91,8 +91,8 @@ function MarkdownEditor({initContent, content, setContent, isPreview, className}
         };
         window.addEventListener("resize", resize);
         return () => {
-            editor?.dispose();
             window.removeEventListener("resize", resize);
+            editor?.dispose();
         };
     }, [editor]);
 

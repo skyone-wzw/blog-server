@@ -4,8 +4,8 @@ import {SiteDynamicConfig} from "@/lib/config";
 import {SaveSiteConfigAction, SaveSiteConfigActionState} from "@/lib/config-actions";
 import L from "@/lib/links";
 import Image from "next/image";
-import {useEffect, useRef, useState} from "react";
-import {useFormState, useFormStatus} from "react-dom";
+import {useActionState, useEffect, useRef, useState} from "react";
+import {useFormStatus} from "react-dom";
 
 const initialState: SaveSiteConfigActionState = {
     error: false,
@@ -61,7 +61,7 @@ function SiteEditor({site}: SiteEditorProps) {
         setKeywords(site.keywords);
     }, [site]);
 
-    const [formState, formAction] = useFormState(SaveSiteConfigAction, initialState);
+    const [formState, formAction] = useActionState(SaveSiteConfigAction, initialState);
 
     useEffect(() => {
         if (formState.timestamp > 0) {

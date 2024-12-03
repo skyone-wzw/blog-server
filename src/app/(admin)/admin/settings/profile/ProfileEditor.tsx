@@ -4,8 +4,8 @@ import {ProfileDynamicConfig} from "@/lib/config";
 import {SaveProfileActionState, SaveProfileConfigAction} from "@/lib/config-actions";
 import L from "@/lib/links";
 import Image from "next/image";
-import {useEffect, useRef, useState} from "react";
-import {useFormState, useFormStatus} from "react-dom";
+import {useActionState, useEffect, useRef, useState} from "react";
+import {useFormStatus} from "react-dom";
 
 const initialState: SaveProfileActionState = {
     error: false,
@@ -64,7 +64,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
         setZhihu(profile.social.zhihu ?? "");
     }, [profile]);
 
-    const [formState, formAction] = useFormState(SaveProfileConfigAction, initialState);
+    const [formState, formAction] = useActionState(SaveProfileConfigAction, initialState);
 
     useEffect(() => {
         if (formState.timestamp > 0) {

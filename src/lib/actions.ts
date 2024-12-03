@@ -14,7 +14,7 @@ import {redirect, RedirectType} from "next/navigation";
 
 export async function LoginAction(email: string, password: string) {
     if (email === config.auth.email && password === config.auth.password) {
-        const cookie = cookies();
+        const cookie = await cookies();
         cookie.set({
             name: "token",
             value: generateToken(),
@@ -29,7 +29,7 @@ export async function LoginAction(email: string, password: string) {
 }
 
 export async function LogoutAction() {
-    const cookie = cookies();
+    const cookie = await cookies();
     cookie.set({
         name: "token",
         value: "",

@@ -48,8 +48,6 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-const bootloader = `!function(){var t=localStorage.getItem("pattern.mode"),a=document.documentElement.classList;"light"===t?a.add("light"):"dark"===t&&a.add("dark")}();`;
-
 interface RootLayoutProps {
     children: ReactNode;
 }
@@ -60,7 +58,6 @@ function RootLayout({children}: RootLayoutProps) {
             <head>
                 <link rel="icon" href={"/favicon"} sizes="any"/>
                 <link rel="sitemap" type="application/xml" title="Sitemap" href={"/sitemap.xml"}/>
-                <script dangerouslySetInnerHTML={{__html: bootloader}}/>
             </head>
             <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>
                 <ColorModeProvider>

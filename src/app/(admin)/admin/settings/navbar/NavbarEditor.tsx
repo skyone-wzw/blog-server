@@ -3,8 +3,8 @@
 import Paper from "@/components/base/Paper";
 import {defaultDynamicConfig, NavbarDynamicConfig} from "@/lib/config";
 import {SaveNavbarConfigAction, SaveProfileActionState} from "@/lib/config-actions";
-import {useEffect, useRef, useState} from "react";
-import {useFormState, useFormStatus} from "react-dom";
+import {useActionState, useEffect, useRef, useState} from "react";
+import {useFormStatus} from "react-dom";
 
 const initialState: SaveProfileActionState = {
     error: false,
@@ -51,7 +51,7 @@ function NavbarEditor({navbar}: NavbarEditorProps) {
         setItems(navbar.items);
     }, [navbar.items]);
 
-    const [formState, formAction] = useFormState(SaveNavbarConfigAction, initialState);
+    const [formState, formAction] = useActionState(SaveNavbarConfigAction, initialState);
 
     useEffect(() => {
         if (formState.timestamp > 0) {

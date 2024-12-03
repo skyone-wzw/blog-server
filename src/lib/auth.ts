@@ -15,7 +15,7 @@ export function generateToken() {
 }
 
 export const isUserLoggedIn = cache(async () => {
-    const cookie = cookies();
+    const cookie = await cookies();
     const token = cookie.get("token")?.value;
     if (!token) {
         return false;

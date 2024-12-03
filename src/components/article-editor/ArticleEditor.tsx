@@ -17,8 +17,8 @@ import L from "@/lib/links";
 import clsx from "clsx";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {MouseEventHandler, useCallback, useEffect, useRef, useState} from "react";
-import {useFormState, useFormStatus} from "react-dom";
+import {MouseEventHandler, useActionState, useCallback, useEffect, useRef, useState} from "react";
+import {useFormStatus} from "react-dom";
 
 function SubmitCoverButton() {
     const {pending} = useFormStatus();
@@ -63,7 +63,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
 
     const coverSelectorRef = useRef<HTMLInputElement>(null);
 
-    const [_, uploadCoverFormAction] = useFormState(UploadCoverAction, "");
+    const [_, uploadCoverFormAction] = useActionState(UploadCoverAction, "");
 
     useEffect(() => {
         setSlug(article.slug);
