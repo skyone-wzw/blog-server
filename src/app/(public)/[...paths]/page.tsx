@@ -17,7 +17,7 @@ interface CustomPageProps {
 }
 
 export async function generateMetadata({params}: CustomPageProps): Promise<Metadata> {
-    const paths = params.paths.map(decodeURIComponent);
+    const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const customPage = await getCustomPageBySlug(slug);
 
@@ -50,7 +50,7 @@ export async function generateMetadata({params}: CustomPageProps): Promise<Metad
 }
 
 async function CustomPage({params}: CustomPageProps) {
-    const paths = params.paths.map(decodeURIComponent);
+    const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const customPage = await getCustomPageBySlug(slug);
 

@@ -15,7 +15,7 @@ interface CustomLeftPageProps {
 }
 
 async function CustomLeftPage({params}: CustomLeftPageProps) {
-    const paths = params.paths.map(decodeURIComponent);
+    const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const customPage = await getCustomPageBySlug(slug);
 

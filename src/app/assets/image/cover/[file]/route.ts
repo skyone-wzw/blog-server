@@ -15,7 +15,7 @@ const randomDir = config.dir.random;
 export async function GET(request: Request, {params}: ArticleImageProps) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
 
-    const {file: _file} = params;
+    const {file: _file} = await params;
     const file = _file.toLowerCase();
     if (!file || !file.match(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/) && file !== "random") {
         notFound();

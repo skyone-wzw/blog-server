@@ -11,7 +11,7 @@ interface TagDetailPageProps {
 }
 
 export const generateMetadata = async ({params}: TagDetailPageProps) => {
-    const tag = decodeURIComponent(params.tag);
+    const tag = decodeURIComponent((await params).tag);
     const dynamicConfig = await getDynamicConfig();
     return {
         title: `标签: ${tag} - ${dynamicConfig.site.title}`,
@@ -20,7 +20,7 @@ export const generateMetadata = async ({params}: TagDetailPageProps) => {
 };
 
 async function TagDetailPage({params}: TagDetailPageProps) {
-    const tag = decodeURIComponent(params.tag);
+    const tag = decodeURIComponent((await params).tag);
     const articles = await getArticlesByTag(tag);
 
     if (articles.length === 0) return notFound();

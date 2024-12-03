@@ -11,7 +11,7 @@ interface PaginationPageProps {
 }
 
 async function PaginationPage({params}: PaginationPageProps) {
-    const {page: _page} = params;
+    const {page: _page} = await params;
     if (isNaN(parseInt(_page))) return notFound();
     const page = parseInt(_page);
     const articles = await getRecentArticlesMetadata({page, limit: DEFAULT_ARTICLE_PER_PAGE});

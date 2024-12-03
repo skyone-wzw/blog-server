@@ -9,7 +9,8 @@ interface ArticleEditorPageProps {
     };
 }
 
-export const generateMetadata = async ({params: {slug}}: ArticleEditorPageProps) => {
+export const generateMetadata = async ({params: params}: ArticleEditorPageProps) => {
+    const {slug} = await params;
     const dynamicConfig = await getDynamicConfig();
     const article = await getArticleBySlug(slug);
 
@@ -19,7 +20,8 @@ export const generateMetadata = async ({params: {slug}}: ArticleEditorPageProps)
     };
 };
 
-async function ArticleEditorPage({params: {slug}}: ArticleEditorPageProps) {
+async function ArticleEditorPage({params: params}: ArticleEditorPageProps) {
+    const {slug} = await params;
     const article = await getArticleBySlug(slug);
     const allTags = (await getAllTags()).map(tag => tag.tag);
 

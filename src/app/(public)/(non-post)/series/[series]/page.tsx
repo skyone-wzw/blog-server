@@ -11,7 +11,7 @@ interface SeriesPageProps {
 }
 
 export const generateMetadata = async ({params}: SeriesPageProps) => {
-    const series = decodeURIComponent(params.series);
+    const series = decodeURIComponent((await params).series);
     const dynamicConfig = await getDynamicConfig();
     return {
         title: `分类: ${series} - ${dynamicConfig.site.title}`,
@@ -20,7 +20,7 @@ export const generateMetadata = async ({params}: SeriesPageProps) => {
 };
 
 async function SeriesPage({params}: SeriesPageProps) {
-    const series = decodeURIComponent(params.series);
+    const series = decodeURIComponent((await params).series);
     const articles = await getArticlesBySeries(series);
 
     if (articles.length === 0) return notFound();

@@ -8,7 +8,7 @@ interface ArticleCoverProps {
 }
 
 export async function GET(_: Request, {params}: ArticleCoverProps) {
-    const {slug} = params;
+    const {slug} = await params;
     const article = await getArticleMetadataBySlug(slug);
     if (!article) return new Response("Not Found", {status: 404});
     const cover = await generateCover(article);

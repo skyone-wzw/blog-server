@@ -10,7 +10,7 @@ interface CustomPageEditorPageProps {
 }
 
 export const generateMetadata = async ({params}: CustomPageEditorPageProps) => {
-    const paths = params.paths.map(decodeURIComponent);
+    const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const dynamicConfig = await getDynamicConfig();
     const customPage = await getCustomPageBySlug(slug);
@@ -22,7 +22,7 @@ export const generateMetadata = async ({params}: CustomPageEditorPageProps) => {
 };
 
 async function CustomPageEditorPage({params}: CustomPageEditorPageProps) {
-    const paths = params.paths.map(decodeURIComponent);
+    const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const customPage = await getCustomPageBySlug(slug);
 

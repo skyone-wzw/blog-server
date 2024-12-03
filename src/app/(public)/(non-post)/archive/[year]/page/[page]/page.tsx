@@ -14,16 +14,17 @@ interface ArchivePaginationPageProps {
 }
 
 export const generateMetadata = async ({params}: ArchivePaginationPageProps) => {
-    const year = parseInt(params.year);
+    const {year: _year, page} = await params;
+    const year = parseInt(_year);
     const dynamicConfig = await getDynamicConfig();
     return {
         title: `归档: ${year} 年 - ${dynamicConfig.site.title}`,
-        description: `${dynamicConfig.site.description}。${year} 年所有文章的归档。第 ${params.page} 页。`,
+        description: `${dynamicConfig.site.description}。${year} 年所有文章的归档。第 ${page} 页。`,
     };
 };
 
 async function ArchivePaginationPage({params}: ArchivePaginationPageProps) {
-    const {year: _year, page: _page} = params;
+    const {year: _year, page: _page} = await params;
     if (isNaN(parseInt(_year))) return notFound();
     if (isNaN(parseInt(_page))) return notFound();
     const year = parseInt(_year);

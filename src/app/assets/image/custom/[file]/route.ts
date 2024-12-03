@@ -11,7 +11,7 @@ interface ArticleImageProps {
 const imageDir = config.dir.custom;
 
 export async function GET(_: Request, {params}: ArticleImageProps) {
-    const {file} = params;
+    const {file} = await params;
 
     if (!await fs.stat(`${imageDir}/${file}`).then(stat => stat.isFile()).catch(() => null)) {
         notFound();

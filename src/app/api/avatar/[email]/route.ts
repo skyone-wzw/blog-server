@@ -9,7 +9,7 @@ interface AvatarEmailProps {
 }
 
 export async function GET(_: Request, {params}: AvatarEmailProps) {
-    const {email: _email} = params;
+    const {email: _email} = await params;
     if (!_email) return notFound();
     let email;
     try {

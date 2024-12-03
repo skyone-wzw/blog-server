@@ -19,7 +19,7 @@ interface PostPageProps {
 }
 
 export async function generateMetadata({params}: PostPageProps) {
-    const slug = decodeURIComponent(params.slug);
+    const slug = decodeURIComponent((await params).slug);
     const article = await getArticleBySlug(slug);
 
     if (!article) return {};
@@ -62,7 +62,7 @@ export async function generateMetadata({params}: PostPageProps) {
 }
 
 async function PostPage({params}: PostPageProps) {
-    const slug = decodeURIComponent(params.slug);
+    const slug = decodeURIComponent((await params).slug);
     const article = await getArticleBySlug(slug);
     const dynamicConfig = await getDynamicConfig();
 

@@ -13,7 +13,7 @@ interface YearArchivePageProps {
 }
 
 export const generateMetadata = async ({params}: YearArchivePageProps) => {
-    const year = parseInt(params.year);
+    const year = parseInt((await params).year);
     const dynamicConfig = await getDynamicConfig();
     return {
         title: `归档: ${year} 年 - ${dynamicConfig.site.title}`,
@@ -22,7 +22,7 @@ export const generateMetadata = async ({params}: YearArchivePageProps) => {
 };
 
 async function YearArchivePage({params}: YearArchivePageProps) {
-    const {year: _year} = params;
+    const {year: _year} = await params;
     if (isNaN(parseInt(_year))) return notFound();
     const year = parseInt(_year);
     const articles = await getArticlesByYearPaginate(year);

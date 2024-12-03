@@ -15,7 +15,7 @@ interface PostLeftPageProps {
 }
 
 async function PostLeftPage({params}: PostLeftPageProps) {
-    const slug = decodeURIComponent(params.slug);
+    const slug = decodeURIComponent((await params).slug);
     const article = await getArticleBySlug(slug);
 
     if (!article) return null;

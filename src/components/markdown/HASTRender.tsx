@@ -8,7 +8,6 @@ import rehypeReact from "rehype-react";
 import {unified} from "unified";
 
 export const HASTCompiler = unified()
-    // @ts-expect-error
     .use(rehypeReact, {
         ...jsxConfig, components: {
             a: Components.A,
