@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import Image from "next/image";
 import Link from "next/link";
 import {
     AnchorHTMLAttributes,
@@ -10,6 +9,7 @@ import {
     ImgHTMLAttributes,
     ThHTMLAttributes,
 } from "react";
+import {ImageWithViewer, ImgWithViewer} from "@/components/tools/ImageWithViewer";
 
 type AProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
 
@@ -128,7 +128,7 @@ function Img({className, alt, src, height, width, ...other}: ImgProps) {
     if (typeof height === "number" && typeof width === "number") {
         return (
             <span style={{aspectRatio: `${width} / ${height}`}} className="optimize-server-image">
-                    <Image className="max-w-full mx-auto"
+                    <ImageWithViewer className="max-w-full mx-auto"
                            sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
                         // @ts-ignore
                            src={src} alt={alt} height={height} width={width} {...other}/>
@@ -139,7 +139,7 @@ function Img({className, alt, src, height, width, ...other}: ImgProps) {
         alt = alt || "image";
         return (
             // @ts-ignore
-            <Image className={clsx("mx-auto optimize-image", className)}
+            <ImageWithViewer className={clsx("mx-auto optimize-image", className)}
                    style={{objectFit: "contain"}}
                    sizes="(min-width: 1280px) 50vw, (min-width: 768px) 66vw, 100vw"
                 // 对于透明图片效果很差, 暂时不使用
@@ -149,7 +149,7 @@ function Img({className, alt, src, height, width, ...other}: ImgProps) {
     } else {
         return (
             // eslint-disable-next-line @next/next/no-img-element
-            <img className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
+            <ImgWithViewer className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
         );
     }
 }

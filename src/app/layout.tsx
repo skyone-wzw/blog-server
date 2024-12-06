@@ -8,6 +8,7 @@ import {Inter} from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import {ReactNode} from "react";
 import "./globals.css";
+import ImageViewerProvider from "@/components/image-viewer/ImageViewerProvider";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -61,9 +62,11 @@ function RootLayout({children}: RootLayoutProps) {
             </head>
             <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>
                 <ColorModeProvider>
-                    <NextTopLoader color="#ec4899"/>
-                    <AppHeader className="row-start-1"/>
-                    {children}
+                    <ImageViewerProvider>
+                        <NextTopLoader color="#ec4899"/>
+                        <AppHeader className="row-start-1"/>
+                        {children}
+                    </ImageViewerProvider>
                 </ColorModeProvider>
             </body>
         </html>

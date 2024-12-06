@@ -1,5 +1,5 @@
 import {BlockQuotePlugin} from "@/components/markdown/plugins";
-import {autoHeadingId, fixFediverseUidLink, removePosition} from "@/components/markdown/tools";
+import {autoHeadingId, fixFediverseUidLink, removePosition, unsafeElementFilter} from "@/components/markdown/tools";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -23,6 +23,7 @@ export const ServerCommentMarkdownProcessor = unified()
     .use(rehypeKatex)
     .use(rehypeHighlight)
     .use(rehypeRaw)
+    .use(unsafeElementFilter)
     .use(removePosition);
 
 export async function PreprocessCommentSource(source: string) {

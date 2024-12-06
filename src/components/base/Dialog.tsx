@@ -1,8 +1,11 @@
+"use client";
+
 import clsx from "clsx";
 import {ReactNode, useEffect, useRef} from "react";
 
 interface DialogProps {
     className?: string;
+    boxClassName?: string;
     open: boolean;
     onClose?: () => void;
     clickInsideClose?: boolean;
@@ -11,7 +14,7 @@ interface DialogProps {
     blur?: boolean;
 }
 
-function Dialog({className, open, onClose, clickInsideClose, clickOutsideClose, blur, children}: DialogProps) {
+function Dialog({className, boxClassName, open, onClose, clickInsideClose, clickOutsideClose, blur, children}: DialogProps) {
     const ref = useRef<HTMLDialogElement>(null);
     const rootRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +53,7 @@ function Dialog({className, open, onClose, clickInsideClose, clickOutsideClose, 
             className={clsx("backdrop:bg-[#00000033] bg-transparent", {
                 "backdrop:backdrop-blur-sm": blur,
             }, className)}>
-            <div ref={rootRef}>{children}</div>
+            <div className={boxClassName} ref={rootRef}>{children}</div>
         </dialog>
     );
 }
