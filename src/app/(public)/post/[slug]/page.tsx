@@ -11,6 +11,8 @@ import L from "@/lib/links";
 import Image from "next/image";
 import Link from "next/link";
 import {notFound} from "next/navigation";
+import CommentTree from "@/components/comment/CommentTree";
+import {getCommentsByArticleId} from "@/lib/comment";
 
 interface PostPageProps {
     params: {
@@ -51,7 +53,7 @@ export async function generateMetadata({params}: PostPageProps) {
             url: L.post(article.slug),
             images: [
                 {
-                    url: L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo),
+                    url: `${dynamicConfig.site.url}${L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo)}`,
                     width: 1300,
                     height: 630,
                     alt: "cover",
@@ -68,6 +70,7 @@ async function PostPage({params}: PostPageProps) {
 
     if (!article) return notFound();
 
+    const comments = await getCommentsByArticleId(article.id);
     const tocHast = await PreprocessArticleTitle(article);
     const toc = <TitleHASTRender ast={tocHast}/>;
     const content = <HASTRender ast={await PreprocessArticleContent(article)}/>;
@@ -98,6 +101,7 @@ async function PostPage({params}: PostPageProps) {
                 <ArticleFooterInfo article={article}/>
                 <ArticleFloatingButton toc={tocHast.children.length > 0 && toc}/>
             </Paper>
+            <CommentTree articleSlug={article.slug} comments={comments}/>
             <ArticleFooterAdjacentNavigation slug={article.slug}/>
         </>
     );

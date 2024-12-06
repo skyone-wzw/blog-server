@@ -99,6 +99,21 @@ const L = {
             return "/atom.xml";
         },
     },
+
+    fediverse: {
+        about() {
+            return "/about";
+        },
+        inbox() {
+            return "/api/fediverse/inbox";
+        },
+        outbox() {
+            return "/api/fediverse/outbox";
+        },
+        post(slug: string) {
+            return L.post(slug);
+        },
+    },
 };
 
 export default L;

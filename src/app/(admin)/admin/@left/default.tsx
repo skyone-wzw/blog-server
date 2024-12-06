@@ -40,6 +40,10 @@ function AdminLeftPage() {
             name: "导航栏",
             url: L.admin("settings/navbar"),
         },
+        {
+            name: "联邦配置",
+            url: L.admin("settings/fediverse"),
+        },
     ];
 
     const assets: RouterItem[] = [

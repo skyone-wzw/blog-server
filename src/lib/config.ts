@@ -42,6 +42,15 @@ export interface NavbarDynamicConfig {
     }[];
 }
 
+export interface FediverseDynamicConfig {
+    enabled: boolean;
+    name?: string;
+    preferredUsername: string;
+    summary?: string;
+    publicKey: string;
+    privateKey: string;
+}
+
 export interface DynamicConfig {
     site: SiteDynamicConfig;
 
@@ -51,12 +60,9 @@ export interface DynamicConfig {
         gravatar: string;
     };
 
-    navbar: {
-        items: {
-            name: string;
-            url: string;
-        }[];
-    };
+    navbar: NavbarDynamicConfig;
+
+    fediverse: FediverseDynamicConfig;
 }
 
 export const defaultDynamicConfig: DynamicConfig = {
@@ -103,6 +109,13 @@ export const defaultDynamicConfig: DynamicConfig = {
                 url: "/friends",
             },
         ],
+    },
+
+    fediverse: {
+        enabled: false,
+        preferredUsername: "master",
+        publicKey: "",
+        privateKey: "",
     },
 };
 

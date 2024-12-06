@@ -10,6 +10,8 @@ import {isUserLoggedIn} from "@/lib/auth";
 import {getAllCustomPages} from "@/lib/custom-page";
 import fs from "fs/promises";
 import {redirect, RedirectType} from "next/navigation";
+import {getAllCommentCount, getRecentCommentsMetadata, updateCommentAst} from "@/lib/comment";
+import {PreprocessCommentHtml, PreprocessCommentSource} from "@/components/markdown/server-comment-processor";
 
 export interface QuickActionResult {
     success: boolean;
@@ -156,4 +158,36 @@ export async function GenerateCoverAction() {
         success: true,
         message: "任务正在后台执行中，请稍后查看结果。",
     };
+}
+
+export async function PreprocessCommentAction() {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+
+    async function preprocessComments() {
+        const count = await getAllCommentCount();
+        const pages = Math.ceil(count / 5);
+
+        for (let i = 1; i <= pages; i++) {
+            const comments = await getRecentCommentsMetadata({page: i});
+            for (const comment of comments) {
+                const ast = comment.source
+                    ? await PreprocessCommentSource(comment.source)
+                    : await PreprocessCommentHtml(comment.content);
+                await updateCommentAst(comment.uid, JSON.stringify(ast));
+            }
+        }
+    }
+
+    try {
+        await preprocessComments();
+        return {
+            success: true,
+            message: "任务已完成。",
+        };
+    } catch (e: any) {
+        return {
+            success: false,
+            message: `任务失败：${e?.message ?? e}`,
+        };
+    }
 }

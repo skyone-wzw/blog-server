@@ -13,6 +13,7 @@ import prisma from "@/lib/prisma";
 import {DeepMergeTemplate, DeepPartial} from "@/lib/type-utils";
 import {revalidatePath} from "next/cache";
 import {redirect, RedirectType} from "next/navigation";
+import FediverseUtil from "@/lib/fediverse-utils";
 
 export async function SaveDynamicConfigAction<K extends keyof DynamicConfig>(key: K, value: DynamicConfig[K]) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
@@ -243,5 +244,81 @@ export async function SaveNavbarConfigAction(_prevState: SaveNavbarConfigActionS
         return success;
     } catch (e) {
         return error;
+    }
+}
+
+export interface SaveFediverseConfigActionState {
+    error: boolean;
+    message: string;
+    timestamp: number;
+}
+
+export async function SaveFediverseConfigAction(_prevState: SaveFediverseConfigActionState, formData: FormData) {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const enabled = formData.get("enabled") === "on" || formData.get("enabled") === "true";
+    const name = formData.get("name");
+    const preferredUsername = formData.get("preferredUsername");
+    const summary = formData.get("summary");
+
+    const error = {error: true, message: "未知错误", timestamp: Date.now()};
+    const success = {error: false, message: "保存成功", timestamp: Date.now()};
+
+    const {fediverse} = await getDynamicConfig();
+    const update = {...fediverse};
+
+    if (typeof name === "string" && name !== "") {
+        update.name = name;
+    }
+
+    if (typeof preferredUsername === "string" && preferredUsername.match(/^[a-zA-Z0-9_]+$/)) {
+        update.preferredUsername = preferredUsername;
+    }
+
+    if (typeof summary === "string" && summary !== "") {
+        update.summary = summary;
+    }
+
+    update.enabled = enabled;
+
+    try {
+        if (update.enabled && !update.publicKey && !update.privateKey) {
+            const keypair = await FediverseUtil.generateKeyPair();
+            update.publicKey = keypair.publicKey;
+            update.privateKey = keypair.privateKey;
+        }
+
+        await prisma.config.upsert({
+            where: {key: "fediverse"},
+            update: {value: JSON.stringify(update)},
+            create: {key: "fediverse", value: JSON.stringify(update)},
+        });
+
+        revalidatePath("/", "layout");
+
+        return success;
+    } catch (e) {
+        return error;
+    }
+}
+
+export async function RegenerateFediverseKeyPair() {
+    if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const {fediverse} = await getDynamicConfig();
+    const update = {...fediverse};
+
+    try {
+        const keypair = await FediverseUtil.generateKeyPair();
+        update.publicKey = keypair.publicKey;
+        update.privateKey = keypair.privateKey;
+
+        await prisma.config.upsert({
+            where: {key: "fediverse"},
+            update: {value: JSON.stringify(update)},
+            create: {key: "fediverse", value: JSON.stringify(update)},
+        });
+
+        return true;
+    } catch (e) {
+        return false;
     }
 }

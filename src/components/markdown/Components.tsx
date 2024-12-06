@@ -15,7 +15,7 @@ type AProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnc
 
 function A({href, children, className, ...other}: AProps) {
     href = href || "#";
-    const isExternal = href.startsWith("http");
+    const isExternal = href.startsWith("http") || href.startsWith("//");
 
     return (
         // @ts-ignore

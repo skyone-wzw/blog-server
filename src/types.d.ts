@@ -9,3 +9,5 @@ declare type StartViewTransition = (func: StartViewTransitionFunc) => StartViewT
 declare interface Document {
     startViewTransition?: StartViewTransition;
 }
+
+

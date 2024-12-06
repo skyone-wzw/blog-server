@@ -5,6 +5,7 @@ import Paper from "@/components/base/Paper";
 import {
     GenerateCoverAction,
     PreprocessArticleAction,
+    PreprocessCommentAction,
     RemoveArticleCacheAction,
     RemoveCoverCacheAction,
     RemoveUnusedAssetsAction,
@@ -41,7 +42,12 @@ function AdminQuickActions({className}: AdminQuickActionsProps) {
             name: "生成封面缓存",
             description: "预生成所有文章的封面。此操作通常自动执行。",
             action: GenerateCoverAction,
-        }
+        },
+        {
+            name: "重新生成评论缓存",
+            description: "重新生成评论的预编译缓存。在程序版本更新后评论格式错误时使用。",
+            action: PreprocessCommentAction,
+        },
     ];
 
     return (
