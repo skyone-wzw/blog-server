@@ -12,7 +12,7 @@
 
 ## 特点
 
-* [x] 支持 WebFinger, ActivityPub 联邦宇宙协议的评论系统
+* [x] 支持 WebFinger, [ActivityPub](https://zh.wikipedia.org/wiki/ActivityPub) [联邦宇宙](https://zh.wikipedia.org/wiki/联邦宇宙)协议的评论系统（默认关闭）
 * [x] 支持 GFM (GitHub Flavored Markdown)
 * [x] 在线编辑文章
 * [x] React Server Components
@@ -190,6 +190,8 @@ AUTH_PASSWORD=123456
 ![preview02](previews/preview02.png)
 
 ![preview03](previews/preview03.png)
+
+![preview04](previews/preview04.png)
 
 ## 开源许可证
 
