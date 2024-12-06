@@ -115,3 +115,41 @@ export function removePosition() {
         });
     };
 }
+
+export function unsafeElementFilter() {
+    const safe = [
+        "a", "blockquote", "code", "em", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "img",
+        "ol", "p", "pre", "strong", "table", "thead", "th", "td", "tr", "ul", "li",
+    ];
+    return (tree: HTMLRoot) => {
+        visit(tree, "element", (node: Element, index, parent) => {
+            if (index === undefined || !parent) return;
+            if (!safe.includes(node.tagName)) {
+                parent?.children?.splice(index!, 1);
+            }
+        });
+    };
+}
+
+export function fixFediverseUidLink() {
+    return (tree: MDRoot) => {
+        visit(tree, "link", (node, index, parent) => {
+            // @abc@exmaple.com 会被错误的解析为 @ + 电子邮件
+            if (index === undefined) return;
+            if (node.url.startsWith("mailto:")) {
+                const mail = node.url.slice(7);
+                const prev = parent?.children?.[index - 1];
+                if (!prev) return;
+                if (prev.type === "text" && prev.value.endsWith("@") && node.children.length === 1) {
+                    const child = node.children[0]!;
+                    if (child.type === "text" && child.value === mail) {
+                        parent.children[index] = {
+                            type: "text",
+                            value: mail,
+                        };
+                    }
+                }
+            }
+        });
+    };
+}

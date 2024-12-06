@@ -1,0 +1,41 @@
+div.TooltipBox {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 100ms ease-in-out;
+}
+
+.TooltipRoot {
+    position: relative;
+}
+
+.TooltipRoot:hover > div.TooltipBox {
+    display: block;
+    opacity: 1;
+    width: 288px;
+    height: unset;
+    z-index: 1;
+}
+
+img.Avatar {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 56px;
+    height: 56px;
+    transition: left 100ms ease-in-out, top 100ms ease-in-out, width 100ms ease-in-out, height 100ms ease-in-out;
+}
+
+.TooltipRoot:hover > div > img.Avatar {
+    border-radius: 50%;
+    left: 112px;
+    top: 96px;
+    width: 64px;
+    height: 64px;
+    border: var(--bg-tag) 2px solid;
+    z-index: 1;
+}

@@ -4,12 +4,13 @@ import clsx from "clsx";
 import {MouseEventHandler, ReactNode, useEffect, useRef, useState} from "react";
 
 interface DangerousButtonProps {
+    disabled?: boolean;
     className?: string;
     children: ReactNode;
     onClick: () => void;
 }
 
-function DangerousButton({className, children, onClick}: DangerousButtonProps) {
+function DangerousButton({disabled, className, children, onClick}: DangerousButtonProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const [isConfirm, setIsConfirm] = useState(0);
 
@@ -56,6 +57,7 @@ function DangerousButton({className, children, onClick}: DangerousButtonProps) {
                 "bg-red-500 hover:bg-red-600 text-button-text": isConfirm !== 0,
                 "text-text-content": isConfirm === 0,
             })}
+            disabled={disabled}
             onClick={handleClick} ref={ref}>
             {isConfirm !== 0 ? "确认吗？" : children}
         </button>

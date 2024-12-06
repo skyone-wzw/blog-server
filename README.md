@@ -12,15 +12,18 @@
 
 ## 特点
 
+* [x] 支持 WebFinger, ActivityPub 联邦宇宙协议的评论系统
 * [x] 支持 GFM (GitHub Flavored Markdown)
 * [x] 在线编辑文章
 * [x] React Server Components
 * [x] Docker 快速部署
 * [x] 后台定制网站
+* [x] 在线上传自定义封面
 * [ ] 全局搜索
-* [ ] 在线上传自定义封面
 
 项目还有很多功能未实现，但已经达到了正常使用的程度。欢迎提出建议和贡献代码。 数据库部分应该不会出现不向前兼容的情况，但配置文件和环境变量可能会有变化。
+
+**注意：** master 分支是开发分支，可能出现 无法运行、数据库不兼容修改等，请使用 Release 版本。
 
 ~~关于内存占用，由于使用 Node.js 且没有进行特殊优化（懒+不会+为了部署简单），和编译型语言自然比不了。空载状态下约 220MB，渲染一篇 3W 字的包含大量数学公式的文章额外使用约 20MB （仅首次渲染时，持续小于1秒），因此流量不大的博客一般使用 300MB。~~ 经过几次激进的渲染逻辑的优化，内存占用和渲染速度都有了明显的提升，即时渲染产生的损耗已经可以忽略不计。
 
@@ -86,14 +89,12 @@ npm run build
 创建运行目录并拷贝构建产物
 
 ```shell
-mkdir build
+cp -r .next/standalone build
+cp -r .next/static build/.next/static
 cp -r public build/public
-cp -r .next/standalone/* build
-mkdir build/.next
-cp -r .next/static .next/static
 ```
 
-后续步骤与 [从 Release 下载预编译版](#从-release-下载预编译版) 相同。
+后续步骤与 [从 Release 下载预编译版](#从-release-下载预编译版) 相同，执行目录位于 `build`。
 
 ## 配置
 

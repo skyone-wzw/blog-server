@@ -46,7 +46,6 @@ export function HASTRender({ast}: HASTCompilerProps) {
 }
 
 export const TitleHASTCompiler = unified()
-    // @ts-expect-error
     .use(rehypeReact, {
         ...jsxConfig, components: {
             a: Components.AInNavBar,
