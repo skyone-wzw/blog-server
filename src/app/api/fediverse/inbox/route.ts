@@ -112,6 +112,8 @@ async function parseReply(reply: string): Promise<{ postId?: string, reply?: str
 }
 
 export async function POST(request: Request) {
+    const {fediverse} = await getDynamicConfig();
+    if (!fediverse.enabled) return new Response("Not Found", {status: 404});
     const signature = {
         Date: request.headers.get("Date")!,
         Signature: request.headers.get("Signature")!,

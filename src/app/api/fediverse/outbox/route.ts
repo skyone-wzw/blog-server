@@ -12,6 +12,8 @@ import FediverseUtil from "@/lib/fediverse-utils";
 const FEDIVERSE_OUTBOX_PAGE_SIZE = 10;
 
 export async function GET(request: Request) {
+    const {fediverse} = await getDynamicConfig();
+    if (!fediverse.enabled) return new Response("Not Found", {status: 404});
     const url = new URL(request.url);
     const _page = url.searchParams.get("page");
     const {site} = await getDynamicConfig();

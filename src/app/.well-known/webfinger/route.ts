@@ -15,8 +15,8 @@ export async function GET(request: Request) {
 
     const dynamicConfig = await getDynamicConfig();
     const siteUrl = new URL(dynamicConfig.site.url);
-    const UserIdRegexp = new RegExp(`^acct:(?<userId>[a-zA-Z-_]+)@${siteUrl.hostname.replace(/\./g, "\\.")}$`);
-    const userId = UserIdRegexp.exec(resource)?.groups?.userId;
+    const UserIdRegexp = new RegExp(`^acct:([a-zA-Z-_]+)@${siteUrl.hostname.replace(/\./g, "\\.")}$`);
+    const userId = UserIdRegexp.exec(resource)?.[1];
 
     if (!dynamicConfig.fediverse.enabled) {
         return Response.json({
@@ -27,7 +27,16 @@ export async function GET(request: Request) {
         });
     }
 
-    if (!userId) { // TODO: Check userid
+    if (!userId) {
+        return Response.json({
+            code: 404,
+            message: "Cannot find resource",
+        }, {
+            status: 404,
+        });
+    }
+
+    if (userId !== dynamicConfig.fediverse.preferredUsername) {
         return Response.json({
             code: 404,
             message: "Cannot find resource",
