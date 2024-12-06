@@ -83,7 +83,7 @@ async function PostPage({params}: PostPageProps) {
                     className="w-full aspect-[130/63] rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
                     src={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo)}
                     alt="cover" width={1300} height={630} priority/>
-                <h1 className="px-4 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
+                <h1 className="px-4 pt-2 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
                 <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap justify-between">
                     <div>
                         <time>{article.createdAt.toLocaleDateString("zh-CN", {
@@ -92,7 +92,7 @@ async function PostPage({params}: PostPageProps) {
                             day: "numeric",
                         })}</time>
                         <span className="mx-1 after:content-['·']"></span>
-                        <Link className="hover:text-link-hover"
+                        <Link className="text-text-content hover:text-link-hover"
                               href={L.series(article.series)}>{article.series}</Link>
                     </div>
                     <Link className="hover:text-link-hover" href={L.editor.post(article.slug)}>编辑</Link>

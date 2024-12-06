@@ -31,8 +31,8 @@ async function ArticleSummaryCard({className, article}: ArticleSummaryCardProps)
                     src={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo)}/>
             </Link>
             <article className="p-6">
-                <h2 className="mb-4 break-words font-normal">
-                    <Link className="text-xl text-text-main" href={L.post(article.slug)}>{article.title}</Link>
+                <h2 className="mb-4 break-words text-2xl font-semibold text-text-main">
+                    <Link className="text-2xl text-text-main" href={L.post(article.slug)}>{article.title}</Link>
                 </h2>
                 <section className="mb-4 text-sm 2xl:text-base text-text-content">
                     {article.description}
