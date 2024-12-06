@@ -19,6 +19,8 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 
+  comments FediverseComment[]
+
   @@map("posts")
 }
 
@@ -56,4 +58,41 @@ model Config {
   updatedAt DateTime @default(now())
 
   @@map("configs")
+}
+
+model FediverseGuest {
+  id        Int     @id @default(autoincrement())
+  name      String
+  uid       String  @unique
+  summary   String?
+  url       String
+  webUrl    String?
+  avatar    String?
+  banner    String?
+  keyId     String
+  publicKey String
+  isBanned  Boolean @default(false)
+
+  comments FediverseComment[]
+
+  @@map("fediverse_guests")
+}
+
+model FediverseComment {
+  id        Int      @id @default(autoincrement())
+  uid       String   @unique
+  userId    String
+  content   String // HTML
+  source    String? // markdown
+  parsed    String // serialized HTML AST
+  replyTo   String?
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  isHidden  Boolean  @default(false)
+
+  user FediverseGuest @relation(fields: [userId], references: [uid])
+  post Post           @relation(fields: [postId], references: [id])
+
+  @@map("fediverse_comments")
 }
