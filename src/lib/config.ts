@@ -44,9 +44,9 @@ export interface NavbarDynamicConfig {
 
 export interface FediverseDynamicConfig {
     enabled: boolean;
-    name?: string;
+    name: string;
     preferredUsername: string;
-    summary?: string;
+    summary: string;
     publicKey: string;
     privateKey: string;
 }
@@ -113,7 +113,9 @@ export const defaultDynamicConfig: DynamicConfig = {
 
     fediverse: {
         enabled: false,
+        name: "Explorers",
         preferredUsername: "master",
+        summary: "科技爱好者",
         publicKey: "",
         privateKey: "",
     },

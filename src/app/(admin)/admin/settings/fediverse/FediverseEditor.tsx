@@ -112,7 +112,7 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
                         </p>
                     </label>
                     <div className="mt-1">
-                        <input id="fediverse-editor-name" type="text" name="name"
+                        <input id="fediverse-editor-name" required type="text" name="name"
                                value={name} onChange={e => setName(e.target.value)}
                                className="block w-[520px] max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                     </div>
@@ -141,7 +141,7 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
                         </p>
                     </label>
                     <div className="mt-1">
-                    <textarea id="fediverse-editor-summary" name="summary"
+                    <textarea id="fediverse-editor-summary" required name="summary"
                               value={summary} onChange={e => setSummary(e.target.value)}
                               className="block w-[520px] max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                     </div>
