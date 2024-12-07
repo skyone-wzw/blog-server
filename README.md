@@ -2,6 +2,8 @@
 
 ![License](https://img.shields.io/github/license/skyone-wzw/blog-server)
 
+<p align="center">中文文档 | <a href="README.en.md">English</a></p>
+
 <p align="center">一个简单的博客服务器。基于 Node.js、Next.js 和 SQLite。</p>
 
 ![preview](previews/preview01.png)
@@ -16,6 +18,7 @@
 * [x] 支持 GFM (GitHub Flavored Markdown)
 * [x] 在线编辑文章
 * [x] React Server Components
+* [x] 多语言支持 (基于 `next-intel`)
 * [x] Docker 快速部署
 * [x] 后台定制网站
 * [x] 在线上传自定义封面
