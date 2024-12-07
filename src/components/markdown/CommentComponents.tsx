@@ -135,6 +135,14 @@ function Pre({children, className}: PreProps) {
     );
 }
 
+type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+
+function Span({children, className, style}: SpanProps) {
+    return (
+        <strong className={clsx(className)} style={style}>{children}</strong>
+    );
+}
+
 type StrongProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 
 function Strong({children, className}: StrongProps) {
@@ -223,6 +231,7 @@ export {
     Ol,
     P,
     Pre,
+    Span,
     Strong,
     Table,
     Td,

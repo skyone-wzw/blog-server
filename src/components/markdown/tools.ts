@@ -119,7 +119,7 @@ export function removePosition() {
 export function unsafeElementFilter() {
     const safe = [
         "a", "blockquote", "code", "em", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "img",
-        "ol", "p", "pre", "strong", "table", "thead", "th", "td", "tr", "ul", "li",
+        "ol", "p", "pre", "span", "strong", "table", "thead", "th", "td", "tr", "ul", "li",
     ];
     return (tree: HTMLRoot) => {
         visit(tree, "element", (node: Element, index, parent) => {

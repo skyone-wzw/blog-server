@@ -26,6 +26,7 @@ export const HASTCompiler = unified()
             p: CommentComponents.P,
             pre: CommentComponents.Pre,
             script: CommentComponents.Noop,
+            span: CommentComponents.Span,
             strong: CommentComponents.Strong,
             table: CommentComponents.Table,
             thead: CommentComponents.THead,
