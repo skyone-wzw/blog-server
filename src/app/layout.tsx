@@ -62,7 +62,6 @@ async function RootLayout({children}: RootLayoutProps) {
     return (
         <html lang={locale}>
             <head>
-                <link rel="icon" href={"/favicon"} sizes="any"/>
                 <link rel="sitemap" type="application/xml" title="Sitemap" href={"/sitemap.xml"}/>
             </head>
             <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>

@@ -309,10 +309,9 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 </div>
                             </div>
                             <div className="w-full">
-                                <label htmlFor="article-editor-info-tags"
-                                       className="block text-sm font-medium leading-6 text-text-content">
+                                <p className="block text-sm font-medium leading-6 text-text-content">
                                     {t("tags")}
-                                </label>
+                                </p>
                                 <div
                                     className="flex flex-row flex-wrap p-2 md:p-3 text-sm text-text-content gap-2 select-none">
                                     {tags.map((tag, index) => (
@@ -323,10 +322,9 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                         </button>
                                     ))}
                                 </div>
-                                <label htmlFor="article-editor-info-tags"
-                                       className="block text-sm font-medium leading-6 text-text-subnote">
+                                <p className="block text-sm font-medium leading-6 text-text-subnote">
                                     {t("tagQuickAdd")}
-                                </label>
+                                </p>
                                 <div
                                     className="flex flex-row flex-wrap p-2 md:p-3 text-sm text-text-subnote gap-2 select-none">
                                     {otherTags.map((tag) => (

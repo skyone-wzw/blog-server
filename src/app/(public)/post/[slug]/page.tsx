@@ -13,7 +13,7 @@ import Link from "next/link";
 import {notFound} from "next/navigation";
 import CommentTree from "@/components/comment/CommentTree";
 import {getCommentsByArticleId} from "@/lib/comment";
-import {getLocale, getTranslations} from "next-intl/server";
+import {getFormatter, getLocale, getTranslations} from "next-intl/server";
 
 interface PostPageProps {
     params: {
@@ -70,6 +70,7 @@ async function PostPage({params}: PostPageProps) {
     const article = await getArticleBySlug(slug);
     const {site, fediverse} = await getDynamicConfig();
     const t = await getTranslations("page.post");
+    const formatter = await getFormatter();
 
     if (!article) return notFound();
 
@@ -89,11 +90,9 @@ async function PostPage({params}: PostPageProps) {
                 <h1 className="px-4 pt-2 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>
                 <div className="px-4 md:px-6 text-sm text-text-subnote flex flex-row flex-nowrap justify-between">
                     <div>
-                        <time>{article.createdAt.toLocaleDateString("zh-CN", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                        })}</time>
+                        <time dateTime={article.createdAt.toISOString()}>
+                            {formatter.dateTime(article.createdAt, "default")}
+                        </time>
                         <span className="mx-1 after:content-['·']"></span>
                         <Link className="text-text-content hover:text-link-hover"
                               href={L.series(article.series)}>{article.series}</Link>

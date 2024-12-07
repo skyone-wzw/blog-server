@@ -35,7 +35,9 @@ async function ArticleSummaryCard({className, article}: ArticleSummaryCardProps)
                 </section>
                 <div className="flex justify-between text-text-subnote text-sm">
                     <div>
-                        <time>{formatter.dateTime(article.createdAt, "default")}</time>
+                        <time dateTime={article.createdAt.toISOString()}>
+                            {formatter.dateTime(article.createdAt, "default")}
+                        </time>
                         <span className="mx-1 after:content-['·']"></span>
                         <Link className="text-text-content hover:underline hover:text-link-hover"
                               href={L.series(article.series)}>

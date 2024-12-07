@@ -110,9 +110,9 @@ async function CommentItem({comment, replies, replyTarget}: CommentItemProps) {
                     <CommentHASTRender ast={JSON.parse(comment.parsed)}/>
                 </div>
                 {comment.images.length > 0 && (
-                    <div className="flex flex-row flex-wrap gap-2">
+                    <div className="grid gap-2" style={{gridTemplateColumns: "repeat(auto-fit, minmax(128px, 1fr))"}}>
                         {comment.images.map((image, index) => (
-                            <ImgWithViewer className="min-w-32 w-0 aspect-square rounded shadow-sm flex-grow object-cover"
+                            <ImgWithViewer className="max-w-full aspect-square rounded shadow-sm object-cover"
                                            key={index} src={image.url} alt={`comment-image-${index}`}/>
                         ))}
                     </div>

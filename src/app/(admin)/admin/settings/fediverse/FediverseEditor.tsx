@@ -46,10 +46,10 @@ interface FediverseEditorProps {
 }
 
 function FediverseEditor({fediverse}: FediverseEditorProps) {
-    const [enabled, setEnabled] = useState(false);
-    const [name, setName] = useState("");
-    const [preferredUsername, setPreferredUsername] = useState("");
-    const [summary, setSummary] = useState("");
+    const [enabled, setEnabled] = useState(fediverse.enabled);
+    const [name, setName] = useState(fediverse.name);
+    const [preferredUsername, setPreferredUsername] = useState(fediverse.preferredUsername);
+    const [summary, setSummary] = useState(fediverse.summary);
     const [loading, setLoading] = useState(false);
     const t = useTranslations("page.admin.settings.FediverseEditor");
 

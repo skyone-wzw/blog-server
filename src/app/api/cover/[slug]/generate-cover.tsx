@@ -1,4 +1,4 @@
-import {GET as getIcon} from "@/app/favicon/route";
+import getIcon from "@/app/icon";
 import config from "@/config";
 import DefaultCoverImage from "@/default-cover";
 import {getDynamicConfig} from "@/lib/config";

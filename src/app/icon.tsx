@@ -16,7 +16,7 @@ function getFileContentTypeFromExtension(ext?: string) {
 
 const customImageDir = config.dir.custom;
 
-export async function GET() {
+async function Icon() {
     const dynamicConfig = await getDynamicConfig();
 
     const logo = dynamicConfig.site.logo;
@@ -41,3 +41,5 @@ export async function GET() {
 
     return new Response(await fs.readFile(`${customImageDir}/${logo}`), {headers});
 }
+
+export default Icon;

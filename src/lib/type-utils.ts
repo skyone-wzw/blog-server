@@ -48,7 +48,7 @@ export function DeepMergeTemplate<T extends object>(target: T, ...sources: any[]
     if (isObject(target) && isObject(source)) {
         for (const key in target) {
             // @ts-ignore
-            if (source?.[key] && typeof source[key] === typeof target[key]) {
+            if (source?.[key] !== undefined && typeof source[key] === typeof target[key]) {
                 // @ts-ignore
                 if (isObject(source[key])) {
                     // @ts-ignore
