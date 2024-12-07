@@ -3,6 +3,7 @@ import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import Image from "next/image";
 import Link from "next/link";
+import {getTranslations} from "next-intl/server";
 
 function EmailIcon() {
     return (
@@ -51,6 +52,7 @@ interface AsideProfileProps {
 
 async function AsideProfile({className}: AsideProfileProps) {
     const dynamicConfig = await getDynamicConfig();
+    const t = await getTranslations("AsideProfile");
     const profile = dynamicConfig.profile;
 
     return (
@@ -72,31 +74,27 @@ async function AsideProfile({className}: AsideProfileProps) {
                     {profile.social.github && (
                         <Link
                             className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
-                            title="建议没收违法所得" target="_blank"
-                            href={L.social.github(profile.social.github)}>
+                            title={t("github.title")} target="_blank" href={L.social.github(profile.social.github)}>
                             <GithubIcon/>
                         </Link>
                     )}
                     {profile.social.zhihu && (
                         <Link
                             className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
-                            title="去B乎看看吧~" target="_blank"
-                            href={L.social.zhihu(profile.social.zhihu)}>
+                            title={t("zhihu.title")} target="_blank" href={L.social.zhihu(profile.social.zhihu)}>
                             <ZhihuIcon/>
                         </Link>
                     )}
                     {profile.email && (
                         <Link
                             className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded hover:bg-bg-hover"
-                            title="要给我发邮件吗？"
-                            href={L.social.email(profile.email)}>
+                            title={t("email.title")} href={L.social.email(profile.email)}>
                             <EmailIcon/>
                         </Link>
                     )}
                     <Link
                         className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded hover:bg-bg-hover"
-                        title="订阅我的RSS吧~"
-                        href={L.social.rss()}>
+                        title={t("rss.title")} href={L.social.rss()}>
                         <RssFeedIcon/>
                     </Link>
                 </div>

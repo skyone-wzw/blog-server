@@ -1,11 +1,12 @@
 "use client";
 
-import {SiteDynamicConfig} from "@/lib/config";
+import {AllLocale, SiteDynamicConfig} from "@/lib/config";
 import {SaveSiteConfigAction, SaveSiteConfigActionState} from "@/lib/config-actions";
 import L from "@/lib/links";
 import Image from "next/image";
 import {useActionState, useEffect, useRef, useState} from "react";
 import {useFormStatus} from "react-dom";
+import {useTranslations} from "next-intl";
 
 const initialState: SaveSiteConfigActionState = {
     error: false,
@@ -15,6 +16,7 @@ const initialState: SaveSiteConfigActionState = {
 
 function SubmitButton() {
     const {pending} = useFormStatus();
+    const t = useTranslations("page.admin.settings.SiteEditor");
 
     const formSubmitRef = useRef<HTMLInputElement>(null);
 
@@ -36,7 +38,7 @@ function SubmitButton() {
         <input
             ref={formSubmitRef}
             className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
-            disabled={pending} type="submit" value="保存资料"/>
+            disabled={pending} type="submit" value={t("save")}/>
     );
 }
 
@@ -45,17 +47,21 @@ interface SiteEditorProps {
 }
 
 function SiteEditor({site}: SiteEditorProps) {
+    const [locale, setLocale] = useState<AllLocale>(site.locale);
     const [title, setTitle] = useState(site.title);
     const [logo, setLogo] = useState<File>();
     const [description, setDescription] = useState(site.description);
     const [cover, setCover] = useState<File>();
     const [keywords, setKeywords] = useState(site.keywords);
     const [newKeyword, setNewKeyword] = useState("");
+    const t = useTranslations("page.admin.settings.SiteEditor");
+    const lt = useTranslations("language");
 
     const logoSelectorRef = useRef<HTMLInputElement>(null);
     const coverSelectorRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
+        setLocale(site.locale);
         setTitle(site.title);
         setDescription(site.description);
         setKeywords(site.keywords);
@@ -66,13 +72,13 @@ function SiteEditor({site}: SiteEditorProps) {
     useEffect(() => {
         if (formState.timestamp > 0) {
             if (formState.error) {
-                alert(`保存失败：${formState.message}`);
+                alert(t("alert.error", {message: formState.message}));
             } else {
                 setNewKeyword("");
-                alert("保存成功！");
+                alert(t("alert.success"));
             }
         }
-    }, [formState]);
+    }, [t, formState]);
 
     const getLogoPreview = () => {
         if (logo) {
@@ -121,12 +127,29 @@ function SiteEditor({site}: SiteEditorProps) {
     return (
         <form className="bg-bg-light rounded-lg shadow p-6 space-y-4" action={formAction}>
             <h1 className="text-lg pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid">
-                网站信息
+                {t("title")}
             </h1>
+            <div className="w-full">
+                <label htmlFor="site-editor-locale"
+                       className="block text-base font-medium leading-6 text-text-content">
+                    {t("siteLanguage")}
+                </label>
+                <div className="mt-1">
+                    <select id="site-editor-locale" name="locale"
+                            value={locale} onChange={e => setLocale(e.target.value as AllLocale)}
+                            className="block w-[520px] max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content">
+                        {AllLocale.map((locale) => (
+                            <option key={locale} value={locale}>
+                                {lt(locale as AllLocale)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
             <div className="w-full">
                 <label htmlFor="site-editor-logo"
                        className="block text-base font-medium leading-6 text-text-content">
-                    网站 Logo
+                    {t("siteLogo")}
                 </label>
                 <div className="mt-1">
                     <input ref={logoSelectorRef} id="site-editor-logo" type="file" name="logo"
@@ -140,7 +163,7 @@ function SiteEditor({site}: SiteEditorProps) {
             <div className="w-full">
                 <label htmlFor="site-editor-title"
                        className="block text-base font-medium leading-6 text-text-content">
-                    网站标题
+                    {t("siteName")}
                 </label>
                 <div className="mt-1">
                     <input id="site-editor-title" type="text" required name="title"
@@ -151,9 +174,8 @@ function SiteEditor({site}: SiteEditorProps) {
             <div className="w-full">
                 <label htmlFor="site-editor-cover"
                        className="block text-base font-medium leading-6 text-text-content">
-                    Open Graph 封面
-                    <p className="text-sm text-text-subnote">为了使分享到社交软件时获得正确的封面，该图片一定要 1300x630
-                        像素的 PNG 格式</p>
+                    {t("siteOpenGraphImage")}
+                    <p className="text-sm text-text-subnote">{t("siteOpenGraphImageDescription")}</p>
                 </label>
                 <div className="mt-1">
                     <input ref={coverSelectorRef} id="site-editor-cover" type="file" name="cover"
@@ -167,7 +189,7 @@ function SiteEditor({site}: SiteEditorProps) {
             <div className="w-full">
                 <label htmlFor="site-editor-description"
                        className="block text-base font-medium leading-6 text-text-content">
-                    网站简介
+                    {t("siteDescription")}
                 </label>
                 <div className="mt-1">
                     <textarea id="site-editor-description" name="description"
@@ -176,28 +198,28 @@ function SiteEditor({site}: SiteEditorProps) {
                 </div>
             </div>
             <div className="w-full">
-                <p className="block text-base font-medium leading-6 text-text-content">网站 Keywords</p>
+                <p className="block text-base font-medium leading-6 text-text-content">{t("siteKeywords")}</p>
                 {keywords.map((keyword, index) => (
                     <div key={`keyword-${index}`}
                          className="mt-1 flex flex-row flex-nowrap items-center w-[520px] max-w-full">
-                        <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]" type="text"
+                        <input id="site-editor-keywords" aria-label={t("siteKeywords")} name="keywords[]" type="text"
                                value={keyword} onChange={e => setKeyword(index, e.target.value)}
                                className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                         <button
                             className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
                             type="button" onClick={() => removeKeyword(index)}>
-                            删除
+                            {t("delete")}
                         </button>
                     </div>
                 ))}
                 <div className="mt-1 flex flex-row flex-nowrap items-center w-[520px] max-w-full">
-                    <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]" type="text"
+                    <input id="site-editor-keywords" aria-label={t("siteKeywords")} name="keywords[]" type="text"
                            value={newKeyword} onChange={e => setNewKeyword(e.target.value)}
                            className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                     <button
                         className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
                         type="button" onClick={() => addKeyword()}>
-                        添加
+                        {t("add")}
                     </button>
                 </div>
             </div>

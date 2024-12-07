@@ -6,6 +6,7 @@ import L from "@/lib/links";
 import Image from "next/image";
 import {useActionState, useEffect, useRef, useState} from "react";
 import {useFormStatus} from "react-dom";
+import {useTranslations} from "next-intl";
 
 const initialState: SaveProfileActionState = {
     error: false,
@@ -15,6 +16,7 @@ const initialState: SaveProfileActionState = {
 
 function SubmitButton() {
     const {pending} = useFormStatus();
+    const t = useTranslations("page.admin.settings.ProfileEditor");
 
     const formSubmitRef = useRef<HTMLInputElement>(null);
 
@@ -36,7 +38,7 @@ function SubmitButton() {
         <input
             ref={formSubmitRef}
             className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
-            disabled={pending} type="submit" value="保存资料"/>
+            disabled={pending} type="submit" value={t("save")}/>
     );
 }
 
@@ -52,6 +54,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
     const [email, setEmail] = useState(profile.email);
     const [github, setGithub] = useState(profile.social.github ?? "");
     const [zhihu, setZhihu] = useState(profile.social.zhihu ?? "");
+    const t = useTranslations("page.admin.settings.ProfileEditor");
 
     const avatarSelectorRef = useRef<HTMLInputElement>(null);
     const coverSelectorRef = useRef<HTMLInputElement>(null);
@@ -69,12 +72,12 @@ function ProfileEditor({profile}: ProfileEditorProps) {
     useEffect(() => {
         if (formState.timestamp > 0) {
             if (formState.error) {
-                alert(`保存失败：${formState.message}`);
+                alert(t("alter.error", {message: formState.message}));
             } else {
-                alert("保存成功！");
+                alert(t("alter.success"));
             }
         }
-    }, [formState]);
+    }, [t, formState]);
 
     const getAvatarPreview = () => {
         if (avatar) {
@@ -105,12 +108,12 @@ function ProfileEditor({profile}: ProfileEditorProps) {
     return (
         <form className="bg-bg-light rounded-lg shadow p-6 space-y-4" action={formAction}>
             <h1 className="text-lg pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid">
-                个人资料
+                {t("title")}
             </h1>
             <div className="w-full">
                 <label htmlFor="profile-editor-avatar"
                        className="block text-base font-medium leading-6 text-text-content">
-                    头像
+                    {t("avatar")}
                 </label>
                 <div className="mt-1">
                     <input ref={avatarSelectorRef} id="profile-editor-avatar" type="file" name="avatar"
@@ -124,7 +127,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
             <div className="w-full">
                 <label htmlFor="profile-editor-name"
                        className="block text-base font-medium leading-6 text-text-content">
-                    昵称
+                    {t("name")}
                 </label>
                 <div className="mt-1">
                     <input id="profile-editor-name" type="text" required name="name"
@@ -135,7 +138,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
             <div className="w-full">
                 <label htmlFor="profile-editor-email"
                        className="block text-base font-medium leading-6 text-text-content">
-                    邮箱
+                    {t("email")}
                 </label>
                 <div className="mt-1">
                     <input id="profile-editor-email" required name="email"
@@ -146,7 +149,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
             <div className="w-full">
                 <label htmlFor="profile-editor-cover"
                        className="block text-base font-medium leading-6 text-text-content">
-                    背景图
+                    {t("cover")}
                 </label>
                 <div className="mt-1">
                     <input ref={coverSelectorRef} id="profile-editor-cover" type="file" name="cover"
@@ -160,7 +163,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
             <div className="w-full">
                 <label htmlFor="profile-editor-description"
                        className="block text-base font-medium leading-6 text-text-content">
-                    简介
+                    {t("description")}
                 </label>
                 <div className="mt-1">
                     <textarea id="profile-editor-description" name="description"
@@ -169,11 +172,11 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                 </div>
             </div>
             <div className="w-full">
-                <p className="block text-base font-medium leading-6 text-text-content">社交账号</p>
+                <p className="block text-base font-medium leading-6 text-text-content">{t("social.title")}</p>
                 <div className="mt-1 flex flex-row flex-nowrap items-center w-[520px] max-w-full">
                     <label htmlFor="profile-editor-social-github"
                            className="w-16 text-sm font-medium leading-6 text-text-content">
-                        GitHub
+                        {t("social.github")}
                     </label>
                     <input id="profile-editor-social-github" name="social-github" type="text"
                            value={github} onChange={e => setGithub(e.target.value)}
@@ -182,7 +185,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                 <div className="mt-1 flex flex-row flex-nowrap items-center w-[520px] max-w-full">
                     <label htmlFor="profile-editor-social-zhihu"
                            className="w-16 text-sm font-medium leading-6 text-text-content">
-                        知乎
+                        {t("social.zhihu")}
                     </label>
                     <input id="profile-editor-social-zhihu" name="social-zhihu" type="text"
                            value={zhihu} onChange={e => setZhihu(e.target.value)}

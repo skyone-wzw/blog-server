@@ -3,6 +3,7 @@
 import {QuickActionResult} from "@/lib/admin-actions";
 import clsx from "clsx";
 import {useState} from "react";
+import {useTranslations} from "next-intl";
 
 interface IconProps {
     className?: string;
@@ -26,9 +27,10 @@ export interface QuickActionProps {
 
 function QuickAction({name, description, action}: QuickActionProps) {
     const [loading, setLoading] = useState(false);
+    const t = useTranslations("admin.QuickAction");
 
     return (
-        <div className="flex flex-col justify-start items-start lg:items-center lg:flex-row p-2 gap-y-2">
+        <div className="flex flex-col justify-start items-start lg:items-center lg:flex-row p-2 gap-2">
             <div className="basis-0 flex-grow">
                 <p className="text-text-content">{name}</p>
                 <p className="text-sm text-text-subnote grow">{description}</p>
@@ -47,7 +49,7 @@ function QuickAction({name, description, action}: QuickActionProps) {
                     }
                 }}>
                 <RunIcon className="mr-2"/>
-                执行
+                {t("execute")}
             </button>
         </div>
     );

@@ -9,6 +9,8 @@ import NextTopLoader from "nextjs-toploader";
 import {ReactNode} from "react";
 import "./globals.css";
 import ImageViewerProvider from "@/components/image-viewer/ImageViewerProvider";
+import {NextIntlClientProvider} from "next-intl";
+import {getLocale, getMessages} from "next-intl/server";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -53,20 +55,25 @@ interface RootLayoutProps {
     children: ReactNode;
 }
 
-function RootLayout({children}: RootLayoutProps) {
+async function RootLayout({children}: RootLayoutProps) {
+    const locale = await getLocale()
+    const messages = await getMessages()
+
     return (
-        <html lang="zh-CN">
+        <html lang={locale}>
             <head>
                 <link rel="icon" href={"/favicon"} sizes="any"/>
                 <link rel="sitemap" type="application/xml" title="Sitemap" href={"/sitemap.xml"}/>
             </head>
             <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>
                 <ColorModeProvider>
-                    <ImageViewerProvider>
-                        <NextTopLoader color="#ec4899"/>
-                        <AppHeader className="row-start-1"/>
-                        {children}
-                    </ImageViewerProvider>
+                    <NextIntlClientProvider messages={messages}>
+                        <ImageViewerProvider>
+                            <NextTopLoader color="#ec4899"/>
+                            <AppHeader className="row-start-1"/>
+                            {children}
+                        </ImageViewerProvider>
+                    </NextIntlClientProvider>
                 </ColorModeProvider>
             </body>
         </html>

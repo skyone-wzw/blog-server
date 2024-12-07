@@ -5,6 +5,7 @@ import {DEFAULT_ARTICLE_PER_PAGE, getArticleCountByYear, getArticlesByYearPagina
 import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import {notFound} from "next/navigation";
+import {getTranslations} from "next-intl/server";
 
 interface ArchivePaginationPageProps {
     params: {
@@ -16,10 +17,11 @@ interface ArchivePaginationPageProps {
 export const generateMetadata = async ({params}: ArchivePaginationPageProps) => {
     const {year: _year, page} = await params;
     const year = parseInt(_year);
-    const dynamicConfig = await getDynamicConfig();
+    const {site} = await getDynamicConfig();
+    const t = await getTranslations("page.archive.metadata");
     return {
-        title: `归档: ${year} 年 - ${dynamicConfig.site.title}`,
-        description: `${dynamicConfig.site.description}。${year} 年所有文章的归档。第 ${page} 页。`,
+        title: t("title", {siteName: site.title, year}),
+        description: t("description", {siteName: site.title, siteDescription: site.description, year, page}),
     };
 };
 
@@ -30,6 +32,7 @@ async function ArchivePaginationPage({params}: ArchivePaginationPageProps) {
     const year = parseInt(_year);
     const page = parseInt(_page);
     const articles = await getArticlesByYearPaginate(year, {page});
+    const t = await getTranslations("page.archive");
 
     if (articles.length === 0) return notFound();
 
@@ -39,8 +42,8 @@ async function ArchivePaginationPage({params}: ArchivePaginationPageProps) {
     return (
         <>
             <Paper className="p-6">
-                <span className="text-text-content text-lg mr-3">{year} 年</span>
-                <span className="text-text-subnote">共 {articlesCount} 篇</span>
+                <span className="text-text-content text-lg mr-3">{t("title", {year})}</span>
+                <span className="text-text-subnote">{t("count", {count: articlesCount})}</span>
             </Paper>
             {articles.map((article) => (
                 <ArticleSummaryCard article={article} key={article.slug}/>

@@ -14,7 +14,11 @@ namespace Database {
     export type Config = ConfigEntity[]
 }
 
+export type AllLocale = "en" | "zh-hans";
+export const AllLocale: string[] = ["en", "zh-hans"];
+
 export interface SiteDynamicConfig {
+    locale: AllLocale;
     title: string;
     logo: string;
     description: string;
@@ -67,6 +71,7 @@ export interface DynamicConfig {
 
 export const defaultDynamicConfig: DynamicConfig = {
     site: {
+        locale: "zh-hans",
         title: "My Blog",
         logo: "/default/logo.png",
         description: "A blog powered by Blog Server",

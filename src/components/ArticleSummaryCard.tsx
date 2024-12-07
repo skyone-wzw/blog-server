@@ -5,22 +5,18 @@ import L from "@/lib/links";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import {getFormatter, getTranslations} from "next-intl/server";
 
 interface ArticleSummaryCardProps {
     className?: string;
     article: ArticleMetadata;
 }
 
-function formatDate(date: Date) {
-    return date.toLocaleDateString("zh-CN", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-}
-
 async function ArticleSummaryCard({className, article}: ArticleSummaryCardProps) {
     const dynamicConfig = await getDynamicConfig();
+    const t = await getTranslations("ArticleSummaryCard");
+    const formatter = await getFormatter();
+
     return (
         <Paper className={clsx("text-text-content", className)}>
             <Link className="contents" href={L.post(article.slug)}>
@@ -39,7 +35,7 @@ async function ArticleSummaryCard({className, article}: ArticleSummaryCardProps)
                 </section>
                 <div className="flex justify-between text-text-subnote text-sm">
                     <div>
-                        <time>{formatDate(article.createdAt)}</time>
+                        <time>{formatter.dateTime(article.createdAt, "default")}</time>
                         <span className="mx-1 after:content-['·']"></span>
                         <Link className="text-text-content hover:underline hover:text-link-hover"
                               href={L.series(article.series)}>
@@ -47,7 +43,7 @@ async function ArticleSummaryCard({className, article}: ArticleSummaryCardProps)
                         </Link>
                     </div>
                     <Link className="text-link-content hover:text-link-hover" href={L.post(article.slug)}>
-                        继续阅读
+                        {t("readMore")}
                     </Link>
                 </div>
             </article>

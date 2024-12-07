@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import {MouseEventHandler, ReactNode, useEffect, useState} from "react";
 import styles from "./ArticleFloatingButton.module.css";
+import {useTranslations} from "next-intl";
 
 interface ArticleFloatingButtonProps {
     toc?: ReactNode;
@@ -15,6 +16,7 @@ interface ArticleFloatingButtonProps {
 function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
     const [openToc, setOpenToc] = useState(false);
     const [openTocPaper, setOpenTocPaper] = useState(false);
+    const t = useTranslations("ArticleFloatingButton");
 
     useEffect(() => {
         if (openToc) {
@@ -44,19 +46,19 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
         <div className={clsx("fixed z-10 flex flex-col right-4 bottom-4 lg:right-8 lg:bottom-8 gap-y-2", className)}>
             {toc && (
                 <>
-                    <div className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag hover:text-link-hover md:hidden"
-                         onClick={handleOpenToc}>
+                    <button className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag hover:text-link-hover md:hidden"
+                         onClick={handleOpenToc} title={t("showToc")}>
                         <svg fill="currentColor" viewBox="0 0 24 24" height={20} width={20}
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill="none" d="M0 0h24v24H0z"/>
                             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                         </svg>
-                    </div>
+                    </button>
                     <Dialog open={openToc} onClose={handleCloseToc} className="md:hidden w-full m-0" clickOutsideClose>
                         <Paper className={clsx("fixed bottom-4 left-4 right-4 p-4 text-sm", styles.tocPaper, {
-                            [styles.tocPaperOpen]: openTocPaper
+                            [styles.tocPaperOpen]: openTocPaper,
                         })}>
-                            <p className="mb-3 text-text-subnote">文章目录</p>
+                            <p className="mb-3 text-text-subnote">{t("toc")}</p>
                             <div className="p-1.5 overflow-auto xc-scroll floating-toc" onClick={handleCloseToc}>
                                 {toc}
                             </div>
@@ -64,7 +66,7 @@ function ArticleFloatingButton({toc, className}: ArticleFloatingButtonProps) {
                     </Dialog>
                 </>
             )}
-            <Link href={"#article-content-main"} title="返回顶部"
+            <Link href={"#article-content-main"} title={t("scrollToTop")}
                   className="rounded-lg p-3 md:p-4 shadow-md bg-bg-tag text-text-content hover:text-link-hover"
                   onClick={scrollToTop}>
                 <svg fill="currentColor" viewBox="0 0 24 24" height={20} width={20} xmlns="http://www.w3.org/2000/svg">

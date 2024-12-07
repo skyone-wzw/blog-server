@@ -1,24 +1,26 @@
 import ArticleEditor from "@/components/article-editor/ArticleEditor";
 import {Article, getAllTags} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
+import {getTranslations} from "next-intl/server";
 
 export async function generateMetadata() {
-    const dynamicConfig = await getDynamicConfig();
+    const {site} = await getDynamicConfig();
+    const t = await getTranslations("page.admin.editor.post.metadata-new");
     return {
-        title: `新建文章 - ${dynamicConfig.site.title}`,
-        description: dynamicConfig.site.description,
+        title: t("title", {siteName: site.title}),
+        description: t("description", {siteName: site.title, siteDescription: site.description}),
     };
 }
 
 async function ArticleEditorPage() {
-    const date = new Date();
     const allTags = (await getAllTags()).map(tag => tag.tag);
+    const t = await getTranslations("page.admin.editor.post");
     const article: Article = {
         id: "",
-        title: `untitled-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+        title: t("default.title"),
         slug: "",
         description: "",
-        series: "未分类",
+        series: t("default.series"),
         tags: [],
         published: false,
         createdAt: new Date(),

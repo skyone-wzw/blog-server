@@ -3,17 +3,20 @@ import {getAvatarElement} from "@/components/FriendCard";
 import {getDynamicConfig} from "@/lib/config";
 import {getAllFriends, toClientFriend} from "@/lib/friends";
 import {FriendLinkCreator, FriendLinkEditor} from "./FriendLinkEditor";
+import {getTranslations} from "next-intl/server";
 
 export async function generateMetadata() {
-    const dynamicConfig = await getDynamicConfig();
+    const {site} = await getDynamicConfig();
+    const t = await getTranslations("page.admin.friend.metadata");
     return {
-        title: `友链管理 - ${dynamicConfig.site.title}`,
-        description: `${dynamicConfig.site.description}`,
+        title: t("title", {siteName: site.title}),
+        description: t("description", {siteName: site.title, siteDescription: site.description}),
     };
 }
 
 async function AdminFriendsPage() {
     const friends = await getAllFriends();
+    const t = await getTranslations("page.admin.friend");
 
     return (
         <div className="mb-6 col-start-2 col-span-full space-y-6">
@@ -21,9 +24,11 @@ async function AdminFriendsPage() {
             {friends.length > 0 && (
                 <>
                     <Paper className="p-6">
-                        <span className="text-text-content text-lg mr-3">点击以修改友链</span>
-                        <span className="text-text-subnote">共 {friends.length} 条</span>
-                        <p className="text-sm text-text-subnote">快和朋友们交换友链吧~</p>
+                        <span className="text-text-content text-lg mr-3">{t("clickToEdit")}</span>
+                        <span className="text-text-subnote">{t("count", {count: friends.length})}</span>
+                        {t.rich("label", {
+                            p: (chunks) => <p className="text-sm text-text-subnote">{chunks}</p>,
+                        })}
                     </Paper>
                     <div className="grid grid-cols-2 flex-wrap gap-4 @container">
                         {friends.map((friend) => (

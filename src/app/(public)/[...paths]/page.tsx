@@ -9,6 +9,7 @@ import L from "@/lib/links";
 import {Metadata} from "next";
 import Link from "next/link";
 import {notFound} from "next/navigation";
+import {getLocale, getTranslations} from "next-intl/server";
 
 interface CustomPageProps {
     params: {
@@ -20,6 +21,7 @@ export async function generateMetadata({params}: CustomPageProps): Promise<Metad
     const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const customPage = await getCustomPageBySlug(slug);
+    const locale = await getLocale();
 
     if (!customPage) return {};
 
@@ -43,7 +45,7 @@ export async function generateMetadata({params}: CustomPageProps): Promise<Metad
             ],
             emails: dynamicConfig.profile.email ? [dynamicConfig.profile.email] : undefined,
             siteName: dynamicConfig.site.title,
-            locale: "zh_CN",
+            locale: locale,
             url: L.custom(customPage.slug),
         },
     };
@@ -53,6 +55,7 @@ async function CustomPage({params}: CustomPageProps) {
     const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const customPage = await getCustomPageBySlug(slug);
+    const t = await getTranslations("page.custom-page")
 
     if (!customPage) return notFound();
 
@@ -71,7 +74,7 @@ async function CustomPage({params}: CustomPageProps) {
                         day: "numeric",
                     })}</time>
                 </div>
-                <Link className="hover:text-link-hover" href={L.editor.custom(customPage.slug)}>编辑</Link>
+                <Link className="hover:text-link-hover" href={L.editor.custom(customPage.slug)}>{t("edit")}</Link>
             </div>
             <div className="px-4 md:px-6 text-sm 2xl:text-base">{content}</div>
             <ArticleFloatingButton toc={tocHast.children.length > 0 && toc}/>

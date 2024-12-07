@@ -7,6 +7,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {useEffect, useRef, useState} from "react";
+import {useTranslations} from "next-intl";
 
 interface SelectedState {
     type: "tag" | "series" | "year" | "all";
@@ -26,6 +27,7 @@ interface DropdownSelectorProps {
 function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) {
     const [isOpen, setIsOpen] = useState(false);
     const rootRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations("page.admin.editor.post.ArticleClassifier");
 
     useEffect(() => {
         if (isOpen && rootRef.current) {
@@ -45,7 +47,7 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
                 <button type="button" onClick={toggle}
                         className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
                         id="menu-button" aria-expanded={isOpen} aria-haspopup={isOpen}>
-                    过滤
+                    {t("filter")}
                     <svg className="-mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
                          aria-hidden="true">
                         <path fillRule="evenodd"
@@ -62,9 +64,9 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
                     <button className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
                             role="menuitem" type="button"
                             onClick={() => setSelection({type: "all", value: ""})}>
-                        全部文章
+                        {t("all")}
                     </button>
-                    <p className="px-2 py-1 text-text-subnote text-sm">按系列分类:</p>
+                    <p className="px-2 py-1 text-text-subnote text-sm">{t("bySeries")}</p>
                     {all.series.map(series => (
                         <button key={series} role="menuitem" type="button"
                                 className={clsx("block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover", selected.value === series && "bg-bg-hover")}
@@ -72,7 +74,7 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
                             {series}
                         </button>
                     ))}
-                    <p className="px-2 py-1 text-text-subnote text-sm">按标签分类:</p>
+                    <p className="px-2 py-1 text-text-subnote text-sm">{t("byTags")}</p>
                     {all.tags.map(tag => (
                         <button key={tag} role="menuitem" type="button"
                                 className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
@@ -80,7 +82,7 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
                             {tag}
                         </button>
                     ))}
-                    <p className="px-2 py-1 text-text-subnote text-sm">按年份分类:</p>
+                    <p className="px-2 py-1 text-text-subnote text-sm">{t("byYear")}</p>
                     {all.years.map(year => (
                         <button key={year} role="menuitem" type="button"
                                 className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
@@ -102,6 +104,7 @@ interface ArticleClassifierProps {
 function ArticleClassifier({articles, className}: ArticleClassifierProps) {
     const pathname = usePathname();
     const [selected, setSelected] = useState<SelectedState>({type: "all", value: ""});
+    const t = useTranslations("page.admin.editor.post.ArticleClassifier");
 
     const tags = Array.from(new Set(articles.flatMap(article => article.tags))).sort();
     const series = Array.from(new Set(articles.map(article => article.series))).sort();
@@ -109,10 +112,10 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
 
     const isSelectPage = pathname === L.editor.post();
 
-    const selectedLabel = selected.type === "all" ? "全部文章" :
-        selected.type === "tag" ? `标签: ${selected.value}` :
-            selected.type === "series" ? `系列: ${selected.value}` :
-                `年份: ${selected.value}`;
+    const selectedLabel = selected.type === "all" ? t("all") :
+        selected.type === "tag" ? t("tags", {tag: selected.value}) :
+            selected.type === "series" ? t("series", {series: selected.value}) :
+                t("year", {year: selected.value});
 
     const filteredArticles = articles.filter(article => {
         if (selected.type === "all") return true;
@@ -131,7 +134,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
                     {selected.type === "all" && (
                         <Link href={L.editor.post("new")}
                               className="block p-2 text-sm text-text-content justify-between hover:bg-bg-hover">
-                            新建文章
+                            {t("new")}
                         </Link>
                     )}
                     {filteredArticles.map(article => (

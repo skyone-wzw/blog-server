@@ -2,6 +2,7 @@ import ArticleEditor from "@/components/article-editor/ArticleEditor";
 import {getAllTags, getArticleBySlug} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
+import {getTranslations} from "next-intl/server";
 
 interface ArticleEditorPageProps {
     params: {
@@ -11,12 +12,13 @@ interface ArticleEditorPageProps {
 
 export const generateMetadata = async ({params: params}: ArticleEditorPageProps) => {
     const {slug} = await params;
-    const dynamicConfig = await getDynamicConfig();
+    const {site} = await getDynamicConfig();
     const article = await getArticleBySlug(slug);
+    const t = await getTranslations("page.admin.editor.post.metadata");
 
     return {
-        title: `编辑: ${article?.title} - ${dynamicConfig.site.title}`,
-        description: dynamicConfig.site.description,
+        title: t("title", {siteName: site.title, title: article?.title}),
+        description: t("description", {siteName: site.title, siteDescription: site.description, title: article?.title}),
     };
 };
 

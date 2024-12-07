@@ -2,12 +2,14 @@
 
 import {LoginAction} from "@/lib/actions";
 import {FormEventHandler, useState} from "react";
+import {useTranslations} from "next-intl";
 
 function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const t = useTranslations("page.login")
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
         event.preventDefault();
@@ -15,7 +17,7 @@ function LoginForm() {
         const result = await LoginAction(email, password);
         setLoading(false);
         if (!result) {
-            setMessage("邮箱或密码错误");
+            setMessage(t("error"));
         }
     };
 
@@ -23,7 +25,7 @@ function LoginForm() {
         <form className="max-w-full w-96 flex flex-col space-y-4 flex-nowrap items-stretch" onSubmit={handleSubmit}>
             <div className="w-full">
                 <label htmlFor="form-email" className="block text-sm font-medium leading-6 text-text-content">
-                    邮箱
+                    {t("email")}
                 </label>
                 <div className="mt-2">
                     <input id="form-email" name="email" type="email" autoComplete="email" required
@@ -34,7 +36,7 @@ function LoginForm() {
             </div>
             <div className="w-full">
                 <label htmlFor="form-password" className="block text-sm font-medium leading-6 text-text-content">
-                    密码
+                    {t("password")}
                 </label>
                 <div className="mt-2">
                     <input id="form-password" name="password" type="password" autoComplete="password" required
@@ -47,7 +49,7 @@ function LoginForm() {
             <div className="w-full">
                 <input
                     className="rounded shadow py-1 px-2 w-full bg-button-bg text-button-text hover:bg-button-hover disabled:bg-bg-light"
-                    type="submit" value="登录" disabled={loading}/>
+                    type="submit" value={t("submit")} disabled={loading}/>
             </div>
         </form>
     );

@@ -2,17 +2,20 @@
 
 import clsx from "clsx";
 import {MouseEventHandler, ReactNode, useEffect, useRef, useState} from "react";
+import {useTranslations} from "next-intl";
 
 interface DangerousButtonProps {
     disabled?: boolean;
     className?: string;
+    confirmText?: string;
     children: ReactNode;
     onClick: () => void;
 }
 
-function DangerousButton({disabled, className, children, onClick}: DangerousButtonProps) {
+function DangerousButton({disabled, className, confirmText, children, onClick}: DangerousButtonProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const [isConfirm, setIsConfirm] = useState(0);
+    const t = useTranslations("DangerousButton");
 
     useEffect(() => {
         if (isConfirm) {
@@ -59,7 +62,7 @@ function DangerousButton({disabled, className, children, onClick}: DangerousButt
             })}
             disabled={disabled}
             onClick={handleClick} ref={ref}>
-            {isConfirm !== 0 ? "确认吗？" : children}
+            {isConfirm !== 0 ? (confirmText ?? t("confirm")) : children}
         </button>
     );
 }

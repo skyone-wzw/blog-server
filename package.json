@@ -22,6 +22,7 @@
     "feed": "^4.2.2",
     "monaco-editor": "^0.52.0",
     "next": "15.0.3",
+    "next-intl": "^3.26.0",
     "nextjs-toploader": "^3.7.15",
     "react": "^18",
     "react-dom": "^18",

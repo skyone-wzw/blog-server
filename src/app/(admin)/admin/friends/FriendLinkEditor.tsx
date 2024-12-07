@@ -7,6 +7,7 @@ import {Friend, FriendCreate, FriendPatch} from "@/lib/friends";
 import {CreateFriendAction, DeleteFriendAction, SaveFriendAction} from "@/lib/friends-actions";
 import clsx from "clsx";
 import {FormEventHandler, MouseEventHandler, ReactNode, useEffect, useState} from "react";
+import {useTranslations} from "next-intl";
 
 interface FriendLinkEditorDialogProps {
     open: boolean;
@@ -23,6 +24,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
     const [siteName, setSiteName] = useState("");
     const [siteUrl, setSiteUrl] = useState("");
     const [description, setDescription] = useState("");
+    const t = useTranslations("page.admin.friend.FriendLinkEditorDialog");
 
     useEffect(() => {
         if (friend) {
@@ -45,15 +47,15 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
     const handleSave: FormEventHandler = async (e) => {
         e.preventDefault();
         if (!name) {
-            alert("名称不能为空");
+            alert(t("alert.nameEmpty"));
             return;
         }
         if (!siteName) {
-            alert("网站名称不能为空");
+            alert(t("alert.siteNameEmpty"));
             return;
         }
         if (!siteUrl) {
-            alert("网站链接不能为空");
+            alert(t("alert.siteUrlEmpty"));
             return;
         }
         if (friend) {
@@ -76,7 +78,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
             if (result) {
                 onClose();
             } else {
-                alert("创建失败");
+                alert(t("alert.deleteError"));
             }
         } else {
             const friendCreate: FriendCreate = {
@@ -93,7 +95,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
             if (result) {
                 onClose();
             } else {
-                alert("创建失败");
+                alert(t("alert.createError"));
             }
         }
     };
@@ -103,11 +105,11 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
             <form
                 onSubmit={handleSave}
                 className="bg-bg-light rounded-lg shadow p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
-                <div className="pb-4 text-text-main">编辑信息</div>
+                <div className="pb-4 text-text-main">{t("title")}</div>
                 <div className="w-full">
                     <label htmlFor="friend-link-editor-info-name"
                            className="block text-sm font-medium leading-6 text-text-content">
-                        名称
+                        {t("name")}
                     </label>
                     <div className="mt-2">
                         <input id="friend-link-editor-info-name" type="text" required value={name}
@@ -118,7 +120,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                 <div className="w-full">
                     <label htmlFor="friend-link-editor-info-email"
                            className="block text-sm font-medium leading-6 text-text-content">
-                        邮箱
+                        {t("email")}
                     </label>
                     <div className="mt-2">
                         <input id="friend-link-editor-info-email" type="email" value={email}
@@ -129,7 +131,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                 <div className="w-full">
                     <label htmlFor="friend-link-editor-info-avatar"
                            className="block text-sm font-medium leading-6 text-text-content">
-                        头像
+                        {t("avatar")}
                     </label>
                     <div className="mt-2">
                         <input id="friend-link-editor-info-avatar" type="url" value={avatar}
@@ -140,7 +142,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                 <div className="w-full">
                     <label htmlFor="friend-link-editor-info-site-name"
                            className="block text-sm font-medium leading-6 text-text-content">
-                        网站名称
+                        {t("siteName")}
                     </label>
                     <div className="mt-2">
                         <input id="friend-link-editor-info-site-name" type="text" required value={siteName}
@@ -151,7 +153,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                 <div className="w-full">
                     <label htmlFor="friend-link-editor-info-site-url"
                            className="block text-sm font-medium leading-6 text-text-content">
-                        网站链接
+                        {t("siteUrl")}
                     </label>
                     <div className="mt-2">
                         <input id="friend-link-editor-info-site-url" type="url" required value={siteUrl}
@@ -162,7 +164,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                 <div className="w-full">
                     <label htmlFor="friend-link-editor-info-description"
                            className="block text-sm font-medium leading-6 text-text-content">
-                        简要概述
+                        {t("summary")}
                     </label>
                     <div className="mt-2">
                         <input id="friend-link-editor-info-site-url" type="text" required value={description}
@@ -173,11 +175,11 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                 <div className="flex flex-row mt-2 gap-4">
                     <input
                         className="w-0 grow rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
-                        type="submit" disabled={loading} value="保存"/>
+                        type="submit" disabled={loading} value={t("save")}/>
                     <button
                         className="w-0 grow rounded-md outline outline-bg-tag outline-1 px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover"
                         type="button" disabled={loading} onClick={onClose}>
-                        取消
+                        {t("cancel")}
                     </button>
                 </div>
             </form>
@@ -193,11 +195,12 @@ interface FriendLinkEditorProps {
 
 export function FriendLinkEditor({friend, className, avatarElement}: FriendLinkEditorProps) {
     const [open, setOpen] = useState(false);
+    const t = useTranslations("page.admin.friend.FriendLinkEditorDialog");
 
     const handleDeleteFriendLink = async () => {
         const result = await DeleteFriendAction(friend.id);
         if (!result) {
-            alert("删除失败");
+            alert(t("alert.deleteError"));
         }
     };
 
@@ -219,7 +222,7 @@ export function FriendLinkEditor({friend, className, avatarElement}: FriendLinkE
                 <DangerousButton
                     className="p-2 mx-2 rounded-md outline outline-button-bg outline-1 px-3 py-2 text-sm"
                     onClick={handleDeleteFriendLink}>
-                    删除友链
+                    {t("delete")}
                 </DangerousButton>
             </div>
             <FriendLinkEditorDialog open={open} onClose={() => setOpen(false)} friend={friend}/>
@@ -249,6 +252,7 @@ interface FriendLinkCreatorProps {
 
 export function FriendLinkCreator({className}: FriendLinkCreatorProps) {
     const [open, setOpen] = useState(false);
+    const t = useTranslations("page.admin.friend.FriendLinkEditorDialog");
     const handleClose: MouseEventHandler = (e) => {
         e.stopPropagation();
         setOpen(true);
@@ -259,7 +263,7 @@ export function FriendLinkCreator({className}: FriendLinkCreatorProps) {
             <Paper
                 onClick={handleClose}
                 className={clsx("p-4 flex flex-row justify-center items-center hover:bg-bg-hover outline outline-1 outline-bg-quote", className)}>
-                <span className="mr-2 text-lg select-none">添加友链</span>
+                <span className="mr-2 text-lg select-none">{t("add")}</span>
                 <AddIcon/>
             </Paper>
             <FriendLinkEditorDialog open={open} onClose={() => setOpen(false)}/>

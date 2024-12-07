@@ -5,6 +5,7 @@ import {getDynamicConfig} from "@/lib/config";
 import fs from "fs/promises";
 import {ImageResponse} from "next/og";
 import sharp from "sharp";
+import {getFormatter} from "next-intl/server";
 
 const cacheDir = config.dir.cache;
 const coverDir = config.dir.cover;
@@ -37,13 +38,6 @@ async function getImageDataUrl(id?: string | null) {
     return `data:image/png;base64,${buffer.toString("base64")}`;
 }
 
-function formatDate(date: Date) {
-    const year = date.getFullYear().toString();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${day}`;
-}
-
 interface ArticleLikeType {
     id: string;
     title: string;
@@ -67,6 +61,8 @@ async function generateCover(article: ArticleLikeType) {
     const icon = await getIcon();
     const iconBuffer = await sharp(await icon.arrayBuffer()).png().toBuffer();
     const iconUrl = `data:image/png;base64,${iconBuffer.toString("base64")}`;
+
+    const formatter = await getFormatter();
 
     const imageResponse = new ImageResponse(
         <div style={{
@@ -147,7 +143,7 @@ async function generateCover(article: ArticleLikeType) {
                             marginLeft: 20,
                             marginRight: 0,
                             color: "#64778b",
-                        }}>{formatDate(article.createdAt)}</p>
+                        }}>{formatter.dateTime(article.createdAt, "default")}</p>
                     </div>
                 </div>
                 <div style={{width: 860, fontSize: 24, color: "#64778b", height: 108, overflow: "hidden"}}>

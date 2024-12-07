@@ -1,0 +1,449 @@
+{
+  "language": {
+    "en": "English",
+    "zh-hans": "Simplified Chinese"
+  },
+  "ArticleFloatingButton": {
+    "scrollToTop": "Scroll to Top",
+    "toc": "Table of Contents",
+    "showToc": "Show TOC"
+  },
+  "ArticleSummaryCard": {
+    "readMore": "Read More"
+  },
+  "AsideArchiveList": {
+    "title": "Archive"
+  },
+  "AsideArticleToc": {
+    "title": "Table of Contents"
+  },
+  "AsideProfile": {
+    "github": {
+      "title": "Visit my GitHub"
+    },
+    "zhihu": {
+      "title": "Zhihu"
+    },
+    "email": {
+      "title": "Send me an email?"
+    },
+    "rss": {
+      "title": "Subscribe to my RSS"
+    }
+  },
+  "AsideRecentArticles": {
+    "title": "Recent Articles"
+  },
+  "AsideSeries": {
+    "title": "Series"
+  },
+  "AsideTags": {
+    "title": "Tags"
+  },
+  "DangerousButton": {
+    "confirm": "Are you sure?"
+  },
+  "FooterPagination": {
+    "prev": "Prev",
+    "next": "Next"
+  },
+  "admin": {
+    "QuickAction": {
+      "execute": "Execute"
+    }
+  },
+  "article-editor": {
+    "ArticleEditor": {
+      "slug": "Slug",
+      "title": "Title",
+      "editMetadata": "Edit Metadata",
+      "cover": "Cover Image",
+      "coverDescription": "Randomly selected by default. The recommended ratio is 1300x630. If it is not this ratio, it may be cropped.",
+      "summary": "Summary",
+      "series": "Series",
+      "tags": "Tags",
+      "tagQuickAdd": "Quick Add",
+      "tagCreate": "Create Tag",
+      "createdAt": "Create At",
+      "saveMetadata": "Save Metadata",
+      "edit": "Edit",
+      "preview": "Preview",
+      "uploadImage": "Upload Image",
+      "toArticlePage": "Article Page",
+      "save": "Save",
+      "delete": "Delete",
+      "back": "Back",
+      "backDescription": "Back to Article List",
+      "logout": "Logout",
+      "alert": {
+        "slugEmpty": "Slug cannot be empty",
+        "titleEmpty": "Title cannot be empty",
+        "slugError": "Slug can only contain lowercase letters, numbers, and hyphens",
+        "slugReserved": "Slug cannot be \"new\" or \"index\"",
+        "tagError": "Tags cannot contain \"/\" or \"\\\"",
+        "seriesError": "Series cannot contain \"/\" or \"\\\"",
+        "saveError": "Save failed",
+        "deleteError": "Delete failed"
+      },
+      "defaultSeries": "uncategorized"
+    },
+    "ImageUploader": {
+      "title": "Upload Image",
+      "inputLabel": "Select Image",
+      "uploading": "Uploading...",
+      "uploaded": "Uploaded: {result}",
+      "submit": "Upload"
+    },
+    "MarkdownPreview": {
+      "renderError": "Render Failed",
+      "renderErrorDescription": "Please check if the Markdown format is correct"
+    }
+  },
+  "custom-page-editor": {
+    "CustomPageEditor": {
+      "slug": "Slug",
+      "title": "Title",
+      "editMetadata": "Edit Metadata",
+      "summary": "Summary",
+      "saveMetadata": "Save Metadata",
+      "edit": "Edit",
+      "preview": "Preview",
+      "uploadImage": "Upload Image",
+      "toCustomPage": "View Page",
+      "save": "Save",
+      "delete": "Delete",
+      "back": "Back",
+      "backDescription": "Back to Page List",
+      "logout": "Logout",
+      "alert": {
+        "slugEmpty": "Slug cannot be empty",
+        "titleEmpty": "Title cannot be empty",
+        "slugError": "Slug can only contain lowercase letters, numbers, and hyphens",
+        "slugReserved": "Slug cannot start with {reserved}",
+        "saveError": "Save failed",
+        "deleteError": "Delete failed"
+      }
+    }
+  },
+  "comment": {
+    "CommentTree": {
+      "title": "{count, plural, =0 {No comments yet} other {# comments from the Federation}}",
+      "searchInFediverse": "Search in the Federation",
+      "copied": "Copied",
+      "copy": "Copy",
+      "noComments": "Be the first to comment in the Federation!"
+    },
+    "CommentItem": {
+      "from": "From <link>@{uid}</link>",
+      "replyTo": "Reply to <reply>@{uid}</reply>",
+      "createdAt": "Commented at {time}",
+      "viewInFediverse": "Details",
+      "replyInFediverse": "Reply",
+      "copyLink": "Copy Link"
+    }
+  },
+  "header": {
+    "AppHeader": {
+      "home": "Back to Home",
+      "admin": "Admin Console",
+      "search": "Search"
+    },
+    "HeaderColorToggle": {
+      "switch": "Switch Theme",
+      "light": "Light mode",
+      "dark": "Dark mode",
+      "system": "Follow system"
+    },
+    "HeaderLogo": {
+      "alt": "Logo"
+    }
+  },
+  "page": {
+    "not-found": {
+      "title": "Page Not Found",
+      "description": "<p>We can't find the page you're looking for.</p><p>Please contact the owner of the original link source website and let them know the link is broken.</p>"
+    },
+    "error": {
+      "title": "Unknown Error",
+      "description": "<p>We can't display the page you requested.</p><p>Please try again later, or contact the website administrator.</p>",
+      "retry": "Retry Framework",
+      "reload": "Reload Page"
+    },
+    "post": {
+      "edit": "Edit"
+    },
+    "custom-page": {
+      "edit": "Edit"
+    },
+    "login": {
+      "title": "Login to your account",
+      "error": "Incorrect email or password",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login",
+      "metadata": {
+        "title": "login - {siteName}",
+        "description": "{siteName} - Login before you can continue"
+      }
+    },
+    "series": {
+      "title": "Series: {series}",
+      "count": "Total {count} {count, plural, =1 {article} other {articles}}",
+      "metadata-all": {
+        "title": "All Categories - {siteName}",
+        "description": "Articles under all categories. {siteDescription}"
+      },
+      "metadata": {
+        "title": "{series} - {siteName}",
+        "description": "Articles under {series}. {siteDescription}"
+      }
+    },
+    "tags": {
+      "all": "All Tags:",
+      "title": "{tag}",
+      "count": "Total {count} {count, plural, =1 {article} other {articles}}",
+      "metadata-all": {
+        "title": "All Tags - {siteName}",
+        "description": "Articles under all tags. {siteDescription}"
+      },
+      "metadata": {
+        "title": "{tag} - {siteName}",
+        "description": "Articles under {tag}. {siteDescription}"
+      }
+    },
+    "archive": {
+      "title": "{year}",
+      "count": "Total {count} {count, plural, =1 {article} other {articles}}",
+      "metadata-all": {
+        "title": "Archive - {siteName}",
+        "description": "All articles on {siteName}. {siteDescription}"
+      },
+      "metadata": {
+        "title": "Archive: {year} - {siteName}",
+        "description": "Articles published in {year}, page {page}. {siteDescription}"
+      }
+    },
+    "admin": {
+      "aside": {
+        "GeneralSettings": {
+          "title": "General Settings",
+          "AdminConsole": "Admin Console",
+          "ArticleEditor": "Article Editor",
+          "CustomPageEditor": "Custom Page Editor",
+          "FriendLink": "Friend Link"
+        },
+        "SiteSettings": {
+          "title": "Site Settings",
+          "ProfileSettings": "Profile Settings",
+          "SiteSettings": "Site Settings",
+          "NavbarSettings": "Navbar Settings",
+          "FediverseSettings": "Fediverse Settings"
+        },
+        "AssetsManagement": {
+          "title": "Assets Management",
+          "AssetsManagement": "Image Management"
+        }
+      },
+      "home": {
+        "metadata": {
+          "title": "Admin Console - {siteName}",
+          "description": "{siteDescription}"
+        },
+        "SystemUsage": {
+          "title": "System Usage",
+          "databaseSize": "Database Size",
+          "cacheFileSize": "Cache File Size",
+          "memoryUsage": "Memory Usage",
+          "systemTotalMemory": "System Total Memory",
+          "systemMemoryUsage": "System Memory Usage",
+          "systemMemoryUsageRate": "System Memory Usage Rate"
+        },
+        "ArticleStatistic": {
+          "title": "Article Statistics",
+          "article": "Article",
+          "articleCount": "{count} {count, plural, =1 {article} other {articles}}",
+          "word": "Word Count",
+          "wordCount": "{count} {count, plural, =1 {word} other {words}}",
+          "series": "Series",
+          "seriesCount": "{count} {count, plural, =1 {series} other {series}}",
+          "tag": "Tag",
+          "tagCount": "{count} {count, plural, =1 {tag} other {tags}}"
+        },
+        "AdminQuickActions": {
+          "title": "Quick Actions",
+          "RemoveUnusedAssetsAction": {
+            "title": "Remove Unused Assets",
+            "description": "Clean up all uploaded images that are not referenced by any articles."
+          },
+          "RemoveArticleCacheAction": {
+            "title": "Clear Article Cache",
+            "description": "Clear the server-side article precompile cache. The cache does not affect the article content and will be regenerated on the next visit."
+          },
+          "PreprocessArticleAction": {
+            "title": "Preprocess Article Cache",
+            "description": "Precompile cache for all articles to improve article access speed. This operation is usually performed automatically."
+          },
+          "RemoveCoverCacheAction": {
+            "title": "Clear Cover Cache",
+            "description": "Clear the cache of the article cover. The cache will be regenerated on the next visit."
+          },
+          "GenerateCoverAction": {
+            "title": "Generate Cover",
+            "description": "Pre-generate covers for all articles. This operation is usually performed automatically."
+          },
+          "PreprocessCommentAction": {
+            "title": "Preprocess Comment Cache",
+            "description": "Regenerate the precompile cache for comments. Use when the comment format is incorrect after the program version is updated."
+          }
+        }
+      },
+      "editor": {
+        "post": {
+          "default": {
+            "title": "New Article",
+            "series": "Uncategorized"
+          },
+          "metadata": {
+            "title": "Draft: {title} - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "metadata-new": {
+            "title": "New Article - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "ArticleClassifier": {
+            "filter": "Filter",
+            "new": "New Article",
+            "all": "All Articles",
+            "series": "Series: {series}",
+            "tags": "Tags: {tag}",
+            "year": "Year: {year}",
+            "bySeries": "By Series:",
+            "byTags": "By Tags:",
+            "byYear": "By Year:"
+          }
+        },
+        "custom-page": {
+          "default": {
+            "title": "New Page"
+          },
+          "metadata": {
+            "title": "Draft：{title} - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "metadata-new": {
+            "title": "New Page - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "CustomPageSelector": {
+            "new": "New Page",
+            "all": "All Pages"
+          }
+        }
+      },
+      "friend": {
+        "clickToEdit": "Click to edit friend links",
+        "count": "Total {count} {count, plural, =1 {link} other {links}}",
+        "label": "<p>Exchange friend links with friends~</p>",
+        "metadata": {
+          "title": "Friend Link Management - {siteName}",
+          "description": "{siteDescription}"
+        },
+        "FriendLinkEditorDialog": {
+          "title": "Edit Friend Link",
+          "name": "Name",
+          "email": "Email",
+          "avatar": "Avatar",
+          "siteName": "Site Name",
+          "siteUrl": "Site URL",
+          "summary": "Summary",
+          "save": "Save",
+          "cancel": "Cancel",
+          "delete": "Delete Friend Link",
+          "add": "Add Friend Link",
+          "alert": {
+            "nameEmpty": "Name cannot be empty",
+            "siteNameEmpty": "Site name cannot be empty",
+            "siteUrlEmpty": "Site URL cannot be empty",
+            "deleteError": "Delete failed",
+            "createError": "Create failed"
+          }
+        }
+      },
+      "settings": {
+        "SiteEditor": {
+          "title": "Site Settings",
+          "siteLanguage": "Site Language",
+          "siteLogo": "Site Logo",
+          "siteName": "Site Title",
+          "siteOpenGraphImage": "Open Graph Image",
+          "siteOpenGraphImageDescription": "To get the correct cover when sharing to social software, the image must be in PNG format with a size of 1300x630 pixels",
+          "siteDescription": "Site Description",
+          "siteKeywords": "Site Keywords",
+          "delete": "Delete",
+          "add": "Add",
+          "save": "Save",
+          "alert": {
+            "error": "Save failed: {message}",
+            "success": "Save success!"
+          }
+        },
+        "ProfileEditor": {
+          "title": "Profile Settings",
+          "avatar": "Avatar",
+          "name": "Name",
+          "email": "Email",
+          "cover": "Banner Image",
+          "description": "Description",
+          "save": "Save",
+          "social": {
+            "title": "Social Links",
+            "github": "GitHub",
+            "zhihu": "Zhihu"
+          },
+          "alter": {
+            "error": "Save failed: {message}",
+            "success": "Save success!"
+          }
+        },
+        "NavbarEditor": {
+          "title": "Navbar Settings",
+          "description": "The navigation bar is displayed at the top, and it is recommended not to exceed 6.",
+          "add": "Add",
+          "delete": "Delete",
+          "save": "Save",
+          "reset": "Reset",
+          "nameLabel": "Name",
+          "urlLabel": "URL",
+          "alert": {
+            "error": "Save failed: {message}",
+            "success": "Save success!"
+          }
+        },
+        "FediverseEditor": {
+          "title": "Fediverse Settings",
+          "description": "<p>The Fediverse is a decentralized social network where you can set up your account here.</p>",
+          "enable": "Enable Fediverse",
+          "enableDescription": "After enabling the Fediverse, you will receive comments from the Fediverse. The article is currently not synchronized to the Fediverse.",
+          "enabled": "Enabled",
+          "disabled": "Disabled",
+          "name": "Name",
+          "nameDescription": "Your nickname in the Fediverse.",
+          "preferredUsername": "User ID",
+          "preferredUsernameDescription": "<b>Required</b>, the preferred username is used to uniquely identify your account and can only contain letters, numbers, underscores, and hyphens.",
+          "summary": "Bio",
+          "summaryDescription": "Your bio will be displayed in the Fediverse.",
+          "regenerateKeyPair": "Regenerate Key Pair",
+          "regenerate": "Regenerate",
+          "save": "Save",
+          "alert": {
+            "error": "Save failed: {message}",
+            "success": "Save success!",
+            "regenerateSuccess": "The key pair has been regenerated!",
+            "regenerateError": "Key pair regeneration failed, please try again later."
+          }
+        }
+      }
+    }
+  }
+}

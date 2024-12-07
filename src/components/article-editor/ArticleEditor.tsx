@@ -19,14 +19,16 @@ import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {MouseEventHandler, useActionState, useCallback, useEffect, useRef, useState} from "react";
 import {useFormStatus} from "react-dom";
+import {useTranslations} from "next-intl";
 
 function SubmitCoverButton() {
     const {pending} = useFormStatus();
+    const t = useTranslations("article-editor.ArticleEditor");
 
     return (
         <input
             className="rounded-md bg-button-bg mt-1 px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
-            disabled={pending} type="submit" value="上传图片"/>
+            disabled={pending} type="submit" value={t("uploadImage")}/>
     );
 }
 
@@ -60,6 +62,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
     const [tags, setTags] = useState<Array<string>>([]);
     const [newTag, setNewTag] = useState("");
     const [createdAt, setCreatedAt] = useState(formatDate(article.createdAt));
+    const t = useTranslations("article-editor.ArticleEditor");
 
     const coverSelectorRef = useRef<HTMLInputElement>(null);
 
@@ -78,30 +81,30 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
     const handleSaveArticle = useCallback(async () => {
         // check
         if (!slug) {
-            alert("链接不能为空");
+            alert(t("alert.slugEmpty"));
             return;
         }
         if (!title) {
-            alert("标题不能为空");
+            alert(t("alert.titleEmpty"));
             return;
         }
         if (!slug.match(/^[a-z0-9-]+$/)) {
-            alert("链接只能包含小写字母、数字和连字符");
+            alert(t("alert.slugError"));
             return;
         }
         if (slug === "new" || slug === "index") {
             // 不是不能正确显示, 只是不能正确静态导出
-            alert("链接不能为 new 或 index");
+            alert(t("alert.slugReserved"));
             return;
         }
         if (tags.find(tag => tag.match(/[\/\\]/))) {
             // 不是不能正确显示, 只是 Windows 下不能正确静态导出, Linux 下没问题
-            alert("标签不能包含 / 或 \\");
+            alert(t("alert.tagError"));
             return;
         }
         if (series.match(/[\/\\]/)) {
             // 同上
-            alert("系列不能包含 / 或 \\");
+            alert(t("alert.seriesError"));
             return;
         }
 
@@ -113,7 +116,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                 title: title,
                 description: description,
                 content: content,
-                series: series || "未分类",
+                series: series || t("defaultSeries"),
                 tags: tags.map(tag => tag.trim()),
                 published: true,
             };
@@ -125,7 +128,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                 title: title.trim(),
                 description: description.trim(),
                 content: content.trim(),
-                series: series.trim() || "未分类",
+                series: series.trim() || t("defaultSeries"),
                 tags: tags.map(tag => tag.trim()),
                 updatedAt: new Date(),
             };
@@ -138,7 +141,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
         if (result) {
             router.replace(L.editor.post(slug));
         } else {
-            alert("保存失败");
+            alert(t("alert.saveError"));
         }
         setIsLoading(false);
     }, [article, slug, title, description, content, series, tags, createdAt, router]);
@@ -190,7 +193,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
             if (result) {
                 router.replace(L.editor.post());
             } else {
-                alert("删除失败");
+                alert(t("alert.deleteError"));
             }
         }
     };
@@ -216,13 +219,13 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
         <main className={clsx("flex-grow flex-col space-y-2 m-2", className)}>
             <div className="flex flex-row flex-wrap justify-start items-center gap-x-4 gap-y-2">
                 <div className="flex flex-row flex-nowrap items-center max-w-full basis-64 flex-shrink flex-grow">
-                    <label htmlFor="article-editor-menu-slug" className="mr-2 text-text-content">链接</label>
+                    <label htmlFor="article-editor-menu-slug" className="mr-2 text-text-content">{t("slug")}</label>
                     <input id="article-editor-menu-slug" type="text" required value={slug}
                            onChange={e => setSlug(e.target.value)}
                            className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
                 </div>
                 <div className="flex flex-row flex-nowrap items-center max-w-full basis-96 flex-shrink flex-grow">
-                    <label htmlFor="article-editor-menu-title" className="mr-2 text-text-content">标题</label>
+                    <label htmlFor="article-editor-menu-title" className="mr-2 text-text-content">{t("title")}</label>
                     <input id="article-editor-menu-title" type="text" required value={title}
                            onChange={e => setTitle(e.target.value)}
                            className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
@@ -231,16 +234,16 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                     <button
                         onClick={handleOpenEditInfo} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
-                        编辑信息
+                        {t("editMetadata")}
                     </button>
                     <Dialog open={isEditInfo} blur clickOutsideClose onClose={() => setIsEditInfo(false)}>
                         <Paper
                             className="p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
-                            <div className="pb-4 text-text-main">编辑信息</div>
+                            <div className="pb-4 text-text-main">{t("editMetadata")}</div>
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-slug"
                                        className="block text-sm font-medium leading-6 text-text-content">
-                                    链接
+                                    {t("slug")}
                                 </label>
                                 <div className="mt-2">
                                     <input id="article-editor-info-slug" type="text" required value={slug}
@@ -251,7 +254,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-email"
                                        className="block text-sm font-medium leading-6 text-text-content">
-                                    标题
+                                    {t("title")}
                                 </label>
                                 <div className="mt-2">
                                     <input id="article-editor-info-email" type="text" required value={title}
@@ -265,9 +268,9 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                     <input type="hidden" name="slug" value={article.slug}/>
                                     <label htmlFor="article-editor-cover"
                                            className="block text-sm font-medium leading-6 text-text-content">
-                                        封面背景
+                                        {t("cover")}
                                         <p className="text-sm text-text-subnote">
-                                            默认随机选择。比例以 1300x630 为佳，如果不是这个比例，可能会被裁剪。
+                                            {t("coverDescription")}
                                         </p>
                                     </label>
                                     <div className="mt-1">
@@ -286,7 +289,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-description"
                                        className="block text-sm font-medium leading-6 text-text-content">
-                                    简要概述
+                                    {t("summary")}
                                 </label>
                                 <div className="mt-2">
                                     <textarea id="article-editor-info-description" required value={description}
@@ -297,7 +300,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-series"
                                        className="block text-sm font-medium leading-6 text-text-content">
-                                    系列
+                                    {t("series")}
                                 </label>
                                 <div className="mt-2 flex flex-col lg:flex-row">
                                     <input id="article-editor-info-series" type="text" required value={series}
@@ -308,7 +311,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-tags"
                                        className="block text-sm font-medium leading-6 text-text-content">
-                                    标签
+                                    {t("tags")}
                                 </label>
                                 <div
                                     className="flex flex-row flex-wrap p-2 md:p-3 text-sm text-text-content gap-2 select-none">
@@ -322,7 +325,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 </div>
                                 <label htmlFor="article-editor-info-tags"
                                        className="block text-sm font-medium leading-6 text-text-subnote">
-                                    快速添加
+                                    {t("tagQuickAdd")}
                                 </label>
                                 <div
                                     className="flex flex-row flex-wrap p-2 md:p-3 text-sm text-text-subnote gap-2 select-none">
@@ -341,14 +344,14 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                     <button
                                         className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
                                         type="button" onClick={() => addTag()}>
-                                        添加
+                                        {t("tagCreate")}
                                     </button>
                                 </div>
                             </div>
                             <div className="w-full">
                                 <label htmlFor="article-editor-info-created-at"
                                        className="block text-sm font-medium leading-6 text-text-content">
-                                    创建时间
+                                    {t("createdAt")}
                                 </label>
                                 <div className="mt-2 flex flex-col lg:flex-row">
                                     <input id="article-editor-info-created-at" type="datetime-local" required
@@ -359,20 +362,20 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                             <button
                                 className="mt-2 w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
                                 type="button" onClick={() => setIsEditInfo(false)}>
-                                确定
+                                {t("saveMetadata")}
                             </button>
                         </Paper>
                     </Dialog>
                 </div>
                 <button onClick={() => setIsPreview(prev => !prev)} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover xl:hidden">
-                    {isPreview ? "编辑" : "预览"}
+                    {isPreview ? t("edit") : t("preview")}
                 </button>
                 <div>
                     <button
                         onClick={handleOpenImageUploader} type="button"
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
-                        上传图片
+                        {t("uploadImage")}
                     </button>
                     <Dialog open={isUploadImage} blur clickOutsideClose
                             onClose={() => setIsUploadImage(false)}>
@@ -383,30 +386,30 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                     <Link
                         href={L.post(article.slug)}
                         className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
-                        转到文章
+                        {t("toArticlePage")}
                     </Link>
                 )}
                 <button
                     onClick={handleSaveArticle} disabled={isLoading} type="button"
                     className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover">
-                    保存
+                    {t("save")}
                 </button>
                 {article.id && (
                     <DangerousButton
                         className="rounded-md bg-bg-light px-3 py-2 text-sm shadow-sm hover:bg-bg-hover"
                         onClick={handleDeleteArticle}>
-                        删除文章
+                        {t("delete")}
                     </DangerousButton>
                 )}
                 <Link
-                    href={L.editor.post()} title="返回文章选择页"
+                    href={L.editor.post()} title={t("backDescription")}
                     className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover lg:hidden">
-                    返回
+                    {t("back")}
                 </Link>
                 <button
                     onClick={handleLogout} type="button"
                     className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
-                    登出
+                    {t("logout")}
                 </button>
             </div>
             <MarkdownEditor initContent={article.content} content={content} setContent={setContent}

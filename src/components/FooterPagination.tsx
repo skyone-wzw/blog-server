@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {ReactNode} from "react";
+import {getTranslations} from "next-intl/server";
 
 type Page2Link = (page: number) => string;
 
@@ -62,8 +63,10 @@ function pagination(current: number, total: number, getLink: Page2Link): ReactNo
     ));
 }
 
-function FooterPagination({current, total, getLink}: MainPagePaginationProps) {
+async function FooterPagination({current, total, getLink}: MainPagePaginationProps) {
+    const t = await getTranslations("FooterPagination");
     if (total <= 1) return null;
+
     return (
         <div className="flex flex-row flex-nowrap justify-between items-center">
             {current === 1 ? (
@@ -71,7 +74,7 @@ function FooterPagination({current, total, getLink}: MainPagePaginationProps) {
             ) : (
                 <Link className="text-text-content bg-bg-light text-sm p-2 rounded-lg hover:text-link-hover"
                       href={current === 2 ? getLink(1) : getLink(current - 1)}>
-                    上一页
+                    {t("prev")}
                 </Link>
             )}
             <span className="text-text-subnote lg:hidden">
@@ -85,7 +88,7 @@ function FooterPagination({current, total, getLink}: MainPagePaginationProps) {
             ) : (
                 <Link className="text-text-content bg-bg-light text-sm p-2 rounded-lg hover:text-link-hover"
                       href={getLink(current + 1)}>
-                    下一页
+                    {t("next")}
                 </Link>
             )}
         </div>

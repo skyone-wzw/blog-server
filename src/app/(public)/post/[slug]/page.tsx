@@ -13,6 +13,7 @@ import Link from "next/link";
 import {notFound} from "next/navigation";
 import CommentTree from "@/components/comment/CommentTree";
 import {getCommentsByArticleId} from "@/lib/comment";
+import {getLocale, getTranslations} from "next-intl/server";
 
 interface PostPageProps {
     params: {
@@ -22,6 +23,7 @@ interface PostPageProps {
 
 export async function generateMetadata({params}: PostPageProps) {
     const slug = decodeURIComponent((await params).slug);
+    const locale = await getLocale();
     const article = await getArticleBySlug(slug);
 
     if (!article) return {};
@@ -49,7 +51,7 @@ export async function generateMetadata({params}: PostPageProps) {
             ],
             emails: dynamicConfig.profile.email ? [dynamicConfig.profile.email] : undefined,
             siteName: dynamicConfig.site.title,
-            locale: "zh_CN",
+            locale: locale,
             url: L.post(article.slug),
             images: [
                 {
@@ -67,6 +69,7 @@ async function PostPage({params}: PostPageProps) {
     const slug = decodeURIComponent((await params).slug);
     const article = await getArticleBySlug(slug);
     const dynamicConfig = await getDynamicConfig();
+    const t = await getTranslations("page.post");
 
     if (!article) return notFound();
 
@@ -95,7 +98,7 @@ async function PostPage({params}: PostPageProps) {
                         <Link className="text-text-content hover:text-link-hover"
                               href={L.series(article.series)}>{article.series}</Link>
                     </div>
-                    <Link className="hover:text-link-hover" href={L.editor.post(article.slug)}>编辑</Link>
+                    <Link className="hover:text-link-hover" href={L.editor.post(article.slug)}>{t("edit")}</Link>
                 </div>
                 <div className="px-4 md:px-6 text-sm 2xl:text-base">{content}</div>
                 <ArticleFooterInfo article={article}/>

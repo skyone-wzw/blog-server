@@ -5,6 +5,7 @@ import {RegenerateFediverseKeyPair, SaveFediverseConfigAction, SaveProfileAction
 import {useActionState, useEffect, useRef, useState} from "react";
 import {useFormStatus} from "react-dom";
 import DangerousButton from "@/components/DangerousButton";
+import {useTranslations} from "next-intl";
 
 const initialState: SaveProfileActionState = {
     error: false,
@@ -14,6 +15,7 @@ const initialState: SaveProfileActionState = {
 
 function SubmitButton() {
     const {pending} = useFormStatus();
+    const t = useTranslations("page.admin.settings.FediverseEditor");
 
     const formSubmitRef = useRef<HTMLInputElement>(null);
 
@@ -35,7 +37,7 @@ function SubmitButton() {
         <input
             ref={formSubmitRef}
             className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
-            disabled={pending} type="submit" value="保存联邦配置"/>
+            disabled={pending} type="submit" value={t("save")}/>
     );
 }
 
@@ -49,6 +51,7 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
     const [preferredUsername, setPreferredUsername] = useState("");
     const [summary, setSummary] = useState("");
     const [loading, setLoading] = useState(false);
+    const t = useTranslations("page.admin.settings.FediverseEditor");
 
     const [formState, formAction] = useActionState(SaveFediverseConfigAction, initialState);
 
@@ -62,21 +65,21 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
     useEffect(() => {
         if (formState.timestamp > 0) {
             if (formState.error) {
-                alert(`保存失败：${formState.message}`);
+                alert(t("alert.error", {message: formState.message}));
             } else {
-                alert("保存成功！");
+                alert(t("alert.success"));
             }
         }
-    }, [formState]);
+    }, [t, formState]);
 
     const handleRegenerateKeyPair = () => {
         setLoading(true);
         RegenerateFediverseKeyPair().then((result) => {
             setLoading(false);
             if (result) {
-                alert("密钥已重置");
+                alert(t("alert.regenerateSuccess"));
             } else {
-                alert("密钥重置失败，服务器发生未知错误");
+                alert(t("alert.regenerateError"));
             }
         });
     };
@@ -85,30 +88,34 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
         <>
             <form className="bg-bg-light rounded-lg shadow p-6 space-y-4" action={formAction}>
                 <h1 className="text-lg pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid">
-                    联邦配置
+                    {t("title")}
                 </h1>
+                {t.rich("description", {
+                    p: (chunks) => <p className="text-text-content">{chunks}</p>,
+                })}
                 <div className="w-full">
                     <label htmlFor="fediverse-editor-enabled"
                            className="block text-base font-medium leading-6 text-text-content">
-                        启用联邦
+                        {t("enable")}
                         <p className="text-sm text-text-subnote">
-                            启用联邦后，您将会收到来自联邦的评论，目前不会将正文同步到联邦
+                            {t("enableDescription")}
                         </p>
                     </label>
                     <div className="mt-1">
-                        <input id="fediverse-editor-enabled" type="text" readOnly className="hidden" name="enabled" value={enabled ? "true" : "false"}/>
+                        <input id="fediverse-editor-enabled" type="text" readOnly className="hidden" name="enabled"
+                               value={enabled ? "true" : "false"}/>
                         <button type="button" onClick={() => setEnabled(!enabled)}
                                 className={`rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover`}>
-                            {enabled ? "已启用" : "未启用"}
+                            {enabled ? t("enabled") : t("disabled")}
                         </button>
                     </div>
                 </div>
                 <div className="w-full">
                     <label htmlFor="fediverse-editor-name"
                            className="block text-base font-medium leading-6 text-text-content">
-                        昵称
+                        {t("name")}
                         <p className="text-sm text-text-subnote">
-                            昵称将会显示在联邦协议中，留空则使用个人资料中的昵称
+                            {t("nameDescription")}
                         </p>
                     </label>
                     <div className="mt-1">
@@ -120,10 +127,11 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
                 <div className="w-full">
                     <label htmlFor="fediverse-editor-preferred-username"
                            className="block text-base font-medium leading-6 text-text-content">
-                        联邦 ID
+                        {t("preferredUsername")}
                         <p className="text-sm text-text-subnote">
-                            <span className="font-bold">必填</span>
-                            ，联邦 ID 用于唯一标识您的账户，只能包含字母、数字、下划线和短横线
+                            {t.rich("preferredUsernameDescription", {
+                                b: (chunks) => <span className="font-bold">{chunks}</span>,
+                            })}
                         </p>
                     </label>
                     <div className="mt-1">
@@ -135,9 +143,9 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
                 <div className="w-full">
                     <label htmlFor="fediverse-editor-summary"
                            className="block text-base font-medium leading-6 text-text-content">
-                        个人简介
+                        {t("summary")}
                         <p className="text-sm text-text-subnote">
-                            个人简介将会显示在联邦协议中
+                            {t("summaryDescription")}
                         </p>
                     </label>
                     <div className="mt-1">
@@ -151,20 +159,18 @@ function FediverseEditor({fediverse}: FediverseEditorProps) {
                 <div className="w-full pt-16">
                     <label htmlFor="fediverse-editor-summary"
                            className="block text-base font-medium leading-6 text-text-content">
-                        重新生成密钥对
+                        {t("regenerateKeyPair")}
                     </label>
                     <div className="mt-2">
                         <DangerousButton
                             disabled={loading}
                             className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
                             onClick={handleRegenerateKeyPair}>
-                            重新生成
+                            {t("regenerate")}
                         </DangerousButton>
                     </div>
                 </div>
-
             </form>
-
         </>
     );
 }

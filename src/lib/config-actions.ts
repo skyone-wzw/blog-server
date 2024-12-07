@@ -2,6 +2,7 @@
 
 import {isUserLoggedIn} from "@/lib/auth";
 import {
+    AllLocale,
     DynamicConfig,
     getDynamicConfig,
     NavbarDynamicConfig,
@@ -154,6 +155,7 @@ export interface SaveSiteConfigActionState {
 export async function SaveSiteConfigAction(_prevState: SaveSiteConfigActionState, formData: FormData) {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
     const update: DeepPartial<SiteDynamicConfig> = {};
+    const locale = formData.get("locale");
     const title = formData.get("title");
     const logo = formData.get("logo");
     const description = formData.get("description");
@@ -162,6 +164,9 @@ export async function SaveSiteConfigAction(_prevState: SaveSiteConfigActionState
 
     const error = {error: true, message: "未知错误", timestamp: Date.now()};
     const success = {error: false, message: "保存成功", timestamp: Date.now()};
+
+    if (typeof locale !== "string" || !AllLocale.includes(locale)) return error;
+    update.locale = locale as AllLocale;
 
     if (typeof title === "string") {
         update.title = title;

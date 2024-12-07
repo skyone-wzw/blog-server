@@ -6,6 +6,7 @@ import Logo from "@/components/layout/header/Logo";
 import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import clsx from "clsx";
+import {getTranslations} from "next-intl/server";
 
 interface IconProps {
     className?: string;
@@ -35,12 +36,14 @@ interface AppHeaderProps {
 
 async function AppHeader({className}: AppHeaderProps) {
     const dynamicConfig = await getDynamicConfig();
+    const t = await getTranslations("header.AppHeader");
+
     return (
         <header id="app-header"
                 className={clsx("lg:sticky lg:top-0 lg:z-10 bg-bg-light text-text-content min-h-[48px] lg:px-4 shadow-md", className)}>
             <Container className="lg:flex lg:items-stretch">
                 <Flex component="h1" center className="overflow-x-auto">
-                    <HeaderLink href={L.page()}>
+                    <HeaderLink href={L.page()} title={t("home")}>
                         <Logo className="mr-3 w-6 h-6"/>
                         <span className="tracking-wide text-lg font-bold text-text-l">{dynamicConfig.site.title}</span>
                     </HeaderLink>
@@ -53,9 +56,9 @@ async function AppHeader({className}: AppHeaderProps) {
                         ))}
                     </Flex>
                     <Flex>
-                        <HeaderLink href={L.admin()} title="文章编辑器"
+                        <HeaderLink href={L.admin()} title={t("admin")}
                                     className="fill-current"><AdminIcon/></HeaderLink>
-                        <HeaderLink href="#" title="搜索" className="fill-current"><SearchIcon/></HeaderLink>
+                        <HeaderLink href="#" title={t("search")} className="fill-current"><SearchIcon/></HeaderLink>
                         <HeaderColorToggle/>
                     </Flex>
                 </div>

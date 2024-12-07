@@ -5,12 +5,14 @@ import SystemUsage from "@/app/(admin)/admin/SystemUsage";
 import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import {revalidatePath} from "next/cache";
+import {getTranslations} from "next-intl/server";
 
 export async function generateMetadata() {
-    const dynamicConfig = await getDynamicConfig();
+    const {site} = await getDynamicConfig();
+    const t = await getTranslations("page.admin.home.metadata");
     return {
-        title: `管理面板 - ${dynamicConfig.site.title}`,
-        description: `${dynamicConfig.site.description}`,
+        title: t("title", {siteName: site.title}),
+        description: t("description", {siteName: site.title, siteDescription: site.description}),
     };
 }
 

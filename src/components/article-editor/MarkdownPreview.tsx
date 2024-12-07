@@ -1,6 +1,9 @@
+"use client";
+
 import {ReactNode, useEffect, useRef, useState} from "react";
 import "katex/dist/katex.css";
 import "@/components/markdown/article.css";
+import {useTranslations} from "next-intl";
 
 type MarkdownRenderType = (content: string) => Promise<ReactNode>;
 
@@ -12,6 +15,7 @@ function MarkdownPreview({content}: MarkdownPreviewProps) {
     const waiter = useRef(0);
     const [render, setRender] = useState<MarkdownRenderType>();
     const [elements, setElements] = useState<ReactNode>();
+    const t = useTranslations("article-editor.MarkdownPreview");
 
     useEffect(() => {
         const start = Date.now();
@@ -40,10 +44,10 @@ function MarkdownPreview({content}: MarkdownPreviewProps) {
                     } catch (err) {
                         setElements(
                             <>
-                                <p className="mb-4 text-2xl text-text-main">渲染失败</p>
+                                <p className="mb-4 text-2xl text-text-main">{t("renderError")}</p>
                                 {err?.toString &&
                                     <p className="mb-2 font-mono text-md text-text-subnote">{err?.toString()}</p>}
-                                <p className="mb-6 text-md text-text-subnote">请检查 Markdown 语法是否正确</p>
+                                <p className="mb-6 text-md text-text-subnote">{t("renderErrorDescription")}</p>
                             </>,
                         );
                     }

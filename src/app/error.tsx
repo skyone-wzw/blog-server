@@ -1,6 +1,7 @@
 "use client";
 
 import AppFooter from "@/components/layout/footer/AppFooter";
+import {useTranslations} from "next-intl";
 
 function ErrorIcon({className}: { className?: string }) {
     return (
@@ -18,27 +19,30 @@ interface ErrorPageProps {
 }
 
 function ErrorPage({error, reset}: ErrorPageProps) {
+    const t = useTranslations("page.error");
     return (
         <>
             <section className="row-start-2 col-span-full h-full pb-6 px-4 flex flex-col justify-center items-center">
                 <ErrorIcon className="w-16 h-16 text-text-content fill-current"/>
                 <div
                     className="mt-6 text-center max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] justify-center items-center">
-                    <p className="mb-4 text-2xl text-text-main">出现未知错误</p>
+                    <p className="mb-4 text-2xl text-text-main">{t("title")}</p>
                     <p className="mb-2 font-mono text-md text-text-subnote">{error.message}</p>
                     {error.digest &&
                         <p className="mb-2 font-mono text-md text-text-subnote">Error digest: {error.digest}</p>}
-                    <p className="mb-6 text-md text-text-subnote">请联系原始链接来源网站的所有者，并告知他们链接已损坏。</p>
+                    {t.rich("description", {
+                        p: (children) => <p className="mb-6 text-md text-text-subnote">{children}</p>
+                    })}
                     <div className="flex flex-row gap-x-4 justify-center">
                         <button
                             className="rounded-md bg-button-bg px-6 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
                             onClick={reset}>
-                            尝试重载
+                            {t("retry")}
                         </button>
                         <button
                             className="rounded-md bg-button-bg px-6 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
                             onClick={() => window.location.reload()}>
-                            刷新重试
+                            {t("reload")}
                         </button>
                     </div>
                 </div>

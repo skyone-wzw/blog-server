@@ -11,48 +11,50 @@ import {
     RemoveUnusedAssetsAction,
 } from "@/lib/admin-actions";
 import clsx from "clsx";
+import {useTranslations} from "next-intl";
 
 interface AdminQuickActionsProps {
     className?: string;
 }
 
 function AdminQuickActions({className}: AdminQuickActionsProps) {
+    const t = useTranslations("page.admin.home.AdminQuickActions")
     const actions: QuickActionProps[] = [
         {
-            name: "清理图片",
-            description: "清理所有已上传但没有被文章引用的图片。",
+            name: t("RemoveUnusedAssetsAction.title"),
+            description: t("RemoveUnusedAssetsAction.description"),
             action: RemoveUnusedAssetsAction,
         },
         {
-            name: "清除文章缓存",
-            description: "清除服务端的文章预编译缓存。缓存不会影响文章内容，并且会在下次访问时重新生成。",
+            name: t("RemoveArticleCacheAction.title"),
+            description: t("RemoveArticleCacheAction.description"),
             action: RemoveArticleCacheAction,
         },
         {
-            name: "预热文章缓存",
-            description: "预热所有文章的预编译缓存，以提高文章访问速度。此操作通常自动执行。",
+            name: t("PreprocessArticleAction.title"),
+            description: t("PreprocessArticleAction.description"),
             action: PreprocessArticleAction,
         },
         {
-            name: "清除封面缓存",
-            description: "清除文章封面的缓存。缓存会在下次访问时重新生成。",
+            name: t("RemoveCoverCacheAction.title"),
+            description: t("RemoveCoverCacheAction.description"),
             action: RemoveCoverCacheAction,
         },
         {
-            name: "生成封面缓存",
-            description: "预生成所有文章的封面。此操作通常自动执行。",
+            name: t("GenerateCoverAction.title"),
+            description: t("GenerateCoverAction.description"),
             action: GenerateCoverAction,
         },
         {
-            name: "重新生成评论缓存",
-            description: "重新生成评论的预编译缓存。在程序版本更新后评论格式错误时使用。",
+            name: t("PreprocessCommentAction.title"),
+            description: t("PreprocessCommentAction.description"),
             action: PreprocessCommentAction,
         },
     ];
 
     return (
         <Paper className={clsx("p-4", className)}>
-            <h2 className="mb-2 text-text-subnote">快速操作</h2>
+            <h2 className="mb-2 text-text-subnote">{t("title")}</h2>
             <div className="divide-y divide-bg-tag border-y border-bg-tag">
                 {actions.map((action, index) => (
                     <QuickAction key={index} {...action}/>

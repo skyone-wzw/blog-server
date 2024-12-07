@@ -3,6 +3,7 @@
 import Paper from "@/components/base/Paper";
 import {UploadImageAction} from "@/lib/file-actions";
 import {useState} from "react";
+import {useTranslations} from "next-intl";
 
 interface ImageUploaderProps {
     className?: string;
@@ -11,6 +12,7 @@ interface ImageUploaderProps {
 function ImageUploader({className}: ImageUploaderProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState<string | null>("");
+    const t = useTranslations("article-editor.ImageUploader");
 
     const handleUpload = async (formData: FormData) => {
         const fileField = formData.get("file");
@@ -33,15 +35,15 @@ function ImageUploader({className}: ImageUploaderProps) {
     return (
         <Paper className={className}>
             <form className="p-4 max-w-full w-[480px] flex flex-col gap-y-4" action={handleUpload}>
-                <div className="pb-4 text-text-main">上传图片</div>
+                <div className="pb-4 text-text-main">{t("title")}</div>
                 <input
-                    aria-label="上传图片" onChange={handleChangeFile}
+                    aria-label={t("inputLabel")} onChange={handleChangeFile}
                     className="block w-full p-6 text-sm text-text-content border rounded-lg cursor-pointer bg-bg-light dark:text-gray-400 focus:outline-none"
                     id="article-editor-upload-image" name="file" type="file"
                     accept="image/webp,image/png,image/jpeg"/>
                 <pre
                     className="text-sm overflow-auto text-text-content flex flex-row justify-between items-center gap-x-1">
-                    <p className="flex-grow w-0 overflow-x-auto xc-scroll">{result ? `上传成功: ${result}` : isLoading ? "上传中..." : "\xa0"}</p>
+                    <p className="flex-grow w-0 overflow-x-auto xc-scroll">{result ? t("uploaded", {result}) : isLoading ? t("uploading") : "\xa0"}</p>
                     {result && (
                         <button
                             type="button" onClick={copyToClipboard}
@@ -56,7 +58,7 @@ function ImageUploader({className}: ImageUploaderProps) {
                     )}
                 </pre>
                 <input
-                    type="submit" disabled={isLoading} value="上传"
+                    type="submit" disabled={isLoading} value={t("submit")}
                     className="w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"/>
             </form>
         </Paper>

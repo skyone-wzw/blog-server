@@ -1,0 +1,449 @@
+{
+  "language": {
+    "en": "英语",
+    "zh-hans": "简体中文"
+  },
+  "ArticleFloatingButton": {
+    "scrollToTop": "返回顶部",
+    "toc": "文章目录",
+    "showToc": "显示目录"
+  },
+  "ArticleSummaryCard": {
+    "readMore": "阅读全文"
+  },
+  "AsideArchiveList": {
+    "title": "归档"
+  },
+  "AsideArticleToc": {
+    "title": "文章目录"
+  },
+  "AsideProfile": {
+    "github": {
+      "title": "GitHub"
+    },
+    "zhihu": {
+      "title": "去B乎看看吧~"
+    },
+    "email": {
+      "title": "要给我发邮件吗？"
+    },
+    "rss": {
+      "title": "订阅我的RSS吧~"
+    }
+  },
+  "AsideRecentArticles": {
+    "title": "最近文章"
+  },
+  "AsideSeries": {
+    "title": "文章合集"
+  },
+  "AsideTags": {
+    "title": "标签"
+  },
+  "DangerousButton": {
+    "confirm": "确认吗？"
+  },
+  "FooterPagination": {
+    "prev": "上一页",
+    "next": "下一页"
+  },
+  "admin": {
+    "QuickAction": {
+      "execute": "执行"
+    }
+  },
+  "article-editor": {
+    "ArticleEditor": {
+      "slug": "链接",
+      "title": "标题",
+      "editMetadata": "编辑信息",
+      "cover": "封面图片",
+      "coverDescription": "默认随机选择。比例以 1300x630 为佳，如果不是这个比例，可能会被裁剪。",
+      "summary": "摘要",
+      "series": "系列",
+      "tags": "标签",
+      "tagQuickAdd": "快速添加",
+      "tagCreate": "添加",
+      "createdAt": "创建时间",
+      "saveMetadata": "确定",
+      "edit": "编辑",
+      "preview": "预览",
+      "uploadImage": "上传图片",
+      "toArticlePage": "转到文章",
+      "save": "保存",
+      "delete": "删除文章",
+      "back": "返回",
+      "backDescription": "返回文章列表",
+      "logout": "登出",
+      "alert": {
+        "slugEmpty": "链接不能为空",
+        "titleEmpty": "标题不能为空",
+        "slugError": "链接只能包含小写字母、数字和连字符",
+        "slugReserved": "链接不能为 new 或 index",
+        "tagError": "标签不能包含 / 或 \\",
+        "seriesError": "系列不能包含 / 或 \\",
+        "saveError": "保存失败",
+        "deleteError": "删除失败"
+      },
+      "defaultSeries": "未分类"
+    },
+    "ImageUploader": {
+      "title": "上传图片",
+      "inputLabel": "选择图片",
+      "uploading": "上传中...",
+      "uploaded": "上传成功: {result}",
+      "submit": "上传"
+    },
+    "MarkdownPreview": {
+      "renderError": "渲染失败",
+      "renderErrorDescription": "请检查 Markdown 格式是否正确"
+    }
+  },
+  "custom-page-editor": {
+    "CustomPageEditor": {
+      "slug": "链接",
+      "title": "标题",
+      "editMetadata": "编辑信息",
+      "summary": "摘要",
+      "saveMetadata": "确定",
+      "edit": "编辑",
+      "preview": "预览",
+      "uploadImage": "上传图片",
+      "toCustomPage": "转到页面",
+      "save": "保存",
+      "delete": "删除页面",
+      "back": "返回",
+      "backDescription": "返回页面列表",
+      "logout": "登出",
+      "alert": {
+        "slugEmpty": "链接不能为空",
+        "titleEmpty": "标题不能为空",
+        "slugError": "链接只能包含小写字母、数字、连字符和 / ，且以 / 开头",
+        "slugReserved": "链接不能为 {reserved} 开头",
+        "saveError": "保存失败",
+        "deleteError": "删除失败"
+      }
+    }
+  },
+  "comment": {
+    "CommentTree": {
+      "title": "{count, plural, =0 {这里还没有评论~} other {# 条来自联邦宇宙的回应}}",
+      "searchInFediverse": "在联邦宇宙中搜索",
+      "copied": "成功",
+      "copy": "复制",
+      "noComments": "快通过联邦宇宙发表第一条评论吧！"
+    },
+    "CommentItem": {
+      "from": "来自 <link>@{uid}</link>",
+      "replyTo": "回复 <reply>@{uid}</reply>",
+      "createdAt": "创建于 {time}",
+      "viewInFediverse": "详情",
+      "replyInFediverse": "回复",
+      "copyLink": "复制链接"
+    }
+  },
+  "header": {
+    "AppHeader": {
+      "home": "回到首页",
+      "admin": "管理后台",
+      "search": "搜索"
+    },
+    "HeaderColorToggle": {
+      "switch": "切换颜色模式",
+      "light": "明亮",
+      "dark": "暗黑",
+      "system": "跟随系统"
+    },
+    "HeaderLogo": {
+      "alt": "Logo"
+    }
+  },
+  "page": {
+    "not-found": {
+      "title": "找不到页面",
+      "description": "<p>我们找不到您要找的页面。</p><p>请联系原始链接来源网站的所有者，并告知他们链接已损坏。</p>"
+    },
+    "error": {
+      "title": "出现未知错误",
+      "description": "<p>我们无法显示您请求的页面。</p><p>请稍后再试，或者联系网站管理员。</p>",
+      "retry": "尝试重载",
+      "reload": "刷新页面"
+    },
+    "post": {
+      "edit": "编辑"
+    },
+    "custom-page": {
+      "edit": "编辑"
+    },
+    "login": {
+      "title": "登录你的账户",
+      "error": "邮箱或密码错误",
+      "email": "邮箱",
+      "password": "密码",
+      "submit": "登录",
+      "metadata": {
+        "title": "登录 - {siteName}",
+        "description": "{siteName} - 编辑文章前请登录"
+      }
+    },
+    "series": {
+      "title": "分类: {series}",
+      "count": "共 {count} 篇",
+      "metadata-all": {
+        "title": "全部分类 - {siteName}",
+        "description": "所有分类下的文章。{siteDescription}"
+      },
+      "metadata": {
+        "title": "分类：{series} - {siteName}",
+        "description": "{series} 分类下的文章。{siteDescription}"
+      }
+    },
+    "tags": {
+      "all": "所有标签：",
+      "title": "{tag}",
+      "count": "共 {count} 篇",
+      "metadata-all": {
+        "title": "全部标签 - {siteName}",
+        "description": "所有标签下的文章。{siteDescription}"
+      },
+      "metadata": {
+        "title": "标签：{tag} - {siteName}",
+        "description": "{tag} 标签下的文章。{siteDescription}"
+      }
+    },
+    "archive": {
+      "title": "{year} 年",
+      "count": "共 {count} 篇",
+      "metadata-all": {
+        "title": "归档 - {siteName}",
+        "description": "{siteName} 的全部文章。{siteDescription}"
+      },
+      "metadata": {
+        "title": "归档：{year} 年 - {siteName}",
+        "description": "{year} 年发布的文章，第 {page} 页。{siteDescription}"
+      }
+    },
+    "admin": {
+      "aside": {
+        "GeneralSettings": {
+          "title": "管理设置",
+          "AdminConsole": "管理面板",
+          "ArticleEditor": "文章编辑",
+          "CustomPageEditor": "自定义页面",
+          "FriendLink": "友情链接"
+        },
+        "SiteSettings": {
+          "title": "网站设置",
+          "ProfileSettings": "个人资料",
+          "SiteSettings": "网站设置",
+          "NavbarSettings": "导航栏设置",
+          "FediverseSettings": "联邦宇宙设置"
+        },
+        "AssetsManagement": {
+          "title": "资源管理",
+          "AssetsManagement": "图片管理"
+        }
+      },
+      "home": {
+        "metadata": {
+          "title": "管理面板 - {siteName}",
+          "description": "{siteDescription}"
+        },
+        "SystemUsage": {
+          "title": "系统负载",
+          "databaseSize": "数据库大小",
+          "cacheFileSize": "缓存文件大小",
+          "memoryUsage": "内存使用",
+          "systemTotalMemory": "系统总内存",
+          "systemMemoryUsage": "系统内存使用",
+          "systemMemoryUsageRate": "系统内存使用率"
+        },
+        "ArticleStatistic": {
+          "title": "创作统计",
+          "article": "文章",
+          "articleCount": "{count} 篇",
+          "word": "总字数",
+          "wordCount": "{count} 字",
+          "series": "系列",
+          "seriesCount": "{count} 个",
+          "tag": "标签",
+          "tagCount": "{count} 个"
+        },
+        "AdminQuickActions": {
+          "title": "快速操作",
+          "RemoveUnusedAssetsAction": {
+            "title": "清理图片",
+            "description": "清理所有已上传但没有被文章引用的图片。"
+          },
+          "RemoveArticleCacheAction": {
+            "title": "清除文章缓存",
+            "description": "清除服务端的文章预编译缓存。缓存不会影响文章内容，并且会在下次访问时重新生成。"
+          },
+          "PreprocessArticleAction": {
+            "title": "预热文章缓存",
+            "description": "预热所有文章的预编译缓存，以提高文章访问速度。此操作通常自动执行。"
+          },
+          "RemoveCoverCacheAction": {
+            "title": "清除封面缓存",
+            "description": "清除文章封面的缓存。缓存会在下次访问时重新生成。"
+          },
+          "GenerateCoverAction": {
+            "title": "生成封面缓存",
+            "description": "预生成所有文章的封面。此操作通常自动执行。"
+          },
+          "PreprocessCommentAction": {
+            "title": "重新生成评论缓存",
+            "description": "重新生成评论的预编译缓存。在程序版本更新后评论格式错误时使用。"
+          }
+        }
+      },
+      "editor": {
+        "post": {
+          "default": {
+            "title": "新建文章",
+            "series": "未分类"
+          },
+          "metadata": {
+            "title": "编辑：{title} - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "metadata-new": {
+            "title": "新建文章 - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "ArticleClassifier": {
+            "filter": "筛选",
+            "new": "新建文章",
+            "all": "全部文章",
+            "series": "系列: {series}",
+            "tags": "标签: {tag}",
+            "year": "年份: {year}",
+            "bySeries": "按系列分类：",
+            "byTags": "按标签分类：",
+            "byYear": "按年份分类："
+          }
+        },
+        "custom-page": {
+          "default": {
+            "title": "新建页面"
+          },
+          "metadata": {
+            "title": "编辑：{title} - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "metadata-new": {
+            "title": "新建页面 - {siteName}",
+            "description": "{siteDescription}"
+          },
+          "CustomPageSelector": {
+            "new": "新建页面",
+            "all": "全部自定义页面"
+          }
+        }
+      },
+      "friend": {
+        "clickToEdit": "点击以修改友链",
+        "count": "共 {count} 条",
+        "label": "<p>快和朋友们交换友链吧~</p>",
+        "metadata": {
+          "title": "友链管理 - {siteName}",
+          "description": "{siteDescription}"
+        },
+        "FriendLinkEditorDialog": {
+          "title": "编辑友链",
+          "name": "名称",
+          "email": "邮箱",
+          "avatar": "头像",
+          "siteName": "网站名称",
+          "siteUrl": "网站链接",
+          "summary": "简介",
+          "save": "保存",
+          "cancel": "取消",
+          "delete": "删除友链",
+          "add": "添加友链",
+          "alert": {
+            "nameEmpty": "名称不能为空",
+            "siteNameEmpty": "网站名称不能为空",
+            "siteUrlEmpty": "网站链接不能为空",
+            "deleteError": "删除失败",
+            "createError": "创建失败"
+          }
+        }
+      },
+      "settings": {
+        "SiteEditor": {
+          "title": "网站设置",
+          "siteLanguage": "网站语言",
+          "siteLogo": "网站 Logo",
+          "siteName": "网站标题",
+          "siteOpenGraphImage": "Open Graph 图片",
+          "siteOpenGraphImageDescription": "为了使分享到社交软件时获得正确的封面，该图片一定要 1300x630 像素的 PNG 格式",
+          "siteDescription": "网站描述",
+          "siteKeywords": "网站关键词",
+          "delete": "删除",
+          "add": "添加",
+          "save": "保存信息",
+          "alert": {
+            "error": "保存失败：{message}",
+            "success": "保存成功！"
+          }
+        },
+        "ProfileEditor": {
+          "title": "个人资料",
+          "avatar": "头像",
+          "name": "昵称",
+          "email": "邮箱",
+          "cover": "背景图",
+          "description": "简介",
+          "save": "保存资料",
+          "social": {
+            "title": "社交账号",
+            "github": "GitHub",
+            "zhihu": "知乎"
+          },
+          "alter": {
+            "error": "保存失败：{message}",
+            "success": "保存成功！"
+          }
+        },
+        "NavbarEditor": {
+          "title": "导航栏设置",
+          "description": "导航栏显示于顶部，建议不超过 6 个。",
+          "add": "添加",
+          "delete": "删除",
+          "save": "保存导航栏",
+          "reset": "恢复默认",
+          "nameLabel": "输入链接名称",
+          "urlLabel": "输入链接",
+          "alert": {
+            "error": "保存失败：{message}",
+            "success": "保存成功！"
+          }
+        },
+        "FediverseEditor": {
+          "title": "联邦宇宙设置",
+          "description": "<p>联邦宇宙是一个去中心化的社交网络，您可以在这里设置您的账户。</p>",
+          "enable": "启用联邦宇宙",
+          "enableDescription": "启用联邦后，您将会收到来自联邦的评论，目前不会将正文同步到联邦。",
+          "enabled": "已启用",
+          "disabled": "未启用",
+          "name": "昵称",
+          "nameDescription": "您在联邦宇宙中的昵称。",
+          "preferredUsername": "用户 ID",
+          "preferredUsernameDescription": "<b>必填</b>，联邦 ID 用于唯一标识您的账户，只能包含字母、数字、下划线和短横线。",
+          "summary": "个人简介",
+          "summaryDescription": "您的简介将会显示在联邦宇宙中。",
+          "regenerateKeyPair": "重新生成密钥对",
+          "regenerate": "重新生成",
+          "save": "保存联邦配置",
+          "alert": {
+            "error": "保存失败：{message}",
+            "success": "保存成功！",
+            "regenerateSuccess": "密钥对已重新生成！",
+            "regenerateError": "密钥重置失败，服务器发生未知错误。"
+          }
+        }
+      }
+    }
+  }
+}

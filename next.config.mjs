@@ -1,4 +1,7 @@
 import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin();
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -19,11 +22,11 @@ const nextConfig = {
                         "less",
                     ],
                     filename: "static/chunks/[name].worker.js",
-                })
+                }),
             );
         }
         return config;
-    }
+    },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
