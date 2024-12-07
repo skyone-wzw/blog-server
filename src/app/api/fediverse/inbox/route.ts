@@ -77,6 +77,20 @@ async function parseNote(note: any) {
     return result as { uid: string, replyTo: string, content: string, source?: string };
 }
 
+async function parseImages(note: any) {
+    const images = note.attachment?.filter((v: any) => {
+        return v.type === "Document" && v.mediaType.startsWith("image/") && typeof v.url === "string";
+    });
+    if (!images) return [];
+    return images.map((v: any) => {
+        return {
+            url: v.url,
+            mediaType: v.mediaType,
+            sensitive: v.sensitive ?? false,
+        };
+    }) as { url: string, mediaType: string, sensitive: boolean }[];
+}
+
 async function parseReply(reply: string): Promise<{ postId?: string, reply?: string }> {
     const {site} = await getDynamicConfig();
     const matches = reply.match(new RegExp(`^${site.url}/post/([a-z0-9-]+)`));
@@ -160,6 +174,8 @@ export async function POST(request: Request) {
                     break;
                 }
 
+                const images = await parseImages(object);
+
                 const replyInfo = await parseReply(content.replyTo);
                 if (!replyInfo.postId) {
                     break;
@@ -186,6 +202,7 @@ export async function POST(request: Request) {
                     parsed: JSON.stringify(content.source
                         ? await PreprocessCommentSource(content.source)
                         : await PreprocessCommentHtml(content.content)),
+                    images: JSON.stringify(images),
                     replyTo: replyInfo.reply,
                     postId: replyInfo.postId,
                     createdAt: date,

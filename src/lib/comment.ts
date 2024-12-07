@@ -17,11 +17,18 @@ export interface FediverseGuestWithPublicKey extends FediverseGuest {
     publicKey: string;
 }
 
+interface FediverseCommentImage {
+    url: string;
+    mediaType: string;
+    sensitive: boolean;
+}
+
 export interface FediverseComment {
     id: number;
     uid: string;
     userId: string;
     parsed: string;
+    images: FediverseCommentImage[];
     replyTo?: string | null;
     postId: string;
     createdAt: Date;
@@ -35,6 +42,7 @@ export interface FediverseCommentMetadata {
     userId: string;
     content: string;
     source?: string | null;
+    images: string[];
     replyTo?: string | null;
     postId: string;
     createdAt: Date;
@@ -52,7 +60,7 @@ const FediverseGuestSelector = {
     webUrl: true,
     avatar: true,
     isBanned: true,
-}
+};
 
 const FediverseGuestWithPublicKeySelector = {
     id: true,
@@ -65,13 +73,14 @@ const FediverseGuestWithPublicKeySelector = {
     avatar: true,
     isBanned: true,
     publicKey: true,
-}
+};
 
 const FediverseCommentWithGuestSelector = {
     id: true,
     uid: true,
     userId: true,
     parsed: true,
+    images: true,
     replyTo: true,
     postId: true,
     createdAt: true,
@@ -80,7 +89,7 @@ const FediverseCommentWithGuestSelector = {
     user: {
         select: FediverseGuestSelector,
     },
-}
+};
 
 const FediverseCommentMetadataSelector = {
     id: true,
@@ -88,12 +97,13 @@ const FediverseCommentMetadataSelector = {
     userId: true,
     content: true,
     source: true,
+    images: true,
     replyTo: true,
     postId: true,
     createdAt: true,
     updatedAt: true,
     isHidden: true,
-}
+};
 
 export interface FediverseCommentWithGuest extends FediverseComment {
     user: FediverseGuest;
@@ -138,7 +148,7 @@ export const getCommentsByArticleId = cache(async (articleId: string): Promise<F
             createdAt: "desc",
         },
     });
-    return comments.map(Database2Object);
+    return comments.map(comment => ({...comment, images: JSON.parse(comment.images)}));
 });
 
 export const getAllCommentCount = cache(async (): Promise<number> => {
@@ -175,7 +185,7 @@ export const getRecentCommentsMetadata = cache(async ({
         skip: (page - 1) * limit,
         take: limit,
     });
-    return comments.map(Database2Object);
+    return comments.map(comment => ({...comment, images: JSON.parse(comment.images)}));
 });
 
 export const getAllComments = cache(async (): Promise<Omit<FediverseComment, "parsed">[]> => {
@@ -190,6 +200,7 @@ export const getAllComments = cache(async (): Promise<Omit<FediverseComment, "pa
             id: true,
             uid: true,
             userId: true,
+            images: true,
             replyTo: true,
             postId: true,
             createdAt: true,
@@ -200,7 +211,7 @@ export const getAllComments = cache(async (): Promise<Omit<FediverseComment, "pa
             createdAt: "desc",
         },
     });
-    return comments.map(Database2Object);
+    return comments.map(comment => ({...comment, images: JSON.parse(comment.images)}));
 });
 
 export const updateCommentAst = async (uid: string, ast: string): Promise<void> => {

@@ -9,6 +9,7 @@ import {ReactNode} from "react";
 import ScrollToComment from "@/components/comment/ScrollToComment";
 import AvatarTooltip from "@/components/comment/AvatarTooltip";
 import {getFormatter, getTranslations} from "next-intl/server";
+import {ImgWithViewer} from "@/components/tools/ImageWithViewer";
 
 interface CommentTree extends FediverseCommentWithGuest {
     replies: Array<FediverseCommentWithGuest & { replyTarget: FediverseCommentWithGuest }>;
@@ -108,6 +109,14 @@ async function CommentItem({comment, replies, replyTarget}: CommentItemProps) {
                 <div>
                     <CommentHASTRender ast={JSON.parse(comment.parsed)}/>
                 </div>
+                {comment.images.length > 0 && (
+                    <div className="flex flex-row flex-wrap gap-2">
+                        {comment.images.map((image, index) => (
+                            <ImgWithViewer className="min-w-32 w-0 aspect-square rounded shadow-sm flex-grow object-cover"
+                                           key={index} src={image.url} alt={`comment-image-${index}`}/>
+                        ))}
+                    </div>
+                )}
                 <p className="text-text-subnote text-sm mt-2">
                     <Link className="hover:text-link-hover" rel="noopener noreferrer"
                           target="_blank" href={comment.uid}>

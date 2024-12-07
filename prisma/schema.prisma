@@ -85,6 +85,7 @@ model FediverseComment {
   content   String // HTML
   source    String? // markdown
   parsed    String // serialized HTML AST
+  images    String   @default("[]")
   replyTo   String?
   postId    String
   createdAt DateTime @default(now())
