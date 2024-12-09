@@ -103,8 +103,8 @@ async function PostPage({params}: PostPageProps) {
                 <ArticleFooterInfo article={article}/>
                 <ArticleFloatingButton toc={tocHast.children.length > 0 && toc}/>
             </Paper>
-            {fediverse.enabled && <CommentTree articleSlug={article.slug} comments={comments}/>}
             <ArticleFooterAdjacentNavigation slug={article.slug}/>
+            {fediverse.enabled && <CommentTree articleSlug={article.slug} comments={comments}/>}
         </>
     );
 }
