@@ -17,7 +17,7 @@ COPY --from=builder /app/public public
 COPY --from=builder /app/.next/standalone .
 COPY --from=builder /app/.next/static .next/static
 COPY docker-bootstrap.sh .
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=true
 RUN npm install -g prisma
 
 EXPOSE 3000
