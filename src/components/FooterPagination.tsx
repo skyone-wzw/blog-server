@@ -10,48 +10,33 @@ interface MainPagePaginationProps {
     getLink: Page2Link;
 }
 
-function paginationElements(current: number, total: number): (number | "...")[] {
-    const result: (number | "...")[] = [];
-
-    if (total <= 4) {
-        for (let i = 1; i <= total; i++) {
-            result.push(i);
-        }
-    } else {
-        if (current === 1) {
-            result.push(1, 2, "...", total);
-        } else if (current === total) {
-            result.push(1, "...", total - 1, total);
-        } else if (total <= 5) {
-            result.push(1, 2, 3, 4, 5);
-        } else if (current === 2) {
-            result.push(1, 2, 3, "...", total);
-        } else if (current === total - 1) {
-            result.push(1, "...", total - 2, total - 1, total);
-        } else if (total === 6) {
-            result.push(1, 2, 3, 4, 5, 6);
-        } else if (current === 3) {
-            result.push(1, 2, 3, 4, "...", total);
-        } else if (current === total - 2) {
-            result.push(1, "...", total - 3, total - 2, total - 1, total);
-        } else if (total === 7) {
-            result.push(1, 2, 3, 4, 5, 6, 7);
-        } else if (current === 4) {
-            result.push(1, 2, 3, 4, 5, "...", total);
-        } else if (current === total - 3) {
-            result.push(1, "...", total - 4, total - 3, total - 2, total - 1, total);
-        } else {
-            result.push(1, "...", current - 1, current, current + 1, "...", total);
-        }
+export function paginationElements(current: number, total: number, around: number): number[] {
+    // 左右两侧分别 2 个, 中间 1 个, 中间周围 around 个
+    const boundary = 2 * 2 + 2 * around + 1;
+    if (total <= boundary) {
+        return Array.from({length: total}, (_, index) => index + 1);
     }
-
+    // 生成 boundary 个元素, 最中间的为 current
+    let result = Array.from({length: boundary}, (_, index) => index + current - 2 - around);
+    // 如果左右在边界内 (1, total) 开区间, 使用省略号, 这里使用 NaN 占位
+    if (result[0] > 1) {
+        result[1] = NaN;
+    }
+    if (result[result.length - 1] < total) {
+        result[result.length - 2] = NaN;
+    }
+    // 过滤掉不在 [1, total] 闭区间的元素
+    result = result.filter((item) => isNaN(item) || (item >= 1 && item <= total));
+    // 设置首尾元素
+    result[0] = 1;
+    result[result.length - 1] = total;
     return result;
 }
 
-function pagination(current: number, total: number, getLink: Page2Link): ReactNode {
-    const list = paginationElements(current, total);
+export function pagination(current: number, total: number, getLink: Page2Link): ReactNode {
+    const list = paginationElements(current, total, 3);
     return list.map((item, index) => (
-        item === "..." ? (
+        isNaN(item) ? (
             <span key={`page-${index}`}>...</span>
         ) : (
             <Link
