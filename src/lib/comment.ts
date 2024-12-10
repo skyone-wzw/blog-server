@@ -1,6 +1,12 @@
 import prisma from "@/lib/prisma";
 import {cache} from "react";
 
+export interface FediverseGuestName {
+    id: number;
+    name: string;
+    uid: string;
+}
+
 export interface FediverseGuest {
     id: number;
     name: string;
@@ -134,6 +140,17 @@ export const getGuestByKeyId = cache(async (keyId: string): Promise<FediverseGue
     return Database2Object(guest);
 });
 
+export const getAllGuestsName = cache(async (): Promise<FediverseGuestName[]> => {
+    const guests = await prisma.fediverseGuest.findMany({
+        select: {
+            id: true,
+            name: true,
+            uid: true,
+        },
+    });
+    return guests.map(guest => Database2Object(guest));
+});
+
 export const getCommentsByArticleId = cache(async (articleId: string): Promise<FediverseCommentWithGuest[]> => {
     const comments = await prisma.fediverseComment.findMany({
         where: {
@@ -224,3 +241,43 @@ export const updateCommentAst = async (uid: string, ast: string): Promise<void> 
         },
     });
 };
+
+export interface GetCommentOptions {
+    hidden?: boolean;
+    postId?: string;
+    uid?: string;
+}
+
+export const getCommentsWithGuestByOption = cache(async (option: GetCommentOptions = {}): Promise<FediverseCommentWithGuest[]> => {
+    const hidden = option.hidden === undefined ? {} : option.hidden
+        ? {
+            OR: [
+                {
+                    isHidden: true,
+                }, {
+                    user: {
+                        isBanned: true,
+                    },
+                },
+            ],
+        }
+        : {
+            isHidden: false,
+            user: {
+                isBanned: false,
+            },
+        };
+
+    const comments = await prisma.fediverseComment.findMany({
+        where: {
+            ...hidden,
+            postId: option.postId,
+            userId: option.uid,
+        },
+        select: FediverseCommentWithGuestSelector,
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    return comments.map(comment => ({...comment, images: JSON.parse(comment.images)}));
+});

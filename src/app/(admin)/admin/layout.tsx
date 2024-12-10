@@ -3,6 +3,16 @@ import Container from "@/components/base/Container";
 import AppFooter from "@/components/layout/footer/AppFooter";
 import {getDynamicConfig} from "@/lib/config";
 import {ReactNode, Suspense} from "react";
+import {getTranslations} from "next-intl/server";
+
+export async function generateMetadata() {
+    const {site} = await getDynamicConfig();
+    const t = await getTranslations("page.admin.home.metadata");
+    return {
+        title: t("title", {siteName: site.title}),
+        description: t("description", {siteName: site.title, siteDescription: site.description}),
+    };
+}
 
 interface AdminRootLayoutProps {
     left: ReactNode;

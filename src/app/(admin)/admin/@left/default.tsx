@@ -27,6 +27,10 @@ async function AdminLeftPage() {
             name: t("GeneralSettings.FriendLink"),
             url: L.admin("friends"),
         },
+        {
+            name: t("GeneralSettings.CommentManager"),
+            url: L.admin("comments"),
+        }
     ];
 
     const configs: RouterItem[] = [

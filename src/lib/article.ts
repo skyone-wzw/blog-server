@@ -2,6 +2,13 @@ import prisma from "@/lib/prisma";
 import {ObjectPick} from "@/lib/type-utils";
 import {cache} from "react";
 
+export interface ArticleTitle {
+    id: string;
+    slug: string;
+    title: string;
+    createdAt: Date;
+}
+
 export interface ArticleMetadata {
     id: string;
     title: string;
@@ -97,6 +104,21 @@ export const getAllArticlesMetadata = cache(async (published: boolean = true): P
         select: ArticleMetadataSelector,
     });
     return articles.map(Database2Article);
+});
+
+export const getAllArticlesTitle = cache(async (published: boolean = true): Promise<ArticleTitle[]> => {
+    const articles = await prisma.post.findMany({
+        where: {
+            published: published,
+        },
+        select: {
+            id: true,
+            slug: true,
+            title: true,
+            createdAt: true
+        },
+    });
+    return articles.map(article => ({...article}));
 });
 
 interface ArticleSeries {
@@ -456,8 +478,9 @@ export const deleteArticle = cache(async (id: string) => {
 });
 
 export const getArticleTextSum = cache(async (): Promise<BigInt> => {
-    const result: {total: BigInt}[] = await prisma.$queryRaw`
-        SELECT SUM(LENGTH(content)) as total FROM posts;
+    const result: { total: BigInt }[] = await prisma.$queryRaw`
+        SELECT SUM(LENGTH(content)) as total
+        FROM posts;
     `;
     return result.pop()?.total ?? BigInt(-1);
 });

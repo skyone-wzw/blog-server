@@ -258,7 +258,8 @@
           "AdminConsole": "Admin Console",
           "ArticleEditor": "Article Editor",
           "CustomPageEditor": "Custom Page Editor",
-          "FriendLink": "Friend Link"
+          "FriendLink": "Friend Link",
+          "CommentManager": "Comment Manager"
         },
         "SiteSettings": {
           "title": "Site Settings",
@@ -469,6 +470,29 @@
             "success": "Save success!",
             "regenerateSuccess": "The key pair has been regenerated!",
             "regenerateError": "Key pair regeneration failed, please try again later."
+          }
+        }
+      },
+      "comments": {
+        "CommentManager": {
+          "all": "All",
+          "visible": "Visible",
+          "hidden": "Hidden",
+          "from": "From <link>@{uid}</link>",
+          "commentTo": "Comment to <link>{title}</link>",
+          "createdAt": "Commented at {time}",
+          "banUser": "Ban User",
+          "unbanUser": "Unban User",
+          "hideComment": "Hide Comment",
+          "showComment": "Show Comment",
+          "prev": "Prev",
+          "next": "Next",
+          "alert": {
+            "banSuccess": "User banned",
+            "unbanSuccess": "User unbanned",
+            "hideSuccess": "Comment hidden",
+            "showSuccess": "Comment shown",
+            "error": "Operation failed"
           }
         }
       }

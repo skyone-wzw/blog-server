@@ -2,19 +2,8 @@ import AdminQuickActions from "@/app/(admin)/admin/AdminQuickActions";
 import ArticleStatistic from "@/app/(admin)/admin/ArticleStatistic";
 import AutoReload from "@/app/(admin)/admin/AutoReload";
 import SystemUsage from "@/app/(admin)/admin/SystemUsage";
-import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import {revalidatePath} from "next/cache";
-import {getTranslations} from "next-intl/server";
-
-export async function generateMetadata() {
-    const {site} = await getDynamicConfig();
-    const t = await getTranslations("page.admin.home.metadata");
-    return {
-        title: t("title", {siteName: site.title}),
-        description: t("description", {siteName: site.title, siteDescription: site.description}),
-    };
-}
 
 async function AdminMainPage() {
     const reload = async () => {

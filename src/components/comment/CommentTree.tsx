@@ -10,6 +10,8 @@ import ScrollToComment from "@/components/comment/ScrollToComment";
 import AvatarTooltip from "@/components/comment/AvatarTooltip";
 import {getFormatter, getTranslations} from "next-intl/server";
 import {ImgWithViewer} from "@/components/tools/ImageWithViewer";
+import "katex/dist/katex.css";
+import "@/components/markdown/article.css";
 
 interface CommentTree extends FediverseCommentWithGuest {
     replies: Array<FediverseCommentWithGuest & { replyTarget: FediverseCommentWithGuest }>;
@@ -110,7 +112,8 @@ async function CommentItem({comment, replies, replyTarget}: CommentItemProps) {
                     <CommentHASTRender ast={JSON.parse(comment.parsed)}/>
                 </div>
                 {comment.images.length > 0 && (
-                    <div className="grid gap-2" style={{gridTemplateColumns: "repeat(auto-fit, minmax(128px, 1fr))"}}>
+                    <div className="grid gap-2 after:content-[' '] after:col-span-full"
+                         style={{gridTemplateColumns: "repeat(auto-fit, minmax(128px, 1fr))"}}>
                         {comment.images.map((image, index) => (
                             <ImgWithViewer className="max-w-full aspect-square rounded shadow-sm object-cover"
                                            key={index} src={image.url} alt={`comment-image-${index}`}/>
