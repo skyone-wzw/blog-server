@@ -9,6 +9,7 @@ import {DEFAULT_ARTICLE_PER_PAGE, getAllArticleCount, getRecentArticles} from "@
 import {isUserLoggedIn} from "@/lib/auth";
 import {getAllCustomPages} from "@/lib/custom-page";
 import fs from "fs/promises";
+import {getTranslations} from "next-intl/server";
 import {redirect, RedirectType} from "next/navigation";
 import {getAllCommentCount, getRecentCommentsMetadata, updateCommentAst} from "@/lib/comment";
 import {PreprocessCommentHtml, PreprocessCommentSource} from "@/components/markdown/server-comment-processor";
@@ -22,6 +23,7 @@ const imageDir = config.dir.image;
 
 export async function RemoveUnusedAssetsAction() {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const t = await getTranslations("actions.RemoveUnusedAssetsAction");
 
     async function removeUnusedAssets() {
         const count = await getAllArticleCount();
@@ -56,12 +58,13 @@ export async function RemoveUnusedAssetsAction() {
 
     return {
         success: true,
-        message: "任务正在后台执行中，请稍后查看结果。",
+        message: t("ok"),
     };
 }
 
 export async function RemoveArticleCacheAction() {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const t = await getTranslations("actions.RemoveArticleCacheAction");
 
     async function removeContentCache() {
         const files = await fs.readdir(config.dir.cache);
@@ -75,12 +78,13 @@ export async function RemoveArticleCacheAction() {
 
     return {
         success: true,
-        message: "任务正在后台执行中，请稍后查看结果。",
+        message: t("ok"),
     };
 }
 
 export async function PreprocessArticleAction() {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const t = await getTranslations("actions.PreprocessArticleAction");
 
     async function preprocessContent() {
         const count = await getAllArticleCount();
@@ -105,18 +109,19 @@ export async function PreprocessArticleAction() {
         await preprocessContent();
         return {
             success: true,
-            message: "任务已完成。",
+            message: t("ok"),
         };
     } catch (e: any) {
         return {
             success: false,
-            message: `任务失败：${e?.message ?? e}`,
+            message: t("error", {error: e?.message ?? e}),
         };
     }
 }
 
 export async function RemoveCoverCacheAction() {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const t = await getTranslations("actions.RemoveCoverCacheAction");
 
     async function removeCoverCache() {
         const files = await fs.readdir(config.dir.cache);
@@ -130,12 +135,13 @@ export async function RemoveCoverCacheAction() {
 
     return {
         success: true,
-        message: "任务正在后台执行中，请稍后查看结果。",
+        message: t("ok"),
     };
 }
 
 export async function GenerateCoverAction() {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const t = await getTranslations("actions.GenerateCoverAction");
 
     async function generateCovers() {
         const count = await getAllArticleCount();
@@ -156,12 +162,13 @@ export async function GenerateCoverAction() {
 
     return {
         success: true,
-        message: "任务正在后台执行中，请稍后查看结果。",
+        message: t("ok"),
     };
 }
 
 export async function PreprocessCommentAction() {
     if (!await isUserLoggedIn()) redirect("/login", RedirectType.replace);
+    const t = await getTranslations("actions.PreprocessCommentAction");
 
     async function preprocessComments() {
         const count = await getAllCommentCount();
@@ -182,12 +189,12 @@ export async function PreprocessCommentAction() {
         await preprocessComments();
         return {
             success: true,
-            message: "任务已完成。",
+            message: t("ok"),
         };
     } catch (e: any) {
         return {
             success: false,
-            message: `任务失败：${e?.message ?? e}`,
+            message: t("error", {error: e?.message ?? e}),
         };
     }
 }

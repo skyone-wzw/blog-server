@@ -125,6 +125,28 @@
       }
     }
   },
+  "actions": {
+    "RemoveUnusedAssetsAction": {
+      "ok": "Task is running in the background, please check the result later."
+    },
+    "RemoveArticleCacheAction": {
+      "ok": "Task is running in the background, please check the result later."
+    },
+    "PreprocessArticleAction": {
+      "ok": "Task accomplished.",
+      "error": "Task failed: {message}"
+    },
+    "RemoveCoverCacheAction": {
+      "ok": "Task is running in the background, please check the result later."
+    },
+    "GenerateCoverAction": {
+      "ok": "Task is running in the background, please check the result later."
+    },
+    "PreprocessCommentAction": {
+      "ok": "Task accomplished.",
+      "error": "Task failed: {message}"
+    }
+  },
   "comment": {
     "CommentTree": {
       "title": "{count, plural, =0 {No comments yet} other {# comments from the Federation}}",
@@ -139,7 +161,8 @@
       "createdAt": "Commented at {time}",
       "viewInFediverse": "Details",
       "replyInFediverse": "Reply",
-      "copyLink": "Copy Link"
+      "copyLink": "Copy Link",
+      "copyLinkSuccess": "Link copied"
     }
   },
   "header": {
@@ -156,6 +179,11 @@
     },
     "HeaderLogo": {
       "alt": "Logo"
+    }
+  },
+  "tools": {
+    "ClickToCopy": {
+      "copied": "Copied"
     }
   },
   "page": {

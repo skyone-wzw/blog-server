@@ -125,6 +125,28 @@
       }
     }
   },
+  "actions": {
+    "RemoveUnusedAssetsAction": {
+      "ok": "任务正在后台执行中，请稍后查看结果。"
+    },
+    "RemoveArticleCacheAction": {
+      "ok": "任务正在后台执行中，请稍后查看结果。"
+    },
+    "PreprocessArticleAction": {
+      "ok": "任务完成。",
+      "error": "任务失败：{message}"
+    },
+    "RemoveCoverCacheAction": {
+      "ok": "任务正在后台执行中，请稍后查看结果。"
+    },
+    "GenerateCoverAction": {
+      "ok": "任务正在后台执行中，请稍后查看结果。"
+    },
+    "PreprocessCommentAction": {
+      "ok": "任务完成。",
+      "error": "任务失败：{message}"
+    }
+  },
   "comment": {
     "CommentTree": {
       "title": "{count, plural, =0 {这里还没有评论~} other {# 条来自联邦宇宙的回应}}",
@@ -139,7 +161,8 @@
       "createdAt": "创建于 {time}",
       "viewInFediverse": "详情",
       "replyInFediverse": "回复",
-      "copyLink": "复制链接"
+      "copyLink": "复制链接",
+      "copyLinkSuccess": "复制成功"
     }
   },
   "header": {
@@ -156,6 +179,11 @@
     },
     "HeaderLogo": {
       "alt": "Logo"
+    }
+  },
+  "tools": {
+    "ClickToCopy": {
+      "copied": "复制成功"
     }
   },
   "page": {

@@ -1,5 +1,6 @@
 "use client";
 
+import {useTranslations} from "next-intl";
 import {HTMLAttributes, useState} from "react";
 
 interface ClickToCopyProps extends HTMLAttributes<HTMLButtonElement> {
@@ -9,7 +10,8 @@ interface ClickToCopyProps extends HTMLAttributes<HTMLButtonElement> {
 
 function ClickToCopy({text, successText, children, className, ...other}: ClickToCopyProps) {
     const [showSuccess, setShowSuccess] = useState(false);
-    successText = successText || "复制成功";
+    const t = useTranslations("tools.ClickToCopy");
+    successText = successText || t("copied");
 
     const handleClick = () => {
         navigator.clipboard?.writeText(text).then(() => {

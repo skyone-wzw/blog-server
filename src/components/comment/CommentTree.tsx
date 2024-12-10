@@ -126,7 +126,8 @@ async function CommentItem({comment, replies, replyTarget}: CommentItemProps) {
                           target="_blank" href={comment.uid}>
                         {t("replyInFediverse")}
                     </Link>
-                    <ClickToCopy text={comment.uid} successText="复制成功" className="hover:text-link-hover ml-4">
+                    <ClickToCopy text={comment.uid} successText={t("copyLinkSuccess")}
+                                 className="hover:text-link-hover ml-4">
                         {t("copyLink")}
                     </ClickToCopy>
                 </p>
