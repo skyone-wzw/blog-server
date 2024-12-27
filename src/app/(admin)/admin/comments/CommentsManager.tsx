@@ -89,7 +89,7 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
     const pagedComments = comments.slice((page - 1) * perPage, page * perPage);
 
     return (
-        <main className="mb-6 col-start-2 col-span-full space-y-6 rounded-lg shadow">
+        <main className="mb-6 col-start-2 col-span-full space-y-6">
             <Paper className="col-span-full p-6">
                 <h1 className="text-lg pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid">
                     Comments Manager

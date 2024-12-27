@@ -27,7 +27,7 @@ function AvatarTooltip({fallbackAvatar, guest}: AvatarTooltipProps) {
 
     return (
         <div className={styles.TooltipRoot}>
-            <div className={clsx(styles.TooltipBox, "bg-bg-tag rounded-xl shadow")}>
+            <div className={clsx(styles.TooltipBox, "bg-bg-light rounded-xl shadow-lg")}>
                 {guest.banner && (!loadBannerError) && (
                     <img
                         className="h-32 w-full object-cover bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-xl"
