@@ -117,8 +117,10 @@ digest: ${digest}
             "host": `host: ${request.headers.get("Host")}`,
             "date": `date: ${request.headers.get("Date")}`,
             "digest": `digest: ${request.headers.get("Digest")}`,
+            "content-type": `content-type: ${request.headers.get("Content-Type")}`,
         };
-        const signingString = headersString.split(" ").map((header) => headerMap[header] ?? "").join("\n");
+        const headerRest = (header: string) => `${header}: ${request.headers.get(header)}`;
+        const signingString = headersString.split(" ").map((header) => headerMap[header] ?? headerRest(header)).join("\n");
         try {
             return crypto.verify("sha256", Buffer.from(signingString, "utf-8"), publicKey, Buffer.from(signatureString, "base64"));
         } catch (e) {
