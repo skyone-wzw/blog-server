@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   blog-server:
-    image: ghcr.io/skyone-wzw/blog-server:v1.0.0-alpha7
+    image: ghcr.io/skyone-wzw/blog-server:v1.0.0
     container_name: blog-server
     restart: unless-stopped
     volumes:

@@ -1,6 +1,6 @@
 # Blog-Server
 
-![License](https://img.shields.io/github/license/skyone-wzw/blog-server)
+![License](https://img.shields.io/github/license/skyone-wzw/blog-server) ![GitHub Release](https://img.shields.io/github/v/release/skyone-wzw/blog-server)
 
 <p align="center">中文文档 | <a href="README.en.md">English</a></p>
 
