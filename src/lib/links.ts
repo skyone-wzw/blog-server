@@ -110,6 +110,12 @@ const L = {
         outbox() {
             return "/api/fediverse/outbox";
         },
+        followers() {
+            return "/api/fediverse/followers";
+        },
+        following() {
+            return "/api/fediverse/following";
+        },
         post(slug: string) {
             return L.post(slug);
         },

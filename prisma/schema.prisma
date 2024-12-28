@@ -69,6 +69,10 @@ model FediverseGuest {
   webUrl    String?
   avatar    String?
   banner    String?
+  follow    Boolean @default(false)
+  inbox     String  @default("")
+  outbox    String  @default("")
+  raw       String  @default("")
   keyId     String
   publicKey String
   isBanned  Boolean @default(false)

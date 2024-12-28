@@ -11,13 +11,16 @@ export const HEX = {
 };
 
 export const HASH = {
-    md5(content: string | Buffer) {
-        return Crypto.createHash("md5").update(content).digest("hex");
-    },
     sha256(content: string | Buffer) {
         return Crypto.createHash("sha256").update(content).digest("hex");
     },
 };
+
+export const HASH_BASE64 = {
+    sha256(content: string | Buffer) {
+        return Crypto.createHash("sha256").update(content).digest("base64");
+    },
+}
 
 export const AES = (() => {
     const algorithm = "aes-256-cbc";

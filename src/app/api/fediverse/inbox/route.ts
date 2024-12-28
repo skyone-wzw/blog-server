@@ -2,51 +2,8 @@ import {getDynamicConfig} from "@/lib/config";
 import prisma from "@/lib/prisma";
 import FediverseUtil from "@/lib/fediverse-utils";
 import {PreprocessCommentHtml, PreprocessCommentSource} from "@/components/markdown/server-comment-processor";
-
-async function parseActor(actor: string | any) {
-    let profile = actor;
-    if (typeof actor === "string") {
-        const response = await fetch(actor, {
-            headers: {
-                "Accept": "application/activity+json",
-            },
-        });
-        if (!response.ok) {
-            return undefined;
-        }
-        profile = await response.json();
-    }
-    const guest = {
-        name: profile.name,
-        uid: `${profile.preferredUsername}@${new URL(profile.id).hostname}`,
-        url: profile.id,
-        webUrl: profile.url,
-        summary: profile.summary,
-        avatar: profile.icon?.[0]?.url ?? profile.icon?.[0] ?? profile.icon?.url ?? profile.icon,
-        banner: profile.image?.[0]?.url ?? profile.image?.[0] ?? profile.image?.url ?? profile.image,
-        keyId: profile.publicKey?.[0]?.id ?? profile.publicKey?.id ?? `${profile.id}#main-key`,
-        publicKey: profile.publicKey?.[0]?.publicKeyPem ?? profile.publicKey?.[0] ?? profile.publicKey?.publicKeyPem ?? profile.publicKey,
-    };
-    if (guest.webUrl && typeof guest.webUrl !== "string") return undefined;
-    if (typeof guest.url !== "string") return undefined;
-    if (typeof profile.preferredUsername !== "string") return undefined;
-    if (typeof guest.name !== "string") return undefined;
-    if (guest.summary && typeof guest.summary !== "string") return undefined;
-    if (guest.avatar && typeof guest.avatar !== "string") return undefined;
-    if (guest.banner && typeof guest.banner !== "string") return undefined;
-    if (typeof guest.publicKey !== "string") return undefined;
-    return guest as {
-        name: string,
-        uid: string,
-        url: string,
-        summary?: string,
-        webUrl?: string,
-        avatar?: string,
-        banner?: string,
-        keyId: string,
-        publicKey: string
-    };
-}
+import Fediverse from "@/lib/fediverse";
+import L from "@/lib/links";
 
 async function parseNote(note: any) {
     const allowedMediaTypes = ["text/markdown", "text/x.misskeymarkdown"];
@@ -125,6 +82,73 @@ async function parseReply(reply: string): Promise<{ postId?: string, reply?: str
     }
 }
 
+const handlers: Record<string, (activity: any) => Promise<void>> = {
+    "Create": async (activity: any) => {
+        const object = activity.object;
+        if (object.type === "Note") {
+            const actor = activity.actor;
+            const guest = await Fediverse.fetchActor(actor);
+            if (!guest) return;
+            const content = await parseNote(object);
+            if (!content) return;
+            const _date = activity.published;
+            const date = new Date(_date);
+            if (isNaN(date.getTime())) return;
+            const images = await parseImages(object);
+            const replyInfo = await parseReply(content.replyTo);
+            if (!replyInfo.postId) return;
+
+            const comment = {
+                uid: content.uid,
+                userId: guest.uid,
+                content: content.content,
+                source: content.source,
+                parsed: JSON.stringify(content.source
+                    ? await PreprocessCommentSource(content.source)
+                    : await PreprocessCommentHtml(content.content)),
+                images: JSON.stringify(images),
+                replyTo: replyInfo.reply,
+                postId: replyInfo.postId,
+                createdAt: date,
+                updatedAt: date,
+            };
+            await prisma.fediverseComment.create({
+                data: comment,
+            });
+        }
+    },
+    "Follow": async (activity: any) => {
+        const {site} = await getDynamicConfig();
+        const actor = activity.actor?.id ?? activity.actor;
+        const target = activity.object?.id ?? activity.object;
+        if (typeof actor !== "string" || typeof target !== "string") return;
+        if (target !== `${site.url}${L.fediverse.about()}`) return;
+        // 理论上此处由于经过签名验证, actor 一定是存在的
+        const guest = await Fediverse.getActor(actor) ?? await Fediverse.fetchActor(actor);
+        if (!guest) return;
+        // 响应后再发送回复
+        setTimeout(() => Fediverse.acceptFollow(actor, guest.inbox, guest.uid), 100);
+    },
+    "Undo": async (activity: any) => {
+        const object = activity.object;
+        if (object.type === "Follow") {
+            const actor = activity.actor;
+            const target = object.object;
+            if (typeof actor !== "string" || typeof target !== "string") return;
+            const guest = await Fediverse.getActor(actor) ?? await Fediverse.fetchActor(actor);
+            if (!guest) return;
+            await prisma.fediverseGuest.update({
+                where: {
+                    uid: guest.uid,
+                },
+                data: {
+                    follow: false,
+                },
+            });
+        }
+    },
+};
+
 export async function POST(request: Request) {
     const {fediverse} = await getDynamicConfig();
     if (!fediverse.enabled) return new Response("Not Found", {status: 404});
@@ -151,75 +175,18 @@ export async function POST(request: Request) {
         });
     }
     try {
-        do {
-            const activity = await request.json();
-            if (activity.type !== "Create") {
-                // 暂不支持其他类型的活动
-                break;
-            }
-            const object = activity.object;
-            if (object.type === "Note") {
-                const actor = activity.actor;
-                const guest = await parseActor(actor);
-                if (!guest) {
-                    break;
-                }
-                const content = await parseNote(object);
-                if (!content) {
-                    break;
-                }
-                const _date = activity.published;
-                const date = new Date(_date);
-                if (isNaN(date.getTime())) {
-                    break;
-                }
-
-                const images = await parseImages(object);
-
-                const replyInfo = await parseReply(content.replyTo);
-                if (!replyInfo.postId) {
-                    break;
-                }
-
-                const fediverseGuest = {
-                    name: guest.name,
-                    uid: guest.uid,
-                    url: guest.url,
-                    summary: guest.summary
-                        ? JSON.stringify(await PreprocessCommentHtml(guest.summary))
-                        : undefined,
-                    webUrl: guest.webUrl,
-                    avatar: guest.avatar,
-                    banner: guest.banner,
-                    keyId: guest.keyId,
-                    publicKey: guest.publicKey,
-                };
-                const comment = {
-                    uid: content.uid,
-                    userId: fediverseGuest.uid,
-                    content: content.content,
-                    source: content.source,
-                    parsed: JSON.stringify(content.source
-                        ? await PreprocessCommentSource(content.source)
-                        : await PreprocessCommentHtml(content.content)),
-                    images: JSON.stringify(images),
-                    replyTo: replyInfo.reply,
-                    postId: replyInfo.postId,
-                    createdAt: date,
-                    updatedAt: date,
-                };
-                await prisma.fediverseGuest.upsert({
-                    where: {
-                        uid: fediverseGuest.uid,
-                    },
-                    update: fediverseGuest,
-                    create: fediverseGuest,
-                });
-                await prisma.fediverseComment.create({
-                    data: comment,
-                });
-            }
-        } while (false);
+        const activity = await request.json();
+        console.log(`ActivityPub: type=${activity?.type}, actor=${activity?.actor?.id}, object=${activity?.object?.id}`);
+        if (typeof activity?.type !== "string") {
+            return Response.json({
+                code: 400,
+                message: "Bad Request",
+            }, {
+                status: 400,
+            });
+        }
+        // 执行处理
+        await handlers[activity.type as string]?.(activity);
     } catch (e) {
         console.error(e);
         return Response.json({
@@ -230,9 +197,5 @@ export async function POST(request: Request) {
         });
     }
 
-    return Response.json({
-        message: "OK",
-    }, {
-        status: 200,
-    });
+    return new Response(null, {status: 202});
 }

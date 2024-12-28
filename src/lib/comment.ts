@@ -16,6 +16,9 @@ export interface FediverseGuest {
     url: string;
     webUrl?: string | null;
     avatar?: string | null;
+    follow: boolean;
+    inbox: string;
+    outbox: string;
     isBanned: boolean;
 }
 
@@ -65,6 +68,9 @@ const FediverseGuestSelector = {
     url: true,
     webUrl: true,
     avatar: true,
+    follow: true,
+    inbox: true,
+    outbox: true,
     isBanned: true,
 };
 
@@ -77,6 +83,9 @@ const FediverseGuestWithPublicKeySelector = {
     url: true,
     webUrl: true,
     avatar: true,
+    follow: true,
+    inbox: true,
+    outbox: true,
     isBanned: true,
     publicKey: true,
 };
@@ -123,6 +132,23 @@ export const getGuestByUid = cache(async (uid: string): Promise<FediverseGuestWi
     const guest = await prisma.fediverseGuest.findUnique({
         where: {
             uid,
+        },
+        select: FediverseGuestWithPublicKeySelector,
+    });
+    return guest ? Database2Object(guest) : null;
+});
+
+export const getGuestByUrl = cache(async (url: string): Promise<FediverseGuestWithPublicKey | null> => {
+    const guest = await prisma.fediverseGuest.findFirst({
+        where: {
+            OR: [
+                {
+                    url: url,
+                },
+                {
+                    url: url.replace(/#.*$/, ""),
+                }
+            ]
         },
         select: FediverseGuestWithPublicKeySelector,
     });

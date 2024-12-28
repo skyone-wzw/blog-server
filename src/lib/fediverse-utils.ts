@@ -1,9 +1,9 @@
 import crypto from "crypto";
-import {HASH} from "@/lib/encrypt";
+import {HASH_BASE64} from "@/lib/encrypt";
 import {getDynamicConfig} from "@/lib/config";
 import {ArticleMetadata} from "@/lib/article";
 import L from "@/lib/links";
-import {FediverseArticleItem} from "@/lib/fediverse";
+import Fediverse, {FediverseArticleItem} from "@/lib/fediverse";
 import {getGuestByKeyId} from "@/lib/comment";
 
 async function fetchPublicKey(keyId: string) {
@@ -14,33 +14,10 @@ async function fetchPublicKey(keyId: string) {
             format: "pem",
         });
     }
-    let publicKey;
-    const response = await fetch(keyId, {
-        method: "GET",
-        headers: {
-            "Accept": "application/activity+json",
-        },
-    });
-    if (!response.ok) return;
-    const profile = await response.json();
-    if (typeof profile.publicKey === "string") {
-        publicKey = profile.publicKey;
-    } else if (profile.publicKey instanceof Array) {
-        for (const key of profile.publicKey) {
-            if (typeof key === "object" && key.id === keyId) {
-                publicKey = key.publicKeyPem;
-                break;
-            } else if (typeof key === "string") {
-                publicKey = key;
-                break;
-            }
-        }
-    } else if (typeof profile.publicKey === "object") {
-        publicKey = profile.publicKey.publicKeyPem;
-    }
-    if (!publicKey) return;
+    const profile = await Fediverse.fetchActor(keyId);
+    if (!profile) return null;
     return crypto.createPublicKey({
-        key: publicKey,
+        key: profile.publicKey,
         format: "pem",
     });
 }
@@ -75,7 +52,7 @@ const FediverseUtil = {
 
     async calculateSignature(privateKey: string, document: string, url: string) {
         const urlObject = new URL(url);
-        const digest = "SHA-256=" + HASH.sha256(document);
+        const digest = "SHA-256=" + HASH_BASE64.sha256(document);
         const date = new Date().toUTCString();
         const keyObject = crypto.createPrivateKey({
             key: privateKey,
@@ -89,13 +66,13 @@ date: ${date}
 digest: ${digest}
         `.trim();
         const {site} = await getDynamicConfig();
-        const keyId = `${site.url}/api/fediverse/me#main-key`;
+        const keyId = `${site.url}${L.fediverse.about()}#main-key`;
         const signature = crypto.sign("sha256", Buffer.from(signed_string), keyObject).toString("base64");
-        const header = `keyId="${keyId}",headers="(request-target) host date digest",signature="${signature}"`;
+        const header = `keyId="${keyId}",algorithm="rsa-sha256",headers="(request-target) host date digest",signature="${signature}"`;
         return {
             "Date": date,
             "Signature": header,
-            "Digest": `SHA-256=${digest}`,
+            "Digest": digest,
         };
     },
 
