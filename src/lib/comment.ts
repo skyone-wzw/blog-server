@@ -158,7 +158,7 @@ export const getGuestByUrl = cache(async (url: string): Promise<FediverseGuestWi
 export const getGuestByKeyId = cache(async (keyId: string): Promise<FediverseGuestWithPublicKey | null> => {
     const guest = await prisma.fediverseGuest.findFirst({
         where: {
-            publicKey: keyId,
+            keyId: keyId,
         },
         select: FediverseGuestWithPublicKeySelector,
     });

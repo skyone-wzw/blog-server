@@ -182,7 +182,12 @@ export async function POST(request: Request) {
             status: 400,
         });
     }
-    if (!await FediverseUtil.verifySignature(request)) {
+    const body = await request.text();
+    const activity = JSON.parse(body);
+    const actor = await FediverseUtil.verifySignature(request, body)
+    const actorUrl = activity.actor?.id ?? activity.actor;
+    if (!actor || actor.url !== actorUrl) {
+        // 未通过 Signature 验证 || actor 与 activity.actor 不一致
         return Response.json({
             code: 401,
             message: "Unauthorized",
@@ -191,7 +196,6 @@ export async function POST(request: Request) {
         });
     }
     try {
-        const activity = await request.json();
         console.log(`ActivityPub: type=${activity?.type}, actor=${activity?.actor?.id ?? activity.actor}, object=${activity?.object?.id}`);
         if (typeof activity?.type !== "string") {
             return Response.json({

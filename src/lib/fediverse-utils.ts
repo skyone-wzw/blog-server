@@ -77,7 +77,7 @@ digest: ${digest}
         };
     },
 
-    async verifySignature(request: Request) {
+    async verifySignature(request: Request, body: string) {
         const signatureHeader = request.headers.get("Signature") ?? "";
         const params: Record<string, string> = {};
         signatureHeader.split(",").map((param) => param.trim()).forEach((param) => {
@@ -88,6 +88,9 @@ digest: ${digest}
             headersString = params["headers"],
             signatureString = params["signature"];
         if (!keyId || !headersString || !signatureString) return false;
+        const digest = request.headers.get("Digest")?.replace(/^SHA-256=/, "");
+        if (!digest) return false;
+        if (digest !== HASH_BASE64.sha256(body)) return false;
         const publicKey = await fetchPublicKey(keyId);
         if (!publicKey) return false;
         const headerMap: Record<string, string> = {
@@ -100,9 +103,13 @@ digest: ${digest}
         const headerRest = (header: string) => `${header}: ${request.headers.get(header)}`;
         const signingString = headersString.split(" ").map((header) => headerMap[header] ?? headerRest(header)).join("\n");
         try {
-            return crypto.verify("sha256", Buffer.from(signingString, "utf-8"), publicKey, Buffer.from(signatureString, "base64"));
+            if (crypto.verify("sha256", Buffer.from(signingString, "utf-8"), publicKey, Buffer.from(signatureString, "base64"))) {
+                return await getGuestByKeyId(keyId);
+            } else {
+                return null;
+            }
         } catch (e) {
-            return false;
+            return null;
         }
     },
 
