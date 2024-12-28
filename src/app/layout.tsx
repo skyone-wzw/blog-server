@@ -11,6 +11,7 @@ import "./globals.css";
 import ImageViewerProvider from "@/components/image-viewer/ImageViewerProvider";
 import {NextIntlClientProvider} from "next-intl";
 import {getLocale, getMessages} from "next-intl/server";
+import {formats} from "@/i18n/request";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -56,8 +57,8 @@ interface RootLayoutProps {
 }
 
 async function RootLayout({children}: RootLayoutProps) {
-    const locale = await getLocale()
-    const messages = await getMessages()
+    const locale = await getLocale();
+    const messages = await getMessages();
 
     return (
         <html lang={locale}>
@@ -66,7 +67,7 @@ async function RootLayout({children}: RootLayoutProps) {
             </head>
             <body className={clsx(inter.className, "pk-scroll", {"color-transition": config.theme.colorTransition})}>
                 <ColorModeProvider>
-                    <NextIntlClientProvider messages={messages}>
+                    <NextIntlClientProvider messages={messages} formats={formats}>
                         <ImageViewerProvider>
                             <NextTopLoader color="#ec4899"/>
                             <AppHeader className="row-start-1"/>
