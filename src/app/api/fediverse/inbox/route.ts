@@ -147,6 +147,22 @@ const handlers: Record<string, (activity: any) => Promise<void>> = {
             });
         }
     },
+    "Delete": async (activity: any) => {
+        const actor = activity.actor?.id ?? activity.actor;
+        const object = activity.object?.id ?? activity.object;
+        if (typeof actor !== "string" || typeof object !== "string") return;
+        const guest = await Fediverse.getActor(actor) ?? await Fediverse.fetchActor(actor);
+        if (!guest) return;
+        await prisma.fediverseComment.updateMany({
+            where: {
+                userId: guest.uid,
+                uid: object,
+            },
+            data: {
+                isHidden: true,
+            },
+        });
+    },
 };
 
 export async function POST(request: Request) {
@@ -176,7 +192,7 @@ export async function POST(request: Request) {
     }
     try {
         const activity = await request.json();
-        console.log(`ActivityPub: type=${activity?.type}, actor=${activity?.actor?.id}, object=${activity?.object?.id}`);
+        console.log(`ActivityPub: type=${activity?.type}, actor=${activity?.actor?.id ?? activity.actor}, object=${activity?.object?.id}`);
         if (typeof activity?.type !== "string") {
             return Response.json({
                 code: 400,
