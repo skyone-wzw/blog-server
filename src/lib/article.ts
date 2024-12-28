@@ -115,7 +115,7 @@ export const getAllArticlesTitle = cache(async (published: boolean = true): Prom
             id: true,
             slug: true,
             title: true,
-            createdAt: true
+            createdAt: true,
         },
     });
     return articles.map(article => ({...article}));
@@ -265,6 +265,17 @@ export const getArticleBySlug = cache(async (slug: string, published: boolean = 
             published: published ? published : undefined,
         },
         select: ArticleSelector,
+    });
+    return article && Database2Article(article);
+});
+
+export const getArticleMetadataById = cache(async (id: string, published: boolean = true): Promise<ArticleMetadata | null> => {
+    const article = await prisma.post.findUnique({
+        where: {
+            id: id,
+            published: published ? published : undefined,
+        },
+        select: ArticleMetadataSelector,
     });
     return article && Database2Article(article);
 });

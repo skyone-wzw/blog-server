@@ -1,10 +1,10 @@
 import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
-import {getArticleBySlug} from "@/lib/article";
+import {ArticleMetadata, getArticleBySlug} from "@/lib/article";
 import FediverseUtil from "@/lib/fediverse-utils";
 import {PreprocessCommentHtml} from "@/components/markdown/server-comment-processor";
 import prisma from "@/lib/prisma";
-import {getGuestByUrl} from "@/lib/comment";
+import {getFollowers, getGuestByUrl} from "@/lib/comment";
 
 export interface FediverseGuestCreate {
     name: string;
@@ -29,6 +29,10 @@ export interface FediverseActivityItem {
     object: FediverseArticleItem;
 }
 
+type WithContext<T> = T & {
+    "@context": string[];
+}
+
 export interface FediverseArticleItem {
     id: string;
     type: "Note";
@@ -44,7 +48,6 @@ export interface FediverseArticleItem {
 }
 
 export interface FediverseOrderedCollectionPage {
-    "@context": string[];
     id: string;
     type: "OrderedCollectionPage";
     partOf: string;
@@ -55,7 +58,6 @@ export interface FediverseOrderedCollectionPage {
 }
 
 export interface FediverseOrderedCollection {
-    "@context": string[];
     id: string;
     type: "OrderedCollection";
     totalItems: number;
@@ -76,6 +78,21 @@ export interface FediverseAcceptFollow {
     type: "Accept";
     actor: string;
     object: Omit<FediverseFollow, "@context">;
+}
+
+export interface FediverseDeleteArticle {
+    type: "Delete";
+    actor: string;
+    object: {
+        id: string;
+        type: "Tombstone";
+    }
+}
+
+export interface FediverseUpdateArticle {
+    type: "Update";
+    actor: string;
+    object: FediverseArticleItem;
 }
 
 const ext2mime: Record<string, string> = {
@@ -106,6 +123,30 @@ async function tryFetch(url: string, init?: RequestInit, retry = 3, sleep = 1000
         await waitFor(sleep);
     }
     return null;
+}
+
+async function getRelatedGuest(postId: string): Promise<Record<string, string>> {
+    const targets = {} as Record<string, string>;
+    (await getFollowers()).forEach(follower => {
+        targets[follower.uid] = follower.inbox;
+    });
+    const comments = await prisma.fediverseComment.findMany({
+        where: {
+            postId: postId,
+        },
+        select: {
+            user: {
+                select: {
+                    uid: true,
+                    inbox: true,
+                },
+            },
+        },
+    });
+    comments.forEach(comment => {
+        targets[comment.user.uid] = comment.user.inbox;
+    });
+    return targets;
 }
 
 const Fediverse = {
@@ -198,6 +239,97 @@ const Fediverse = {
                 },
                 data: {
                     follow: true,
+                },
+            });
+        }
+    },
+
+    async broadcastArticle(article: ArticleMetadata) {
+        const {site, fediverse} = await getDynamicConfig();
+        const followers = await getFollowers();
+        const note = await FediverseUtil.articleToFediverseNode(article);
+        const activity: WithContext<FediverseActivityItem> = {
+            "@context": [
+                "https://www.w3.org/ns/activitystreams",
+            ],
+            id: `${site.url}${L.post(article.slug)}`,
+            type: "Create",
+            actor: `${site.url}${L.fediverse.about()}`,
+            published: article.createdAt.toISOString(),
+            object: note,
+        };
+        for (const follower of followers) {
+            const signature = await FediverseUtil.calculateSignature(
+                fediverse.privateKey,
+                JSON.stringify(activity),
+                follower.inbox,
+            );
+            await tryFetch(follower.inbox, {
+                method: "POST",
+                body: JSON.stringify(activity),
+                headers: {
+                    "Content-Type": "application/activity+json",
+                    ...signature,
+                },
+            });
+        }
+    },
+
+    async deleteArticle(article: ArticleMetadata) {
+        const {site, fediverse} = await getDynamicConfig();
+        const targets = await getRelatedGuest(article.id);
+        const activity: WithContext<FediverseDeleteArticle> = {
+            "@context": [
+                "https://www.w3.org/ns/activitystreams",
+            ],
+            type: "Delete",
+            actor: `${site.url}${L.fediverse.about()}`,
+            object: {
+                id: `${site.url}${L.post(article.slug)}`,
+                type: "Tombstone",
+            },
+        }
+        for (const uid in targets) {
+            const signature = await FediverseUtil.calculateSignature(
+                fediverse.privateKey,
+                JSON.stringify(activity),
+                targets[uid],
+            );
+            await tryFetch(targets[uid], {
+                method: "POST",
+                body: JSON.stringify(activity),
+                headers: {
+                    "Content-Type": "application/activity+json",
+                    ...signature,
+                },
+            });
+        }
+    },
+
+    async updateArticle(article: ArticleMetadata) {
+        const {site, fediverse} = await getDynamicConfig();
+        const targets = await getRelatedGuest(article.id);
+        const note = await FediverseUtil.articleToFediverseNode(article);
+        const activity: WithContext<FediverseUpdateArticle> = {
+            "@context": [
+                "https://www.w3.org/ns/activitystreams",
+            ],
+            type: "Update",
+            actor: `${site.url}${L.fediverse.about()}`,
+            object: note,
+        }
+        for (const uid in targets) {
+            const signature = await FediverseUtil.calculateSignature(
+                fediverse.privateKey,
+                JSON.stringify(activity),
+                targets[uid],
+            );
+            await tryFetch(targets[uid], {
+                method: "POST",
+                body: JSON.stringify(activity),
+                headers: {
+                    "Content-Type": "application/activity+json",
+                    ...signature,
                 },
             });
         }

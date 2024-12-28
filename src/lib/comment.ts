@@ -147,8 +147,8 @@ export const getGuestByUrl = cache(async (url: string): Promise<FediverseGuestWi
                 },
                 {
                     url: url.replace(/#.*$/, ""),
-                }
-            ]
+                },
+            ],
         },
         select: FediverseGuestWithPublicKeySelector,
     });
@@ -164,6 +164,16 @@ export const getGuestByKeyId = cache(async (keyId: string): Promise<FediverseGue
     });
     if (!guest) return null;
     return Database2Object(guest);
+});
+
+export const getFollowers = cache(async (): Promise<FediverseGuest[]> => {
+    const guests = await prisma.fediverseGuest.findMany({
+        where: {
+            follow: true,
+        },
+        select: FediverseGuestSelector,
+    });
+    return guests.map(guest => Database2Object(guest));
 });
 
 export const getAllGuestsName = cache(async (): Promise<FediverseGuestName[]> => {
