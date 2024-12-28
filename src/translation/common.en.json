@@ -3,6 +3,11 @@
     "en": "English",
     "zh-hans": "Simplified Chinese"
   },
+  "keyword": {
+    "series": "Series",
+    "tags": "Tags",
+    "readMore": "Read More"
+  },
   "ArticleFloatingButton": {
     "scrollToTop": "Scroll to Top",
     "toc": "Table of Contents",

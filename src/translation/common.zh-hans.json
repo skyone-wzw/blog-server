@@ -3,6 +3,11 @@
     "en": "英语",
     "zh-hans": "简体中文"
   },
+  "keyword": {
+    "series": "系列",
+    "tags": "标签",
+    "readMore": "阅读全文"
+  },
   "ArticleFloatingButton": {
     "scrollToTop": "返回顶部",
     "toc": "文章目录",

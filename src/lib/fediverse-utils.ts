@@ -5,6 +5,7 @@ import {ArticleMetadata} from "@/lib/article";
 import L from "@/lib/links";
 import Fediverse, {FediverseArticleItem} from "@/lib/fediverse";
 import {getGuestByKeyId} from "@/lib/comment";
+import {getTranslations} from "next-intl/server";
 
 async function fetchPublicKey(keyId: string) {
     const guest = await getGuestByKeyId(keyId);
@@ -106,20 +107,33 @@ digest: ${digest}
     },
 
     async articleToFediverseNode(article: ArticleMetadata): Promise<FediverseArticleItem> {
+        const t = await getTranslations("keyword");
         const {site} = await getDynamicConfig();
+        const series = `<a href="${site.url}${L.series(article.series)}" title="${article.series}">${article.series}</a>`;
+        const seriesMd = `[${article.series}](${site.url}${L.series(article.series)})`;
+        const tags = article.tags.map((tag) =>
+            `<a style="text-decoration: underline" href="${site.url}${L.tags(tag)}" title="${tag}">#${tag}</a>`).join(", ");
+        const tagsMd = article.tags.map((tag) =>
+            `[#${tag}](${site.url}${L.tags(tag)})`).join(", ");
         return {
             id: `${site.url}${L.post(article.slug)}`,
             type: "Note",
             attributedTo: `${site.url}${L.fediverse.about()}`,
             inReplyTo: null,
-            content: `<p>${article.title}</p><p>${article.description}</p><p><a href="${site.url}${L.post(article.slug)}">Read more</a></p>`,
+            content: `<p>${article.title}</p><p>${article.description}</p>`
+                + `<p>${t("series")}: ${series}</p>`
+                + (tags.length > 0 ? `<p>${t("tags")}: ${tags}</p>` : "")
+                + `<p><a href="${site.url}${L.post(article.slug)}">${t("readMore")}</a></p>`,
             published: article.createdAt.toISOString(),
             to: [
                 "https://www.w3.org/ns/activitystreams#Public",
             ],
             source: {
                 mediaType: "text/markdown",
-                content: `${article.title}\n\n${article.description}\n\n[Read more](${site.url}${L.post(article.slug)})`,
+                content: `${article.title}\n\n${article.description}`
+                    + `\n\n${t("series")}: ${seriesMd}`
+                    + (tags.length > 0 ? `\n\n${t("tags")}: ${tagsMd}` : "")
+                    + `[${t("readMore")}](${site.url}${L.post(article.slug)})`,
             },
         };
     },
