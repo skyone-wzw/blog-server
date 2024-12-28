@@ -12,7 +12,7 @@ export async function getNodeInfo(version: string) {
         "version": version,
         "software": {
             "name": "blog-server",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "homepage": "https://github.com/skyone-wzw/blog-server",
         },
         "protocols": [
