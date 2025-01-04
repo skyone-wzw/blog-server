@@ -106,7 +106,7 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
                             className="block max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content">
                         <option key="all" value="all">{t("all")}</option>
                         {guests.map(guest => (
-                            <option key={guest.id} value={guest.id}>{guest.name} {guest.uid}</option>
+                            <option key={guest.id} value={guest.uid}>{guest.name} {guest.uid}</option>
                         ))}
                     </select>
                     <select name="hiddne" value={hidden} onChange={e => setHidden(e.target.value as HiddenOption)}
