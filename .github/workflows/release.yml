@@ -34,8 +34,8 @@ jobs:
       - name: compress
         working-directory: build
         run: |
-          tar -zcf ../${{ github.event.repository.name }}-${{ github.ref_name }}.tar.gz *
-          zip -rq ../${{ github.event.repository.name }}-${{ github.ref_name }}.zip *
+          tar -zcf ../${{ github.event.repository.name }}-${{ github.ref_name }}.tar.gz * .[^.]+
+          zip -rq ../${{ github.event.repository.name }}-${{ github.ref_name }}.zip * .[^.]+
       - name: upload artifact
         uses: actions/upload-artifact@v3
         id: upload-artifact-step
