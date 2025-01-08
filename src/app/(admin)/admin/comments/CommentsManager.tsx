@@ -12,7 +12,8 @@ import "@/components/markdown/article.css";
 import L from "@/lib/links";
 import AvatarTooltip from "@/components/comment/AvatarTooltip";
 import {ImgWithViewer} from "@/components/tools/ImageWithViewer";
-import {FetchCommentsAction, UpdateCommentAction, UpdateGuestAction} from "@/lib/comment-actions";
+import {DeleteCommentAction, FetchCommentsAction, UpdateCommentAction, UpdateGuestAction} from "@/lib/comment-actions";
+import DangerousButton from "@/components/DangerousButton";
 
 interface CommentsManagerProps {
     articles: ArticleTitle[];
@@ -26,7 +27,7 @@ const perPage = 5;
 function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProps) {
     const [article, setArticle] = useState("all");
     const [guest, setGuest] = useState("all");
-    const [hidden, setHidden] = useState<HiddenOption>("all");
+    const [hidden, setHidden] = useState<HiddenOption>("visible");
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(1);
     const [comments, setComments] = useState<FediverseCommentWithGuest[]>([]);
@@ -41,7 +42,11 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
     };
 
     useEffect(() => {
-        FetchCommentsAction()
+        FetchCommentsAction({
+            hidden: hidden === "all" ? undefined : hidden === "hidden",
+            postId: article === "all" ? undefined : article,
+            uid: guest === "all" ? undefined : guest,
+        })
             .then(updateComments);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -73,6 +78,24 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
             alert(isHidden ? t("alert.hideError") : t("alert.showError"));
         }
     };
+
+    const deleteComment = async (uid: string) => {
+        if (await DeleteCommentAction(uid)) {
+            setComments(comments =>
+                comments.filter(c => c.uid !== uid));
+        } else {
+            alert(t("alert.deleteError"));
+        }
+    };
+
+    const deleteGuest = async (uid: string) => {
+        if (await UpdateGuestAction(uid, true)) {
+            setComments(comments =>
+                comments.filter(c => c.user.uid !== uid));
+        } else {
+            alert(t("alert.deleteError"));
+        }
+    }
 
     const findArticle = (id: string) => articles.find(a => a.id === id);
 
@@ -180,15 +203,23 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
                                         ))}
                                     </div>
                                 )}
-                                <p className="text-text-subnote text-sm mt-2">
-                                    <button className="hover:text-link-hover" rel="noopener noreferrer"
+                                <p className="text-text-subnote text-sm mt-2 space-x-2">
+                                    <button className="rounded-md bg-bg-light px-3 py-2 text-sm hover:bg-bg-hover"
                                             onClick={() => banGuest(user.uid, !user.isBanned)}>
                                         {user.isBanned ? t("unbanUser") : t("banUser")}
                                     </button>
-                                    <button className="hover:text-link-hover ml-4" rel="noopener noreferrer"
+                                    <button className="rounded-md bg-bg-light px-3 py-2 text-sm hover:bg-bg-hover"
                                             onClick={() => hiddenComment(comment.uid, !comment.isHidden)}>
                                         {comment.isHidden ? t("showComment") : t("hideComment")}
                                     </button>
+                                    <DangerousButton className="rounded-md bg-bg-light px-3 py-2 text-sm hover:bg-bg-hover"
+                                                     onClick={() => deleteComment(comment.uid)}>
+                                        {t("deleteComment")}
+                                    </DangerousButton>
+                                    <DangerousButton className="rounded-md bg-bg-light px-3 py-2 text-sm hover:bg-bg-hover"
+                                                     onClick={() => deleteGuest(user.uid)}>
+                                        {t("deleteGuest")}
+                                    </DangerousButton>
                                 </p>
                             </div>
                         </Paper>

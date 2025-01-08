@@ -490,13 +490,17 @@
           "unbanUser": "解封用户",
           "hideComment": "隐藏评论",
           "showComment": "显示评论",
+          "deleteComment": "删除评论",
+          "deleteGuest": "删除访客",
           "prev": "上一页",
           "next": "下一页",
           "alert": {
             "banError": "封禁失败",
             "unbanError": "解封失败",
             "hideError": "隐藏失败",
-            "showError": "显示失败"
+            "showError": "显示失败",
+            "error": "操作失败",
+            "deleteError": "删除失败"
           }
         }
       }

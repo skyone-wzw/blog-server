@@ -285,7 +285,7 @@ export interface GetCommentOptions {
 }
 
 export const getCommentsWithGuestByOption = cache(async (option: GetCommentOptions = {}): Promise<FediverseCommentWithGuest[]> => {
-    const hidden = option.hidden === undefined ? {} : option.hidden
+    const hidden = option.hidden === undefined ? {} : (option.hidden
         ? {
             OR: [
                 {
@@ -302,7 +302,7 @@ export const getCommentsWithGuestByOption = cache(async (option: GetCommentOptio
             user: {
                 isBanned: false,
             },
-        };
+        });
 
     const comments = await prisma.fediverseComment.findMany({
         where: {
@@ -317,3 +317,31 @@ export const getCommentsWithGuestByOption = cache(async (option: GetCommentOptio
     });
     return comments.map(comment => ({...comment, images: JSON.parse(comment.images)}));
 });
+
+export const deleteComment = async (uid: string): Promise<boolean> => {
+    try {
+        await prisma.fediverseComment.delete({
+            where: {
+                uid,
+            },
+        });
+        return true;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+};
+
+export const deleteGuest = async (uid: string): Promise<boolean> => {
+    try {
+        await prisma.fediverseGuest.delete({
+            where: {
+                uid,
+            },
+        });
+        return true;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+};

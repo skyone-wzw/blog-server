@@ -490,14 +490,17 @@
           "unbanUser": "Unban User",
           "hideComment": "Hide Comment",
           "showComment": "Show Comment",
+          "deleteComment": "Delete Comment",
+          "deleteGuest": "Delete Guest",
           "prev": "Prev",
           "next": "Next",
           "alert": {
-            "banSuccess": "User banned",
-            "unbanSuccess": "User unbanned",
-            "hideSuccess": "Comment hidden",
-            "showSuccess": "Comment shown",
-            "error": "Operation failed"
+            "banError": "Ban failed",
+            "unbanError": "Unban failed",
+            "hideError": "Hide failed",
+            "showError": "Show failed",
+            "error": "Operation failed",
+            "deleteError": "Delete failed"
           }
         }
       }
