@@ -1,6 +1,6 @@
 services:
   blog-server:
-    image: ghcr.io/skyone-wzw/blog-server:v1.0.1
+    image: ghcr.io/skyone-wzw/blog-server:v1.0.2
     container_name: blog-server
     restart: unless-stopped
     volumes:
