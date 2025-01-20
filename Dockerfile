@@ -9,15 +9,17 @@ RUN npm ci
 RUN npx prisma generate
 RUN npm run patch-font
 RUN npm run build
+RUN cp -r .next/standalone build
+RUN cp -r .next/static build/.next/static
+RUN cp -r public build/public
+RUN rm build/.env
 
 FROM base AS runner
 WORKDIR /app
 COPY prisma prisma
-COPY --from=builder /app/public public
-COPY --from=builder /app/.next/standalone .
-COPY --from=builder /app/.next/static .next/static
+COPY --from=builder /app/build .
 COPY docker-bootstrap.sh .
-ENV NEXT_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=true
+ENV NEXT_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=1
 RUN npm install -g prisma
 
 EXPOSE 3000

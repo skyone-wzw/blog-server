@@ -31,7 +31,6 @@ jobs:
           cp -r .next/standalone build
           cp -r .next/static build/.next/static
           cp -r public build/public
-          rm build/.env
           mv build ${{ github.event.repository.name }}-${{ github.ref_name }}
       - name: compress
         run: |
