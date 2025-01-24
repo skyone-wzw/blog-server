@@ -31,12 +31,12 @@ function QuickAction({name, description, action}: QuickActionProps) {
 
     return (
         <div className="flex flex-col justify-start items-start lg:items-center lg:flex-row p-2 gap-2">
-            <div className="basis-0 flex-grow">
+            <div className="basis-0 grow">
                 <p className="text-text-content">{name}</p>
                 <p className="text-sm text-text-subnote grow">{description}</p>
             </div>
             <button
-                className="self-end rounded-md bg-button-bg px-4 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
+                className="self-end rounded-md bg-button-bg px-4 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover"
                 disabled={loading} type="button"
                 onClick={async () => {
                     setLoading(true);

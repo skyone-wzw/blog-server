@@ -5,7 +5,7 @@ import {
     FediverseActivityItem,
     FediverseArticleItem,
     FediverseOrderedCollection,
-    FediverseOrderedCollectionPage,
+    FediverseOrderedCollectionPage, WithContext,
 } from "@/lib/fediverse";
 import FediverseUtil from "@/lib/fediverse-utils";
 
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
             published: item.published,
             object: item,
         }));
-        const collectionPage: FediverseOrderedCollectionPage = {
+        const collectionPage: WithContext<FediverseOrderedCollectionPage> = {
             "@context": [
                 "https://www.w3.org/ns/activitystreams",
                 "https://w3id.org/security/v1",
@@ -76,7 +76,7 @@ export async function GET(request: Request) {
             },
         });
     }
-    const collection: FediverseOrderedCollection = {
+    const collection: WithContext<FediverseOrderedCollection> = {
         "@context": [
             "https://www.w3.org/ns/activitystreams",
             "https://w3id.org/security/v1",

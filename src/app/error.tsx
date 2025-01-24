@@ -35,12 +35,12 @@ function ErrorPage({error, reset}: ErrorPageProps) {
                     })}
                     <div className="flex flex-row gap-x-4 justify-center">
                         <button
-                            className="rounded-md bg-button-bg px-6 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
+                            className="rounded-md bg-button-bg px-6 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover"
                             onClick={reset}>
                             {t("retry")}
                         </button>
                         <button
-                            className="rounded-md bg-button-bg px-6 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
+                            className="rounded-md bg-button-bg px-6 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover"
                             onClick={() => window.location.reload()}>
                             {t("reload")}
                         </button>

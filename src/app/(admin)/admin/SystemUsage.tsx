@@ -19,28 +19,28 @@ async function SystemUsage({className}: SystemUsageProps) {
             <h2 className="mb-2 text-text-subnote">{t("title")}</h2>
             <div className="divide-y divide-bg-tag border-y border-bg-tag">
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("databaseSize")}</span>
-                    <span className="flex-shrink-0">{humanReadableSize(databaseSize)}</span>
+                    <span className="basis-28 grow">{t("databaseSize")}</span>
+                    <span className="shrink-0">{humanReadableSize(databaseSize)}</span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("cacheFileSize")}</span>
-                    <span className="flex-shrink-0">{humanReadableSize(cacheSize)}</span>
+                    <span className="basis-28 grow">{t("cacheFileSize")}</span>
+                    <span className="shrink-0">{humanReadableSize(cacheSize)}</span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("memoryUsage")}</span>
-                    <span className="flex-shrink-0">{humanReadableSize(nodeMemoryUsage.rss)}</span>
+                    <span className="basis-28 grow">{t("memoryUsage")}</span>
+                    <span className="shrink-0">{humanReadableSize(nodeMemoryUsage.rss)}</span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("systemTotalMemory")}</span>
-                    <span className="flex-shrink-0">{humanReadableSize(systemUsage.total)}</span>
+                    <span className="basis-28 grow">{t("systemTotalMemory")}</span>
+                    <span className="shrink-0">{humanReadableSize(systemUsage.total)}</span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("systemMemoryUsage")}</span>
-                    <span className="flex-shrink-0">{humanReadableSize(systemUsage.usage)}</span>
+                    <span className="basis-28 grow">{t("systemMemoryUsage")}</span>
+                    <span className="shrink-0">{humanReadableSize(systemUsage.usage)}</span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("systemMemoryUsageRate")}</span>
-                    <span className="flex-shrink-0">{systemUsage.percentage.toFixed(2)}%</span>
+                    <span className="basis-28 grow">{t("systemMemoryUsageRate")}</span>
+                    <span className="shrink-0">{systemUsage.percentage.toFixed(2)}%</span>
                 </div>
             </div>
         </Paper>

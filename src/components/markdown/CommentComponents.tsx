@@ -26,7 +26,7 @@ type BlockquoteProps = DetailedHTMLProps<BlockquoteHTMLAttributes<HTMLQuoteEleme
 function Blockquote({children, className}: BlockquoteProps) {
     return (
         <blockquote
-            className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4 rounded quote-alert", className)}>
+            className={clsx("border-l-4 border-l-border bg-bg-quote px-4 py-3 mb-4 rounded-sm quote-alert", className)}>
             {children}
         </blockquote>
     );
@@ -38,7 +38,7 @@ type CodeProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 function Code({children, className}: CodeProps) {
     return (
         <code
-            className={clsx("bg-bg-tag px-1.5 py-0.5 rounded xc-scroll", className)}>
+            className={clsx("bg-bg-tag px-1.5 py-0.5 rounded-sm xc-scroll", className)}>
             {children}
         </code>
     );

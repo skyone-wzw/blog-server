@@ -56,10 +56,9 @@ function DangerousButton({disabled, className, confirmText, children, onClick}: 
     return (
         <button
             type="button"
-            className={clsx(className, {
+            className={clsx({
                 "bg-red-500 hover:bg-red-600 text-button-text": isConfirm !== 0,
-                "text-text-content": isConfirm === 0,
-            })}
+            }, className)}
             disabled={disabled}
             onClick={handleClick} ref={ref}>
             {isConfirm !== 0 ? (confirmText ?? t("confirm")) : children}

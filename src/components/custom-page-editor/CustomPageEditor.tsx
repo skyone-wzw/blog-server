@@ -129,27 +129,27 @@ function CustomPageEditor({page, className}: CustomPageEditorProps) {
     };
 
     return (
-        <main className={clsx("flex-grow flex-col space-y-2 m-2", className)}>
+        <main className={clsx("grow flex-col space-y-2 m-2", className)}>
             <div className="flex flex-row flex-wrap justify-start items-center gap-x-4 gap-y-2">
-                <div className="flex flex-row flex-nowrap items-center max-w-full basis-64 flex-shrink flex-grow">
+                <div className="flex flex-row flex-nowrap items-center max-w-full basis-64 shrink grow">
                     <label htmlFor="custom-page-editor-menu-slug" className="mr-2 text-text-content">{t("slug")}</label>
                     <input id="custom-page-editor-menu-slug" type="text" required value={slug}
                            onChange={e => setSlug(e.target.value)}
-                           className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="grow w-0 text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
-                <div className="flex flex-row flex-nowrap items-center max-w-full basis-96 flex-shrink flex-grow">
+                <div className="flex flex-row flex-nowrap items-center max-w-full basis-96 shrink grow">
                     <label htmlFor="custom-page-editor-menu-title" className="mr-2 text-text-content">{t("title")}</label>
                     <input id="custom-page-editor-menu-title" type="text" required value={title}
                            onChange={e => setTitle(e.target.value)}
-                           className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="grow w-0 text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
                 <div>
                     <button
                         onClick={handleOpenEditInfo} type="button"
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                         {t("editMetadata")}
                     </button>
-                    <Dialog open={isEditInfo} blur clickOutsideClose onClose={() => setIsEditInfo(false)}>
+                    <Dialog open={isEditInfo} center blur clickOutsideClose onClose={() => setIsEditInfo(false)}>
                         <Paper
                             className="p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
                             <div className="pb-4 text-text-main">{t("editMetadata")}</div>
@@ -161,7 +161,7 @@ function CustomPageEditor({page, className}: CustomPageEditorProps) {
                                 <div className="mt-2">
                                     <input id="custom-page-editor-info-slug" type="text" required value={slug}
                                            onChange={(e) => setSlug(e.target.value)}
-                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
                             <div className="w-full">
@@ -172,7 +172,7 @@ function CustomPageEditor({page, className}: CustomPageEditorProps) {
                                 <div className="mt-2">
                                     <input id="custom-page-editor-info-email" type="text" required value={title}
                                            onChange={(e) => setTitle(e.target.value)}
-                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
                             <div className="w-full">
@@ -183,11 +183,11 @@ function CustomPageEditor({page, className}: CustomPageEditorProps) {
                                 <div className="mt-2">
                                     <textarea id="custom-page-editor-info-description" required value={description}
                                               onChange={(e) => setDescription(e.target.value)}
-                                              className="block w-full text-sm font-mono h-32 resize-none overflow-auto shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content xc-scroll"/>
+                                              className="block w-full text-sm font-mono h-32 resize-none overflow-auto shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content xc-scroll"/>
                                 </div>
                             </div>
                             <button
-                                className="mt-2 w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
+                                className="mt-2 w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover"
                                 type="button" onClick={() => setIsEditInfo(false)}>
                                 {t("saveMetadata")}
                             </button>
@@ -195,16 +195,16 @@ function CustomPageEditor({page, className}: CustomPageEditorProps) {
                     </Dialog>
                 </div>
                 <button onClick={() => setIsPreview(prev => !prev)} type="button"
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover xl:hidden">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover xl:hidden">
                     {isPreview ? t("edit") : t("preview")}
                 </button>
                 <div>
                     <button
                         onClick={handleOpenImageUploader} type="button"
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                         {t("uploadImage")}
                     </button>
-                    <Dialog open={isUploadImage} blur clickOutsideClose
+                    <Dialog open={isUploadImage} center blur clickOutsideClose
                             onClose={() => setIsUploadImage(false)}>
                         <ImageUploader className="max-w-full"/>
                     </Dialog>
@@ -212,35 +212,35 @@ function CustomPageEditor({page, className}: CustomPageEditorProps) {
                 {page.id && (
                     <Link
                         href={L.custom(page.slug)}
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                         {t("toCustomPage")}
                     </Link>
                 )}
                 <button
                     onClick={handleSaveCustomPage} disabled={isLoading} type="button"
-                    className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover">
+                    className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover">
                     {t("save")}
                 </button>
                 {page.id && (
                     <DangerousButton
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm shadow-sm hover:bg-bg-hover"
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover"
                         onClick={handleDeleteArticle}>
                         {t("delete")}
                     </DangerousButton>
                 )}
                 <Link
                     href={L.editor.custom()} title={t("backDescription")}
-                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover lg:hidden">
+                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover lg:hidden">
                     {t("back")}
                 </Link>
                 <button
                     onClick={handleLogout} type="button"
-                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                     {t("logout")}
                 </button>
             </div>
             <MarkdownEditor initContent={page.content} content={content} setContent={setContent} isPreview={isPreview}
-                            className="flex-grow h-0"/>
+                            className="grow h-0"/>
         </main>
     );
 }

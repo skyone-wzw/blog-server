@@ -73,27 +73,27 @@ async function AsideProfile({className}: AsideProfileProps) {
                 <div className="w-full mt-2 flex justify-around text-sm text-text-subnote">
                     {profile.social.github && (
                         <Link
-                            className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
+                            className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded-sm"
                             title={t("github.title")} target="_blank" href={L.social.github(profile.social.github)}>
                             <GithubIcon/>
                         </Link>
                     )}
                     {profile.social.zhihu && (
                         <Link
-                            className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded"
+                            className="flex flex-col hover:text-link-hover px-2 lg:px-4 py-2 hover:bg-bg-hover rounded-sm"
                             title={t("zhihu.title")} target="_blank" href={L.social.zhihu(profile.social.zhihu)}>
                             <ZhihuIcon/>
                         </Link>
                     )}
                     {profile.email && (
                         <Link
-                            className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded hover:bg-bg-hover"
+                            className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded-sm hover:bg-bg-hover"
                             title={t("email.title")} href={L.social.email(profile.email)}>
                             <EmailIcon/>
                         </Link>
                     )}
                     <Link
-                        className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded hover:bg-bg-hover"
+                        className="flex flex-col hover:text-link-hover fill-current px-2 lg:px-4 py-2 rounded-sm hover:bg-bg-hover"
                         title={t("rss.title")} href={L.social.rss()}>
                         <RssFeedIcon/>
                     </Link>

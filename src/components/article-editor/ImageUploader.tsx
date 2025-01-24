@@ -38,16 +38,16 @@ function ImageUploader({className}: ImageUploaderProps) {
                 <div className="pb-4 text-text-main">{t("title")}</div>
                 <input
                     aria-label={t("inputLabel")} onChange={handleChangeFile}
-                    className="block w-full p-6 text-sm text-text-content border rounded-lg cursor-pointer bg-bg-light dark:text-gray-400 focus:outline-none"
+                    className="block w-full p-6 text-sm text-text-content border rounded-lg cursor-pointer bg-bg-light dark:text-gray-400 focus:outline-hidden"
                     id="article-editor-upload-image" name="file" type="file"
                     accept="image/webp,image/png,image/jpeg"/>
                 <pre
                     className="text-sm overflow-auto text-text-content flex flex-row justify-between items-center gap-x-1">
-                    <p className="flex-grow w-0 overflow-x-auto xc-scroll">{result ? t("uploaded", {result}) : isLoading ? t("uploading") : "\xa0"}</p>
+                    <p className="grow w-0 overflow-x-auto xc-scroll">{result ? t("uploaded", {result}) : isLoading ? t("uploading") : "\xa0"}</p>
                     {result && (
                         <button
                             type="button" onClick={copyToClipboard}
-                            className="rounded-md bg-bg-quote px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                            className="rounded-md bg-bg-quote px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                             <svg stroke="currentColor" fill="currentColor" viewBox="0 0 448 512" height="1em"
                                  width="1em"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +59,7 @@ function ImageUploader({className}: ImageUploaderProps) {
                 </pre>
                 <input
                     type="submit" disabled={isLoading} value={t("submit")}
-                    className="w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"/>
+                    className="w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover"/>
             </form>
         </Paper>
     );

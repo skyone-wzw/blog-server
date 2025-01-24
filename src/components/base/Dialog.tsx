@@ -6,6 +6,7 @@ import {ReactNode, useEffect, useRef} from "react";
 interface DialogProps {
     className?: string;
     boxClassName?: string;
+    center?: boolean;
     open: boolean;
     onClose?: () => void;
     clickInsideClose?: boolean;
@@ -14,7 +15,7 @@ interface DialogProps {
     blur?: boolean;
 }
 
-function Dialog({className, boxClassName, open, onClose, clickInsideClose, clickOutsideClose, blur, children}: DialogProps) {
+function Dialog({className, boxClassName, center, open, onClose, clickInsideClose, clickOutsideClose, blur, children}: DialogProps) {
     const ref = useRef<HTMLDialogElement>(null);
     const rootRef = useRef<HTMLDivElement>(null);
 
@@ -50,10 +51,14 @@ function Dialog({className, boxClassName, open, onClose, clickInsideClose, click
     return (
         <dialog
             ref={ref}
-            className={clsx("backdrop:bg-[#00000033] bg-transparent", {
-                "backdrop:backdrop-blur-sm": blur,
+            className={clsx("backdrop:bg-[#00000033] bg-transparent overflow-visible", {
+                "backdrop:backdrop-blur-xs": blur,
             }, className)}>
-            <div className={boxClassName} ref={rootRef}>{children}</div>
+            <div className={clsx({"w-screen h-screen flex justify-center items-center": center}, boxClassName)}>
+                <div className="contents" ref={rootRef}>
+                    {children}
+                </div>
+            </div>
         </dialog>
     );
 }

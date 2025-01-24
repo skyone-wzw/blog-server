@@ -112,13 +112,13 @@ function MarkdownEditor({initContent, content, setContent, isPreview, className}
             className={clsx("flex flex-row gap-x-4", className)}>
             <div
                 ref={inputRef}
-                className={clsx("w-0 flex-grow resize-none text-sm lg:text-base rounded-lg overflow-hidden", {
+                className={clsx("w-0 grow resize-none text-sm lg:text-base rounded-lg overflow-hidden", {
                     "hidden xl:block": isPreview,
                     "block": !isPreview,
                 })}/>
             <div
                 ref={previewRef}
-                className={clsx(isPreview ? "block" : "hidden xl:block", "bg-bg-light rounded-lg shadow w-0 flex-grow p-4 text-sm 2xl:text-base overflow-auto pk-scroll")}>
+                className={clsx(isPreview ? "block" : "hidden xl:block", "bg-bg-light rounded-lg shadow-sm w-0 grow p-4 text-sm 2xl:text-base overflow-auto pk-scroll")}>
                 <MarkdownPreview content={content}/>
             </div>
         </div>

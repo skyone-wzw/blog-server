@@ -37,7 +37,7 @@ function SubmitButton() {
     return (
         <input
             ref={formSubmitRef}
-            className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
+            className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover"
             disabled={pending} type="submit" value={t("save")}/>
     );
 }
@@ -106,7 +106,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
     };
 
     return (
-        <form className="bg-bg-light rounded-lg shadow p-6 space-y-4" action={formAction}>
+        <form className="bg-bg-light rounded-lg shadow-sm p-6 space-y-4" action={formAction}>
             <h1 className="text-lg pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid">
                 {t("title")}
             </h1>
@@ -132,7 +132,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                 <div className="mt-1">
                     <input id="profile-editor-name" type="text" required name="name"
                            value={name} onChange={e => setName(e.target.value)}
-                           className="block w-[520px] max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="block w-[520px] max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <div className="w-full">
@@ -143,7 +143,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                 <div className="mt-1">
                     <input id="profile-editor-email" required name="email"
                            value={email} onChange={e => setEmail(e.target.value)}
-                           className="block w-[520px] max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="block w-[520px] max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <div className="w-full">
@@ -155,7 +155,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                     <input ref={coverSelectorRef} id="profile-editor-cover" type="file" name="cover"
                            onChange={e => setCover(e.target.files?.[0])}
                            className="hidden" accept="image/webp,image/png,image/jpeg"/>
-                    <Image className="w-[520px] max-w-full aspect-[3/1] object-cover rounded border-2 border-bg-tag"
+                    <Image className="w-[520px] max-w-full aspect-3/1 object-cover rounded-sm border-2 border-bg-tag"
                            onClick={handleCoverClick}
                            src={getCoverPreview()} height={200} width={600} alt="Avatar"/>
                 </div>
@@ -168,7 +168,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                 <div className="mt-1">
                     <textarea id="profile-editor-description" name="description"
                               value={description} onChange={e => setDescription(e.target.value)}
-                              className="block w-[520px] h-16 max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                              className="block w-[520px] h-16 max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <div className="w-full">
@@ -180,7 +180,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                     </label>
                     <input id="profile-editor-social-github" name="social-github" type="text"
                            value={github} onChange={e => setGithub(e.target.value)}
-                           className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="grow text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
                 <div className="mt-1 flex flex-row flex-nowrap items-center w-[520px] max-w-full">
                     <label htmlFor="profile-editor-social-zhihu"
@@ -189,7 +189,7 @@ function ProfileEditor({profile}: ProfileEditorProps) {
                     </label>
                     <input id="profile-editor-social-zhihu" name="social-zhihu" type="text"
                            value={zhihu} onChange={e => setZhihu(e.target.value)}
-                           className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="grow text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <SubmitButton/>

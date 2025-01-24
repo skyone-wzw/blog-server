@@ -23,7 +23,7 @@ async function ArticleSummaryCard({className, article}: ArticleSummaryCardProps)
                 <Image
                     blurDataURL={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo, true)}
                     placeholder="blur" width={1300} height={630} alt="cover"
-                    className="rounded-t-lg w-full min-[360px]:aspect-[1300/630] min-h-[176px] object-cover block"
+                    className="rounded-t-lg w-full min-[360px]:aspect-1300/630 min-h-[176px] object-cover block"
                     src={L.cover(article.slug, article.updatedAt.getTime(), dynamicConfig.site.logo)}/>
             </Link>
             <article className="p-6">

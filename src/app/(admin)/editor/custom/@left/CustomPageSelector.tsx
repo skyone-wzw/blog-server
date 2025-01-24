@@ -22,7 +22,7 @@ function CustomPageSelector({pages, className}: ArticleClassifierProps) {
     return (
         <aside
             className={clsx("w-full lg:w-80 m-2 flex-col space-y-2", isSelectPage ? "flex" : "hidden lg:flex", className)}>
-            <Paper className="py-4 flex-grow h-0">
+            <Paper className="py-4 grow h-0">
                 <p className="px-4 text-text-subnote text-sm">{t("all")}</p>
                 <div className="px-2.5 divide-y divide-dashed divide-bg-tag max-h-full overflow-auto xc-scroll">
                     <Link href={L.editor.custom("/new")}

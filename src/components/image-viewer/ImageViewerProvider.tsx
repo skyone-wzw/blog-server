@@ -30,11 +30,11 @@ function ImageViewerProvider({children}: ImageViewerProviderProps) {
     return (
         <ImageViewerContext.Provider value={{open: handleOpen}}>
             {children}
-            <Dialog className="z-20 focus-visible:outline-none w-full h-full"
+            <Dialog className="z-20 focus-visible:outline-hidden w-full h-full" center
                     boxClassName="h-full w-full flex justify-center items-center"
                     clickOutsideClose clickInsideClose blur open={open} onClose={handleClose}>
                 {image && <img src={image} alt="Image Viewer" onClick={handleClose}
-                               className="max-w-full max-h-full w-auto h-auto"/>}
+                               className="max-w-full max-h-full w-auto h-auto p-4"/>}
             </Dialog>
         </ImageViewerContext.Provider>
     );

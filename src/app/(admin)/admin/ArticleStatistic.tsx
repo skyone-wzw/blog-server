@@ -19,22 +19,22 @@ async function ArticleStatistic({className}: ArticleStatisticProps) {
             <h2 className="mb-2 text-text-subnote">{t("title")}</h2>
             <div className="divide-y divide-bg-tag border-y border-bg-tag">
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("article")}</span>
-                    <span className="flex-shrink-0">{t("articleCount", {count: total})}</span>
+                    <span className="basis-28 grow">{t("article")}</span>
+                    <span className="shrink-0">{t("articleCount", {count: total})}</span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("word")}</span>
-                    <span className="flex-shrink-0">
+                    <span className="basis-28 grow">{t("word")}</span>
+                    <span className="shrink-0">
                         {t("wordCount", {count: totalText.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")})}
                     </span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("series")}</span>
-                    <span className="flex-shrink-0">{t("seriesCount", {count: series.length})}</span>
+                    <span className="basis-28 grow">{t("series")}</span>
+                    <span className="shrink-0">{t("seriesCount", {count: series.length})}</span>
                 </div>
                 <div className="flex justify-start items-center flex-row p-2 gap-y-2">
-                    <span className="basis-28 flex-grow">{t("tag")}</span>
-                    <span className="flex-shrink-0">{t("tagCount", {count: tags.length})}</span>
+                    <span className="basis-28 grow">{t("tag")}</span>
+                    <span className="shrink-0">{t("tagCount", {count: tags.length})}</span>
                 </div>
             </div>
         </Paper>

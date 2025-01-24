@@ -29,7 +29,7 @@ export interface FediverseActivityItem {
     object: FediverseArticleItem;
 }
 
-type WithContext<T> = T & {
+export type WithContext<T> = T & {
     "@context": string[];
 }
 

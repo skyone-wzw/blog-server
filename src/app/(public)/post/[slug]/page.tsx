@@ -84,7 +84,7 @@ async function PostPage({params}: PostPageProps) {
             <Paper className="space-y-3 md:space-y-4">
                 <Image
                     blurDataURL={L.cover(article.slug, article.updatedAt.getTime(), site.logo, true)}
-                    className="w-full aspect-[130/63] rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                    className="w-full aspect-130/63 rounded-t-lg bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500"
                     src={L.cover(article.slug, article.updatedAt.getTime(), site.logo)}
                     alt="cover" width={1300} height={630} priority/>
                 <h1 className="px-4 pt-2 md:px-6 text-2xl font-semibold text-text-main">{article.title}</h1>

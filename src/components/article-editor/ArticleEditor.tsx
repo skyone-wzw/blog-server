@@ -27,7 +27,7 @@ function SubmitCoverButton() {
 
     return (
         <input
-            className="rounded-md bg-button-bg mt-1 px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
+            className="rounded-md bg-button-bg mt-1 px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover"
             disabled={pending} type="submit" value={t("uploadImage")}/>
     );
 }
@@ -216,27 +216,27 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
     const otherTags = allTags.filter(tag => !tags.includes(tag));
 
     return (
-        <main className={clsx("flex-grow flex-col space-y-2 m-2", className)}>
+        <main className={clsx("grow flex-col space-y-2 m-2", className)}>
             <div className="flex flex-row flex-wrap justify-start items-center gap-x-4 gap-y-2">
-                <div className="flex flex-row flex-nowrap items-center max-w-full basis-64 flex-shrink flex-grow">
+                <div className="flex flex-row flex-nowrap items-center max-w-full basis-64 shrink grow">
                     <label htmlFor="article-editor-menu-slug" className="mr-2 text-text-content">{t("slug")}</label>
                     <input id="article-editor-menu-slug" type="text" required value={slug}
                            onChange={e => setSlug(e.target.value)}
-                           className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="grow w-0 text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
-                <div className="flex flex-row flex-nowrap items-center max-w-full basis-96 flex-shrink flex-grow">
+                <div className="flex flex-row flex-nowrap items-center max-w-full basis-96 shrink grow">
                     <label htmlFor="article-editor-menu-title" className="mr-2 text-text-content">{t("title")}</label>
                     <input id="article-editor-menu-title" type="text" required value={title}
                            onChange={e => setTitle(e.target.value)}
-                           className="flex-grow w-0 text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="grow w-0 text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
                 <div>
                     <button
                         onClick={handleOpenEditInfo} type="button"
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                         {t("editMetadata")}
                     </button>
-                    <Dialog open={isEditInfo} blur clickOutsideClose onClose={() => setIsEditInfo(false)}>
+                    <Dialog open={isEditInfo} center blur clickOutsideClose onClose={() => setIsEditInfo(false)}>
                         <Paper
                             className="p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] xl:w-[960px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
                             <div className="pb-4 text-text-main">{t("editMetadata")}</div>
@@ -248,7 +248,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 <div className="mt-2">
                                     <input id="article-editor-info-slug" type="text" required value={slug}
                                            onChange={(e) => setSlug(e.target.value)}
-                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
                             <div className="w-full">
@@ -259,7 +259,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 <div className="mt-2">
                                     <input id="article-editor-info-email" type="text" required value={title}
                                            onChange={(e) => setTitle(e.target.value)}
-                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
                             {article.id && (
@@ -279,7 +279,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                                className="hidden" accept="image/webp,image/png,image/jpeg"/>
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
-                                            className="w-[520px] max-w-full aspect-[130/63] object-cover rounded border-2 border-bg-tag"
+                                            className="w-[520px] max-w-full aspect-130/63 object-cover rounded-sm border-2 border-bg-tag"
                                             onClick={handleCoverClick}
                                             src={getCoverPreview()} height={1300} width={630} alt="Avatar"/>
                                     </div>
@@ -294,7 +294,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 <div className="mt-2">
                                     <textarea id="article-editor-info-description" required value={description}
                                               onChange={(e) => setDescription(e.target.value)}
-                                              className="block w-full text-sm font-mono h-32 resize-none overflow-auto shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content xc-scroll"/>
+                                              className="block w-full text-sm font-mono h-32 resize-none overflow-auto shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content xc-scroll"/>
                                 </div>
                             </div>
                             <div className="w-full">
@@ -305,7 +305,7 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 <div className="mt-2 flex flex-col lg:flex-row">
                                     <input id="article-editor-info-series" type="text" required value={series}
                                            onChange={(e) => setSeries(e.target.value)}
-                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
                             <div className="w-full">
@@ -338,9 +338,9 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 <div className="mt-1 flex flex-row flex-nowrap items-center max-w-full">
                                     <input id="site-editor-keywords" aria-label="输入 Keyword" name="keywords[]"
                                            type="text" value={newTag} onChange={e => setNewTag(e.target.value)}
-                                           className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                           className="grow text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                                     <button
-                                        className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
+                                        className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-xs"
                                         type="button" onClick={() => addTag()}>
                                         {t("tagCreate")}
                                     </button>
@@ -354,11 +354,11 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                                 <div className="mt-2 flex flex-col lg:flex-row">
                                     <input id="article-editor-info-created-at" type="datetime-local" required
                                            value={createdAt} onChange={e => setCreatedAt(e.target.value)}
-                                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                                 </div>
                             </div>
                             <button
-                                className="mt-2 w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
+                                className="mt-2 w-full rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover"
                                 type="button" onClick={() => setIsEditInfo(false)}>
                                 {t("saveMetadata")}
                             </button>
@@ -366,16 +366,16 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                     </Dialog>
                 </div>
                 <button onClick={() => setIsPreview(prev => !prev)} type="button"
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover xl:hidden">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover xl:hidden">
                     {isPreview ? t("edit") : t("preview")}
                 </button>
                 <div>
                     <button
                         onClick={handleOpenImageUploader} type="button"
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                         {t("uploadImage")}
                     </button>
-                    <Dialog open={isUploadImage} blur clickOutsideClose
+                    <Dialog open={isUploadImage} center blur clickOutsideClose
                             onClose={() => setIsUploadImage(false)}>
                         <ImageUploader className="max-w-full"/>
                     </Dialog>
@@ -383,36 +383,36 @@ function ArticleEditor({article, allTags, className}: ArticleEditorProps) {
                 {article.id && (
                     <Link
                         href={L.post(article.slug)}
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                         {t("toArticlePage")}
                     </Link>
                 )}
                 <button
                     onClick={handleSaveArticle} disabled={isLoading} type="button"
-                    className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover">
+                    className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover">
                     {t("save")}
                 </button>
                 {article.id && (
                     <DangerousButton
-                        className="rounded-md bg-bg-light px-3 py-2 text-sm shadow-sm hover:bg-bg-hover"
+                        className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover"
                         onClick={handleDeleteArticle}>
                         {t("delete")}
                     </DangerousButton>
                 )}
                 <Link
                     href={L.editor.post()} title={t("backDescription")}
-                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover lg:hidden">
+                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover lg:hidden">
                     {t("back")}
                 </Link>
                 <button
                     onClick={handleLogout} type="button"
-                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover">
+                    className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover">
                     {t("logout")}
                 </button>
             </div>
             <MarkdownEditor initContent={article.content} content={content} setContent={setContent}
                             isPreview={isPreview}
-                            className="flex-grow h-0"/>
+                            className="grow h-0"/>
         </main>
     );
 }

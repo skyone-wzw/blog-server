@@ -8,12 +8,12 @@ async function AdminAssetsImagesPage() {
 
     return (
         <main className="mb-6 col-start-2 col-span-full space-y-6">
-            <div className="bg-bg-light rounded-lg shadow p-6 space-y-4">
+            <div className="bg-bg-light rounded-lg shadow-sm p-6 space-y-4">
                 <h1 className="text-lg pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid">
                     图片管理
                 </h1>
                 <ImageAssetsQuickActions/>
-                <div className="flex flex-wrap gap-2 after:content-[''] after:flex-grow-[999999]">
+                <div className="flex flex-wrap gap-2 after:content-[''] after:flex-grow-999999">
                     {images.map((image, index) => {
                         const metadata = image.metadata;
                         const aspectRatio = `${image.metadata.width}/${image.metadata.height}`;

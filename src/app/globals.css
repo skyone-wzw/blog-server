@@ -1,9 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-img, video {
+@theme {
+  --breakpoint-3xl: 1920px;
+
+  --color-bg-dark: var(--bg-d);
+  --color-bg-light: var(--bg-l);
+  --color-bg-hover: var(--bg-hover);
+  --color-bg-tag: var(--bg-tag);
+  --color-bg-quote: var(--bg-quote);
+
+  --color-button-bg: var(--button);
+  --color-button-hover: var(--button-hover);
+  --color-button-text: #fff;
+
+  --color-text-main: var(--text-main);
+  --color-text-content: var(--text-content);
+  --color-text-subnote: var(--text-subnote);
+
+  --color-link-content: var(--text-link);
+  --color-link-hover: var(--text-link-hover);
+
+  --color-border: var(--border);
+}
+
+@layer utilities {
+  img,
+  video {
     max-width: unset;
+  }
 }
 
 @layer base {

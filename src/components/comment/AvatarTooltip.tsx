@@ -30,11 +30,11 @@ function AvatarTooltip({fallbackAvatar, guest}: AvatarTooltipProps) {
             <div className={clsx(styles.TooltipBox, "bg-bg-light rounded-xl shadow-lg")}>
                 {guest.banner && (!loadBannerError) && (
                     <img
-                        className="h-32 w-full object-cover bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-xl"
+                        className="h-32 w-full object-cover bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-xl"
                         onError={onLoadBannerError} alt={`${guest.name} 的头像`} src={guest.banner}/>
                 ) || (
                     <div
-                        className="h-32 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-xl"/>
+                        className="h-32 w-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-xl"/>
                 )}
                 <div className="flex flex-col items-center justify-center p-4 pt-6">
                     <Link href={guest.webUrl ?? guest.url} className="mt-2 text-xl font-medium text-text-main"

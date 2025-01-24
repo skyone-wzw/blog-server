@@ -49,7 +49,7 @@ async function AppHeader({className}: AppHeaderProps) {
                     </HeaderLink>
                 </Flex>
                 <div
-                    className="flex items-stretch lg:flex-grow min-[416px]:justify-center justify-start overflow-x-auto">
+                    className="flex items-stretch lg:grow min-[416px]:justify-center justify-start overflow-x-auto">
                     <Flex className="lg:mr-auto mr-0">
                         {dynamicConfig.navbar.items.map(item => (
                             <HeaderLink href={item.url} key={item.url}>{item.name}</HeaderLink>

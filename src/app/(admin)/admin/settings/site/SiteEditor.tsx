@@ -37,7 +37,7 @@ function SubmitButton() {
     return (
         <input
             ref={formSubmitRef}
-            className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
+            className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover"
             disabled={pending} type="submit" value={t("save")}/>
     );
 }
@@ -125,7 +125,7 @@ function SiteEditor({site}: SiteEditorProps) {
     };
 
     return (
-        <form className="bg-bg-light rounded-lg shadow p-6 space-y-4" action={formAction}>
+        <form className="bg-bg-light rounded-lg shadow-sm p-6 space-y-4" action={formAction}>
             <h1 className="text-lg pb-2 mb-4 font-semibold text-text-main border-b-bg-tag border-b-[1px] border-solid">
                 {t("title")}
             </h1>
@@ -137,7 +137,7 @@ function SiteEditor({site}: SiteEditorProps) {
                 <div className="mt-1">
                     <select id="site-editor-locale" name="locale"
                             value={locale} onChange={e => setLocale(e.target.value as AllLocale)}
-                            className="block w-[520px] max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content">
+                            className="block w-[520px] max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content">
                         {AllLocale.map((locale) => (
                             <option key={locale} value={locale}>
                                 {lt(locale as AllLocale)}
@@ -168,7 +168,7 @@ function SiteEditor({site}: SiteEditorProps) {
                 <div className="mt-1">
                     <input id="site-editor-title" type="text" required name="title"
                            value={title} onChange={e => setTitle(e.target.value)}
-                           className="block w-[520px] max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="block w-[520px] max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <div className="w-full">
@@ -181,7 +181,7 @@ function SiteEditor({site}: SiteEditorProps) {
                     <input ref={coverSelectorRef} id="site-editor-cover" type="file" name="cover"
                            onChange={e => setCover(e.target.files?.[0])}
                            className="hidden" accept="image/webp,image/png,image/jpeg"/>
-                    <Image className="w-[520px] max-w-full aspect-[130/63] object-cover rounded border-2 border-bg-tag"
+                    <Image className="w-[520px] max-w-full aspect-130/63 object-cover rounded-sm border-2 border-bg-tag"
                            onClick={handleCoverClick}
                            src={getCoverPreview()} height={1300} width={630} alt="Avatar"/>
                 </div>
@@ -194,7 +194,7 @@ function SiteEditor({site}: SiteEditorProps) {
                 <div className="mt-1">
                     <textarea id="site-editor-description" name="description"
                               value={description} onChange={e => setDescription(e.target.value)}
-                              className="block w-[520px] h-16 max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                              className="block w-[520px] h-16 max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <div className="w-full">
@@ -204,9 +204,9 @@ function SiteEditor({site}: SiteEditorProps) {
                          className="mt-1 flex flex-row flex-nowrap items-center w-[520px] max-w-full">
                         <input id="site-editor-keywords" aria-label={t("siteKeywords")} name="keywords[]" type="text"
                                value={keyword} onChange={e => setKeyword(index, e.target.value)}
-                               className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                               className="grow text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                         <button
-                            className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
+                            className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-xs"
                             type="button" onClick={() => removeKeyword(index)}>
                             {t("delete")}
                         </button>
@@ -215,9 +215,9 @@ function SiteEditor({site}: SiteEditorProps) {
                 <div className="mt-1 flex flex-row flex-nowrap items-center w-[520px] max-w-full">
                     <input id="site-editor-keywords" aria-label={t("siteKeywords")} name="keywords[]" type="text"
                            value={newKeyword} onChange={e => setNewKeyword(e.target.value)}
-                           className="flex-grow text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="grow text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                     <button
-                        className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-sm"
+                        className="ml-4 rounded-md outline outline-1 outline-button-bg bg-bg-light hover:bg-bg-hover px-3 py-2 text-sm text-text-content shadow-xs"
                         type="button" onClick={() => addKeyword()}>
                         {t("add")}
                     </button>

@@ -70,7 +70,7 @@ async function CommentItem({comment, replies, replyTarget}: CommentItemProps) {
             <div>
                 <AvatarTooltip fallbackAvatar={fallbackAvatar} guest={comment.user}/>
             </div>
-            <div className="flex-grow w-0">
+            <div className="grow w-0">
                 <p>
                     <Link className="text-link-content hover:text-link-hover" rel="noopener noreferrer"
                           target="_blank" href={user.webUrl ?? user.url}>
@@ -115,7 +115,7 @@ async function CommentItem({comment, replies, replyTarget}: CommentItemProps) {
                     <div className="grid gap-2 after:content-[' '] after:col-span-full"
                          style={{gridTemplateColumns: "repeat(auto-fit, minmax(128px, 1fr))"}}>
                         {comment.images.map((image, index) => (
-                            <ImgWithViewer className="max-w-full aspect-square rounded shadow-sm object-cover"
+                            <ImgWithViewer className="max-w-full aspect-square rounded-sm shadow-xs object-cover"
                                            key={index} src={image.url} alt={`comment-image-${index}`}/>
                         ))}
                     </div>
@@ -156,18 +156,18 @@ async function CommentTree({articleSlug, comments}: CommentTreeProps) {
     return (
         <Paper className="p-4 md:p-6 flex flex-col gap-y-3 md:gap-y-4">
             <p className="flex justify-start flex-row gap-4">
-                <span className="text-text-subnote flex-grow">
+                <span className="text-text-subnote grow">
                     {t("title", {count: comments.length})}
                 </span>
-                <span className="text-text-subnote flex-grow-0">{t("searchInFediverse")}</span>
+                <span className="text-text-subnote grow-0">{t("searchInFediverse")}</span>
             </p>
             <p className="flex justify-start items-center flex-row gap-4">
                 <code
-                    className="whitespace-nowrap flex-grow text-text-subnote bg-bg-tag px-1.5 py-0.5 overflow-auto break-keep rounded pk-scroll">
+                    className="whitespace-nowrap grow text-text-subnote bg-bg-tag px-1.5 py-0.5 overflow-auto break-keep rounded-sm pk-scroll">
                     {link}
                 </code>
                 <ClickToCopy text={link} successText={t("copied")}
-                             className="flex-shrink-0 rounded px-2 py-0.5 hover:bg-bg-tag">{t("copy")}</ClickToCopy>
+                             className="shrink-0 rounded-sm px-2 py-0.5 hover:bg-bg-tag">{t("copy")}</ClickToCopy>
             </p>
             <div className="h-0.5 bg-text-subnote"/>
             <ul className="space-y-4 mt-4">

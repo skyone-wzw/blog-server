@@ -31,7 +31,7 @@ function LoginForm() {
                     <input id="form-email" name="email" type="email" autoComplete="email" required
                            value={email}
                            onChange={e => setEmail(e.target.value)}
-                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <div className="w-full">
@@ -42,13 +42,13 @@ function LoginForm() {
                     <input id="form-password" name="password" type="password" autoComplete="password" required
                            value={password}
                            onChange={e => setPassword(e.target.value)}
-                           className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                           className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                 </div>
             </div>
             <p>{message}&nbsp;</p>
             <div className="w-full">
                 <input
-                    className="rounded shadow py-1 px-2 w-full bg-button-bg text-button-text hover:bg-button-hover disabled:bg-bg-light"
+                    className="rounded-sm shadow-sm py-1 px-2 w-full bg-button-bg text-button-text hover:bg-button-hover disabled:bg-bg-light"
                     type="submit" value={t("submit")} disabled={loading}/>
             </div>
         </form>

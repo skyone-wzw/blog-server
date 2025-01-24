@@ -119,27 +119,27 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
                 </h1>
                 <div className="flex flex-col gap-3 lg:grid lg:grid-cols-2">
                     <select name="aricle" value={article} onChange={e => setArticle(e.target.value)}
-                            className="block max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content">
+                            className="block max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content">
                         <option key="all" value="all">{t("all")}</option>
                         {articles.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).map(article => (
                             <option key={article.id} value={article.id}>{article.title}</option>
                         ))}
                     </select>
                     <select name="guest" value={guest} onChange={e => setGuest(e.target.value)}
-                            className="block max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content">
+                            className="block max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content">
                         <option key="all" value="all">{t("all")}</option>
                         {guests.map(guest => (
                             <option key={guest.id} value={guest.uid}>{guest.name} {guest.uid}</option>
                         ))}
                     </select>
                     <select name="hiddne" value={hidden} onChange={e => setHidden(e.target.value as HiddenOption)}
-                            className="block max-w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content">
+                            className="block max-w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content">
                         <option key="all" value="all">{t("all")}</option>
                         <option key="visible" value="visible">{t("visible")}</option>
                         <option key="hidden" value="hidden">{t("hidden")}</option>
                     </select>
                     <button
-                        className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
+                        className="rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover"
                         onClick={handleSearch}>搜索
                     </button>
                 </div>
@@ -153,7 +153,7 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
                             <div>
                                 <AvatarTooltip fallbackAvatar={fallbackAvatar} guest={comment.user}/>
                             </div>
-                            <div className="flex-grow w-0">
+                            <div className="grow w-0">
                                 <p>
                                     <Link className="text-link-content hover:text-link-hover"
                                           rel="noopener noreferrer"
@@ -198,7 +198,7 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
                                          style={{gridTemplateColumns: "repeat(auto-fit, minmax(128px, 1fr))"}}>
                                         {comment.images.map((image, index) => (
                                             <ImgWithViewer
-                                                className="w-full aspect-square rounded shadow-sm object-cover"
+                                                className="w-full aspect-square rounded-sm shadow-xs object-cover"
                                                 key={index} src={image.url} alt={`comment-image-${index}`}/>
                                         ))}
                                     </div>
@@ -212,11 +212,11 @@ function CommentsManager({articles, guests, fallbackAvatar}: CommentsManagerProp
                                             onClick={() => hiddenComment(comment.uid, !comment.isHidden)}>
                                         {comment.isHidden ? t("showComment") : t("hideComment")}
                                     </button>
-                                    <DangerousButton className="rounded-md bg-bg-light px-3 py-2 text-sm hover:bg-bg-hover"
+                                    <DangerousButton className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content hover:bg-bg-hover"
                                                      onClick={() => deleteComment(comment.uid)}>
                                         {t("deleteComment")}
                                     </DangerousButton>
-                                    <DangerousButton className="rounded-md bg-bg-light px-3 py-2 text-sm hover:bg-bg-hover"
+                                    <DangerousButton className="rounded-md bg-bg-light px-3 py-2 text-sm text-text-content hover:bg-bg-hover"
                                                      onClick={() => deleteGuest(user.uid)}>
                                         {t("deleteGuest")}
                                     </DangerousButton>

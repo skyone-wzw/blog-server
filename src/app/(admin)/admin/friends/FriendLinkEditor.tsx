@@ -101,10 +101,10 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
     };
 
     return (
-        <Dialog open={open} onClose={onClose} blur className={className}>
+        <Dialog open={open} onClose={onClose} center blur className={className}>
             <form
                 onSubmit={handleSave}
-                className="bg-bg-light rounded-lg shadow p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
+                className="bg-bg-light rounded-lg shadow-sm p-4 max-w-full max-h-[90vh] w-[480px] lg:w-[640px] overflow-y-auto xc-scroll flex flex-col gap-y-2">
                 <div className="pb-4 text-text-main">{t("title")}</div>
                 <div className="w-full">
                     <label htmlFor="friend-link-editor-info-name"
@@ -114,7 +114,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                     <div className="mt-2">
                         <input id="friend-link-editor-info-name" type="text" required value={name}
                                onChange={(e) => setName(e.target.value)}
-                               className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                               className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                     </div>
                 </div>
                 <div className="w-full">
@@ -125,7 +125,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                     <div className="mt-2">
                         <input id="friend-link-editor-info-email" type="email" value={email}
                                onChange={(e) => setEmail(e.target.value)}
-                               className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                               className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                     </div>
                 </div>
                 <div className="w-full">
@@ -136,7 +136,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                     <div className="mt-2">
                         <input id="friend-link-editor-info-avatar" type="url" value={avatar}
                                onChange={(e) => setAvatar(e.target.value)}
-                               className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                               className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                     </div>
                 </div>
                 <div className="w-full">
@@ -147,7 +147,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                     <div className="mt-2">
                         <input id="friend-link-editor-info-site-name" type="text" required value={siteName}
                                onChange={(e) => setSiteName(e.target.value)}
-                               className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                               className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                     </div>
                 </div>
                 <div className="w-full">
@@ -158,7 +158,7 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                     <div className="mt-2">
                         <input id="friend-link-editor-info-site-url" type="url" required value={siteUrl}
                                onChange={(e) => setSiteUrl(e.target.value)}
-                               className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                               className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                     </div>
                 </div>
                 <div className="w-full">
@@ -169,15 +169,15 @@ function FriendLinkEditorDialog({open, onClose, friend, className}: FriendLinkEd
                     <div className="mt-2">
                         <input id="friend-link-editor-info-site-url" type="text" required value={description}
                                onChange={(e) => setDescription(e.target.value)}
-                               className="block w-full text-sm shadow appearance-none border rounded py-2 px-3 bg-bg-light text-text-content focus:outline-none focus:shadow-link-content focus:border-link-content"/>
+                               className="block w-full text-sm shadow-sm appearance-none border rounded-sm py-2 px-3 bg-bg-light text-text-content focus:outline-hidden focus:shadow-link-content focus:border-link-content"/>
                     </div>
                 </div>
                 <div className="flex flex-row mt-2 gap-4">
                     <input
-                        className="w-0 grow rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover disabled:bg-bg-hover"
+                        className="w-0 grow rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover disabled:bg-bg-hover"
                         type="submit" disabled={loading} value={t("save")}/>
                     <button
-                        className="w-0 grow rounded-md outline outline-bg-tag outline-1 px-3 py-2 text-sm text-text-content shadow-sm hover:bg-bg-hover"
+                        className="w-0 grow rounded-md outline outline-bg-tag outline-1 px-3 py-2 text-sm text-text-content shadow-xs hover:bg-bg-hover"
                         type="button" disabled={loading} onClick={onClose}>
                         {t("cancel")}
                     </button>
@@ -220,7 +220,7 @@ export function FriendLinkEditor({friend, className, avatarElement}: FriendLinkE
                     </p>
                 </div>
                 <DangerousButton
-                    className="p-2 mx-2 rounded-md outline outline-button-bg outline-1 px-3 py-2 text-sm"
+                    className="p-2 mx-2 rounded-md outline outline-button-bg outline-1 px-3 py-2 text-sm text-text-content"
                     onClick={handleDeleteFriendLink}>
                     {t("delete")}
                 </DangerousButton>

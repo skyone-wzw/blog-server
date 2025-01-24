@@ -45,7 +45,7 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
         <div className="relative inline-block text-left" ref={rootRef}>
             <div>
                 <button type="button" onClick={toggle}
-                        className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-sm hover:bg-button-hover"
+                        className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-button-bg px-3 py-2 text-sm text-button-text shadow-xs hover:bg-button-hover"
                         id="menu-button" aria-expanded={isOpen} aria-haspopup={isOpen}>
                     {t("filter")}
                     <svg className="-mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
@@ -58,7 +58,7 @@ function DropdownSelector({all, selected, setSelection}: DropdownSelectorProps) 
             </div>
 
             <div
-                className={clsx("absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-bg-light shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none", isOpen ? "block" : "hidden")}
+                className={clsx("absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-bg-light shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden", isOpen ? "block" : "hidden")}
                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                 <div className="py-1 text-text-content overflow-y-auto xc-scroll article-dropdown-selector" role="none">
                     <button className="block text-start w-full px-4 py-2 text-sm hover:bg-bg-hover"
@@ -128,7 +128,7 @@ function ArticleClassifier({articles, className}: ArticleClassifierProps) {
         <aside
             className={clsx("w-full lg:w-80 m-2 flex-col space-y-2", isSelectPage ? "flex" : "hidden lg:flex", className)}>
             <DropdownSelector all={{tags, series, years}} selected={selected} setSelection={setSelected}/>
-            <Paper className="py-4 flex-grow h-0">
+            <Paper className="py-4 grow h-0">
                 <p className="px-4 text-text-subnote text-sm">{selectedLabel}</p>
                 <div className="px-2.5 divide-y divide-dashed divide-bg-tag max-h-full overflow-auto xc-scroll">
                     {selected.type === "all" && (

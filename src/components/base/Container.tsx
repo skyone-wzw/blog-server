@@ -12,7 +12,7 @@ const Container = forwardRef(
         const Component = component || "div";
         return (
             <Component ref={ref}
-                       className={clsx("block max-w-screen-lg px-3 mx-auto xl:max-w-[1200px] 2xl:max-w-[1400px] 3xl:max-w-[1750px]", className)}>
+                       className={clsx("block max-w-(--breakpoint-lg) px-3 mx-auto xl:max-w-[1200px] 2xl:max-w-[1400px] 3xl:max-w-[1750px]", className)}>
                 {children}
             </Component>
         );

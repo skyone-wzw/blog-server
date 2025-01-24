@@ -20,7 +20,7 @@ async function AsideArchiveList({className}: AsideArchiveListProps) {
                 <Link key={y.year} className="p-2 text-text-content flex justify-between hover:bg-bg-hover"
                       href={L.archive(y.year)}>
                     {y.year}
-                    <span className="text-text-subnote bg-bg-tag rounded px-2">{y.count}</span>
+                    <span className="text-text-subnote bg-bg-tag rounded-sm px-2">{y.count}</span>
                 </Link>
             ))}
         </Paper>
