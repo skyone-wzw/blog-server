@@ -12,7 +12,6 @@ RUN npm run build
 RUN cp -r .next/standalone build
 RUN cp -r .next/static build/.next/static
 RUN cp -r public build/public
-RUN rm build/.env
 
 FROM base AS runner
 WORKDIR /app

@@ -4,4 +4,4 @@
 /.idea
 /.next
 npm-debug.log*
-.env*.local
+.env

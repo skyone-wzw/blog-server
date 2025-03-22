@@ -18,7 +18,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: install node.js v20
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
       - name: install dependencies
@@ -37,7 +37,7 @@ jobs:
           tar -zcf ./${{ github.event.repository.name }}-${{ github.ref_name }}-x86_64.tar.gz ${{ github.event.repository.name }}-${{ github.ref_name }}
           zip -rq ./${{ github.event.repository.name }}-${{ github.ref_name }}-x86_64.zip ${{ github.event.repository.name }}-${{ github.ref_name }}
       - name: upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         id: upload-artifact-step
         with:
           name: ${{ github.event.repository.name }}-${{ github.ref_name }}-x86_64
@@ -82,7 +82,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64

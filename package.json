@@ -1,6 +1,6 @@
 {
   "name": "blog-server",
-  "version": "1.0.0-alpha8",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "dev": "next dev",
