@@ -16,13 +16,13 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.8.2",
     "clsx": "^2.1.1",
-    "feed": "^4.2.2",
+    "feed": "^5.1.0",
     "monaco-editor": "^0.52.2",
-    "next": "15.2.3",
-    "next-intl": "^4.0.2",
-    "nextjs-toploader": "^3.7.15",
+    "next": "15.3.3",
+    "next-intl": "^4.1.0",
+    "nextjs-toploader": "^3.8.16",
     "react": "^19",
     "react-dom": "^19",
     "rehype-highlight": "^7.0.2",
@@ -34,23 +34,23 @@
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "remark-parse": "^11.0.0",
-    "remark-rehype": "^11.1.1",
-    "sharp": "^0.33.5",
+    "remark-rehype": "^11.1.2",
+    "sharp": "^0.34.2",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.15",
+    "@tailwindcss/postcss": "^4.1.8",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.2.3",
+    "eslint-config-next": "15.3.3",
     "monaco-editor-webpack-plugin": "^7.1.0",
     "postcss": "^8",
-    "prisma": "^6.5.0",
-    "tailwindcss": "^4.0.15",
+    "prisma": "^6.8.2",
+    "tailwindcss": "^4.1.8",
     "typescript": "^5"
   }
 }
