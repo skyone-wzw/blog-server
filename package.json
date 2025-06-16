@@ -16,7 +16,7 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.8.2",
+    "@prisma/client": "^6.9.0",
     "clsx": "^2.1.1",
     "feed": "^5.1.0",
     "monaco-editor": "^0.52.2",
@@ -41,16 +41,16 @@
     "vfile": "^6.0.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.8",
-    "@types/node": "^22",
+    "@tailwindcss/postcss": "^4.1.10",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "monaco-editor-webpack-plugin": "^7.1.0",
     "postcss": "^8",
-    "prisma": "^6.8.2",
-    "tailwindcss": "^4.1.8",
+    "prisma": "^6.9.0",
+    "tailwindcss": "^4.1.10",
     "typescript": "^5"
   }
 }
