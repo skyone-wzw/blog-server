@@ -7,6 +7,11 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
     output: "standalone",
     poweredByHeader: false,
+    experimental: {
+        serverActions: {
+            bodySizeLimit: "20mb",
+        },
+    },
     webpack(config, {isServer}) {
         if (!isServer) {
             config.plugins.push(
