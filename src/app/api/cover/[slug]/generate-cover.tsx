@@ -47,7 +47,7 @@ interface ArticleLikeType {
     slug: string;
 }
 
-async function generateCover(article: ArticleLikeType) {
+async function generateCover(article: ArticleLikeType): Promise<Uint8Array> {
     const cacheFile = `${cacheDir}/${article.slug}-${article.updatedAt.getTime()}.png`;
     if (await fs.stat(cacheFile).catch(() => false)) {
         try {
@@ -83,7 +83,7 @@ async function generateCover(article: ArticleLikeType) {
                      width: 1300,
                      height: 630,
                      objectFit: "cover",
-                 }}/>
+                 }} />
             <div style={{
                 display: "flex",
                 position: "absolute",
@@ -123,7 +123,7 @@ async function generateCover(article: ArticleLikeType) {
                                  width: 36,
                                  height: 36,
                                  objectFit: "cover",
-                             }}/>
+                             }} />
                         <p style={{
                             marginBlock: 0,
                             fontSize: 24,
@@ -156,7 +156,7 @@ async function generateCover(article: ArticleLikeType) {
             height: 630,
         },
     );
-    const buffer = Buffer.from(await imageResponse.arrayBuffer());
+    const buffer = new Uint8Array(await imageResponse.arrayBuffer());
     await fs.writeFile(cacheFile, buffer);
     return buffer;
 }

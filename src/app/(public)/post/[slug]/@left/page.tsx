@@ -9,9 +9,9 @@ import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {getArticleBySlug} from "@/lib/article";
 
 interface PostLeftPageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 async function PostLeftPage({params}: PostLeftPageProps) {

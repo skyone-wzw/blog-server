@@ -6,14 +6,15 @@ import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import {notFound} from "next/navigation";
 import {getTranslations} from "next-intl/server";
+import {Metadata} from "next";
 
 interface YearArchivePageProps {
-    params: {
+    params: Promise<{
         year: string;
-    };
+    }>;
 }
 
-export const generateMetadata = async ({params}: YearArchivePageProps) => {
+export const generateMetadata = async ({params}: YearArchivePageProps): Promise<Metadata> => {
     const year = parseInt((await params).year);
     const {site} = await getDynamicConfig();
     const t = await getTranslations("page.archive.metadata");
@@ -42,12 +43,12 @@ async function YearArchivePage({params}: YearArchivePageProps) {
                 <span className="text-text-subnote">{t("count", {count: articlesCount})}</span>
             </Paper>
             {articles.map((article) => (
-                <ArticleSummaryCard article={article} key={article.slug}/>
+                <ArticleSummaryCard article={article} key={article.slug} />
             ))}
             <FooterPagination current={1} total={total} getLink={(page) => {
                 if (total === 1) return L.archive(year);
                 return L.archive(year, page);
-            }}/>
+            }} />
         </>
     );
 }

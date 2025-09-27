@@ -3,9 +3,9 @@ import {AES, HASH} from "@/lib/encrypt";
 import {notFound} from "next/navigation";
 
 interface AvatarEmailProps {
-    params: {
+    params: Promise<{
         email: string;
-    };
+    }>;
 }
 
 export async function GET(_: Request, {params}: AvatarEmailProps) {

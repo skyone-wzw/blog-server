@@ -4,14 +4,15 @@ import {getArticlesBySeries} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
 import {getTranslations} from "next-intl/server";
+import {Metadata} from "next";
 
 interface SeriesPageProps {
-    params: {
+    params: Promise<{
         series: string;
-    };
+    }>;
 }
 
-export const generateMetadata = async ({params}: SeriesPageProps) => {
+export const generateMetadata = async ({params}: SeriesPageProps): Promise<Metadata> => {
     const series = decodeURIComponent((await params).series);
     const t = await getTranslations("page.series.metadata");
     const {site} = await getDynamicConfig();

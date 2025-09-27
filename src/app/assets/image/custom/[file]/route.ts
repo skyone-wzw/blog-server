@@ -3,9 +3,9 @@ import fs from "fs/promises";
 import {notFound} from "next/navigation";
 
 interface ArticleImageProps {
-    params: {
+    params: Promise<{
         file: string;
-    };
+    }>;
 }
 
 const imageDir = config.dir.custom;
@@ -17,5 +17,5 @@ export async function GET(_: Request, {params}: ArticleImageProps) {
         notFound();
     }
 
-    return new Response(await fs.readFile(`${imageDir}/${file}`));
+    return new Response(await fs.readFile(`${imageDir}/${file}`) as BufferSource);
 }

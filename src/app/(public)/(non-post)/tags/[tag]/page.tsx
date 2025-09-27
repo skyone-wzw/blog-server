@@ -4,14 +4,15 @@ import {getArticlesByTag} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
 import {getTranslations} from "next-intl/server";
+import {Metadata} from "next";
 
 interface TagDetailPageProps {
-    params: {
+    params: Promise<{
         tag: string;
-    };
+    }>;
 }
 
-export const generateMetadata = async ({params}: TagDetailPageProps) => {
+export const generateMetadata = async ({params}: TagDetailPageProps): Promise<Metadata> => {
     const tag = decodeURIComponent((await params).tag);
     const {site} = await getDynamicConfig();
     const t = await getTranslations("page.tags.metadata");
@@ -35,7 +36,7 @@ async function TagDetailPage({params}: TagDetailPageProps) {
                 <span className="text-text-subnote">{t("count", {count: articles.length})}</span>
             </Paper>
             {articles.map((article) => (
-                <ArticleSummaryCard article={article} key={article.slug}/>
+                <ArticleSummaryCard article={article} key={article.slug} />
             ))}
         </>
     );

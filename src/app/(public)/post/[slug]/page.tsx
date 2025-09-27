@@ -14,14 +14,15 @@ import {notFound} from "next/navigation";
 import CommentTree from "@/components/comment/CommentTree";
 import {getCommentsByArticleId} from "@/lib/comment";
 import {getFormatter, getLocale, getTranslations} from "next-intl/server";
+import {Metadata} from "next";
 
 interface PostPageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
-export async function generateMetadata({params}: PostPageProps) {
+export async function generateMetadata({params}: PostPageProps): Promise<Metadata> {
     const slug = decodeURIComponent((await params).slug);
     const locale = await getLocale();
     const article = await getArticleBySlug(slug);

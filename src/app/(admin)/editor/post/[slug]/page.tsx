@@ -3,18 +3,21 @@ import {getAllTags, getArticleBySlug} from "@/lib/article";
 import {getDynamicConfig} from "@/lib/config";
 import {notFound} from "next/navigation";
 import {getTranslations} from "next-intl/server";
+import {Metadata} from "next";
 
 interface ArticleEditorPageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
-export const generateMetadata = async ({params: params}: ArticleEditorPageProps) => {
+export const generateMetadata = async ({params: params}: ArticleEditorPageProps): Promise<Metadata> => {
     const {slug} = await params;
     const {site} = await getDynamicConfig();
     const article = await getArticleBySlug(slug);
     const t = await getTranslations("page.admin.editor.post.metadata");
+
+    if (!article) return notFound();
 
     return {
         title: t("title", {siteName: site.title, title: article?.title}),
@@ -29,7 +32,7 @@ async function ArticleEditorPage({params: params}: ArticleEditorPageProps) {
 
     if (!article) return notFound();
 
-    return <ArticleEditor article={article} allTags={allTags} className="flex"/>;
+    return <ArticleEditor article={article} allTags={allTags} className="flex" />;
 }
 
 export default ArticleEditorPage;

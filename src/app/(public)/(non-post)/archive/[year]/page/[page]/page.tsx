@@ -6,15 +6,16 @@ import {getDynamicConfig} from "@/lib/config";
 import L from "@/lib/links";
 import {notFound} from "next/navigation";
 import {getTranslations} from "next-intl/server";
+import {Metadata} from "next";
 
 interface ArchivePaginationPageProps {
-    params: {
+    params: Promise<{
         year: string;
         page: string;
-    };
+    }>;
 }
 
-export const generateMetadata = async ({params}: ArchivePaginationPageProps) => {
+export const generateMetadata = async ({params}: ArchivePaginationPageProps): Promise<Metadata> => {
     const {year: _year, page} = await params;
     const year = parseInt(_year);
     const {site} = await getDynamicConfig();

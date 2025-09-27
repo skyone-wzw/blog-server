@@ -39,7 +39,7 @@ async function Icon() {
         return new Response((await fetch(`http://localhost:3000/default/logo.png`)).body, {headers});
     }
 
-    return new Response(await fs.readFile(`${customImageDir}/${logo}`), {headers});
+    return new Response(await fs.readFile(`${customImageDir}/${logo}`) as BufferSource, {headers});
 }
 
 export default Icon;

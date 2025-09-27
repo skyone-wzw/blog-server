@@ -6,6 +6,14 @@ import clsx from "clsx";
 import type {editor as MonacoEditor} from "monaco-editor";
 import {useEffect, useRef, useState} from "react";
 
+declare global {
+    interface Window {
+        MonacoEnvironment?: {
+            getWorkerUrl(moduleId: string, label: string): string;
+        }
+    }
+}
+
 function useMonaco() {
     const [monaco, setMonaco] = useState<typeof import("monaco-editor")>();
 

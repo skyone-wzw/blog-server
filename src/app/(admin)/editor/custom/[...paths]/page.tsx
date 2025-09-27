@@ -3,19 +3,22 @@ import {getDynamicConfig} from "@/lib/config";
 import {getCustomPageBySlug} from "@/lib/custom-page";
 import {notFound} from "next/navigation";
 import {getTranslations} from "next-intl/server";
+import {Metadata} from "next";
 
 interface CustomPageEditorPageProps {
-    params: {
+    params: Promise<{
         paths: string[];
-    };
+    }>;
 }
 
-export const generateMetadata = async ({params}: CustomPageEditorPageProps) => {
+export const generateMetadata = async ({params}: CustomPageEditorPageProps): Promise<Metadata> => {
     const paths = (await params).paths.map(decodeURIComponent);
     const slug = "/" + paths.join("/");
     const t = await getTranslations("page.admin.editor.custom-page.metadata");
     const dynamicConfig = await getDynamicConfig();
     const customPage = await getCustomPageBySlug(slug);
+
+    if (!customPage) return notFound();
 
     return {
         title: t("title", {siteName: dynamicConfig.site.title, title: customPage?.title}),

@@ -5,9 +5,9 @@ import L from "@/lib/links";
 import {notFound} from "next/navigation";
 
 interface PaginationPageProps {
-    params: {
+    params: Promise<{
         page: string;
-    };
+    }>;
 }
 
 async function PaginationPage({params}: PaginationPageProps) {

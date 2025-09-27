@@ -1,6 +1,6 @@
 "use client";
 
-import {ImgHTMLAttributes, MouseEventHandler} from "react";
+import {DetailedHTMLProps, ImgHTMLAttributes, MouseEventHandler} from "react";
 import Image, {ImageProps} from "next/image";
 import {useImageViewer} from "@/components/image-viewer/ImageViewerProvider";
 
@@ -17,12 +17,12 @@ export function ImageWithViewer({src, alt, ...other}: ImageWithViewerProps) {
         open(src);
     };
     return (
-        <Image {...other} src={src} alt={alt} onClick={handleClick}/>
+        <Image {...other} src={src} alt={alt} onClick={handleClick} />
     );
 }
 
-interface ImgWithViewerProps extends ImgHTMLAttributes<HTMLImageElement> {
-
+interface ImgWithViewerProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+    src: string;
 }
 
 export function ImgWithViewer({src, alt, ...other}: ImgWithViewerProps) {
@@ -34,6 +34,6 @@ export function ImgWithViewer({src, alt, ...other}: ImgWithViewerProps) {
         open(src);
     };
     return (
-        <img {...other} src={src} alt={alt} onClick={handleClick}/>
+        <img {...other} src={src} alt={alt} onClick={handleClick} />
     );
 }

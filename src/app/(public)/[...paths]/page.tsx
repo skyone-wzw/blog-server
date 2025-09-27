@@ -12,9 +12,9 @@ import {notFound} from "next/navigation";
 import {getLocale, getTranslations} from "next-intl/server";
 
 interface CustomPageProps {
-    params: {
+    params: Promise<{
         paths: string[];
-    };
+    }>;
 }
 
 export async function generateMetadata({params}: CustomPageProps): Promise<Metadata> {

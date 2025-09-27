@@ -135,7 +135,7 @@ function Img({className, alt, src, height, width, ...other}: ImgProps) {
                 </span>
         );
     }
-    if (src && src.startsWith("/")) {
+    if (src && typeof src === "string" && src.startsWith("/")) {
         alt = alt || "image";
         return (
             // @ts-ignore
@@ -148,7 +148,7 @@ function Img({className, alt, src, height, width, ...other}: ImgProps) {
         );
     } else {
         return (
-            // eslint-disable-next-line @next/next/no-img-element
+            // @ts-expect-error
             <ImgWithViewer className={clsx("mx-auto max-w-full", className)} alt={alt} src={src} {...other}/>
         );
     }

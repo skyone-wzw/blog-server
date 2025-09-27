@@ -9,9 +9,9 @@ import {PreprocessArticleTitle} from "@/components/markdown/title-processor";
 import {getCustomPageBySlug} from "@/lib/custom-page";
 
 interface CustomLeftPageProps {
-    params: {
+    params: Promise<{
         paths: string[];
-    };
+    }>;
 }
 
 async function CustomLeftPage({params}: CustomLeftPageProps) {
