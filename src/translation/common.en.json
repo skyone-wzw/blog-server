@@ -154,11 +154,11 @@
   },
   "comment": {
     "CommentTree": {
-      "title": "{count, plural, =0 {No comments yet} other {# comments from the Federation}}",
-      "searchInFediverse": "Search in the Federation",
+      "title": "{count, plural, =0 {No comments yet} other {# comments from the Fediverse}}",
+      "searchInFediverse": "Search in the Fediverse",
       "copied": "Copied",
       "copy": "Copy",
-      "noComments": "Be the first to comment in the Federation!"
+      "noComments": "Be the first to comment in the Fediverse!"
     },
     "CommentItem": {
       "from": "From <link>@{uid}</link>",
