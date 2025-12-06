@@ -3,8 +3,8 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build --experimental-build-mode compile",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack --experimental-build-mode compile",
     "start": "node server.js",
     "lint": "next lint",
     "patch-font": "node patch-font.js"
@@ -16,7 +16,7 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^7.1.0",
+    "@prisma/client": "^6",
     "clsx": "^2.1.1",
     "feed": "^5.1.0",
     "monaco-editor": "^0.55.1",
@@ -49,7 +49,7 @@
     "eslint-config-next": "16.0.7",
     "monaco-editor-webpack-plugin": "^7.1.1",
     "postcss": "^8",
-    "prisma": "^7.1.0",
+    "prisma": "^6",
     "tailwindcss": "^4.1.17",
     "typescript": "^5"
   }

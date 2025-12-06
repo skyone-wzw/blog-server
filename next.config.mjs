@@ -12,6 +12,13 @@ const nextConfig = {
             bodySizeLimit: "20mb",
         },
     },
+    images: {
+        localPatterns: [
+            {
+                pathname: "/**",
+            },
+        ],
+    },
     webpack(config, {isServer}) {
         if (!isServer) {
             config.plugins.push(

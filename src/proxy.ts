@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 
-export async function middleware(request: Request) {
+export async function proxy(request: Request) {
     const path = new URL(request.url).pathname;
     if (request.headers.get("Accept")?.includes("application/activity+json")) {
         if (path === "/about" && request.method === "GET") {
