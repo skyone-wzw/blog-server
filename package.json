@@ -10,7 +10,8 @@
     "patch-font": "node patch-font.js"
   },
   "overrides": {
-    "rimraf": "^5"
+    "rimraf": "^5",
+    "katex": "=0.16.27"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -20,8 +21,8 @@
     "clsx": "^2.1.1",
     "feed": "^5.1.0",
     "monaco-editor": "^0.55.1",
-    "next": "16.0.7",
-    "next-intl": "^4.5.8",
+    "next": "16.0.10",
+    "next-intl": "^4.6.0",
     "nextjs-toploader": "^3.9.17",
     "react": "^19",
     "react-dom": "^19",
@@ -41,16 +42,16 @@
     "vfile": "^6.0.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.17",
-    "@types/node": "^24",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.7",
+    "eslint-config-next": "16.0.10",
     "monaco-editor-webpack-plugin": "^7.1.1",
     "postcss": "^8",
     "prisma": "^6",
-    "tailwindcss": "^4.1.17",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5"
   }
 }
