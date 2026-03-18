@@ -5,7 +5,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY . .
 RUN rm -rf .env* data
-RUN npm ci
+RUN npm i
 RUN npx prisma generate
 RUN npm run patch-font
 RUN npm run build
